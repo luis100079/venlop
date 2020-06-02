@@ -1,5 +1,8 @@
 import Home from './components/Home';
-import About from './components/About';
+import Profile from './components/Profile';
+import Videos from './components/Videos';
+import Fotos from './components/Fotos';
+import Blogs from './components/Blogs';
 
 export default{
 
@@ -12,9 +15,26 @@ export default{
         },
 
         {
-            path: '/about',
-            component: About
-        }
+            path: '/profile',
+            component: Profile
+        },
+
+        {
+            path: '/videos',
+            component: Videos
+        },
+
+        {
+            path: '/fotos',
+            component: Fotos
+        },
+
+        {
+            path: '/blogs',
+            component: Blogs
+        },
+
+
     ]
 
 }
