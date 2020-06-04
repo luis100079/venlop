@@ -9,6 +9,7 @@ import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-
 import 'font-awesome/css/font-awesome.min.css'
 import 'material-icons/iconfont/material-icons.scss';
 
+
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 

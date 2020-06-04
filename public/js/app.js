@@ -2055,6 +2055,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -39124,7 +39135,31 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app",
-    [_c("v-container", { attrs: { fuid: "" } }, [_c("NavBar")], 1)],
+    [
+      _c(
+        "v-container",
+        { attrs: { fuid: "" } },
+        [
+          _c("NavBar"),
+          _vm._v("\n     \n      Titulo"),
+          _c("input", { attrs: { type: "text" } }),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v("\n\n      Imagen de portada "),
+          _c("input", { attrs: { type: "file" } }),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { icon: "" } },
+            [_c("v-icon", [_vm._v("save")])],
+            1
+          )
+        ],
+        1
+      )
+    ],
     1
   )
 }
