@@ -3,6 +3,8 @@
 
     <v-container fluid>
 
+      <NavBar></NavBar>
+
      <v-row>
         <Header></Header>
         <Welcome></Welcome>
@@ -27,12 +29,13 @@ import  Header  from './Profile/Header.vue'
 import  Album  from './Profile/Album.vue'
 import Welcome from  './Profile/Welcome.vue'
 import LeftMenu from './Profile/LeftMenu.vue'
+import NavBar from './NavBar.vue'
 
 export default {
 
   name: 'Profile',
 
-  components: { Header, Album, Welcome, LeftMenu }
+  components: { Header, Album, Welcome, LeftMenu, NavBar }
 
 }
 </script>

@@ -28,6 +28,10 @@
               </v-btn>
 
               <v-btn icon>
+                <v-icon color='yellow'>star</v-icon>
+              </v-btn>
+
+              <v-btn icon>
                 <v-icon color='blue dark-4'>fa fa-briefcase</v-icon>
               </v-btn>
 

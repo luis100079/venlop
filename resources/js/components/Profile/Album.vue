@@ -25,8 +25,6 @@
 
                        </template>
 
-                      <v-card>
-
                          <v-img
                         :src='`https://picsum.photos/510/300?random`'
                         :lazy-src='`https://picsum.photos/510/300?random`'
@@ -34,8 +32,6 @@
                          class='grey lighten-2'>
 
                         </v-img>
-
-                      </v-card>
 
                      </v-dialog>
 
