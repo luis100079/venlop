@@ -2,7 +2,6 @@
 <v-app>
     <v-container fuid>
       <NavBar></NavBar>
-
     </v-container>
 </v-app>
 
