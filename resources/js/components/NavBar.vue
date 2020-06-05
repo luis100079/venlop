@@ -30,42 +30,46 @@
                 </v-list-item-icon>
                 <v-list-item-title>Videos</v-list-item-title>
             </v-list-item>
-
+<!--
             <v-list-item>
                 <v-list-item-icon>
                     <v-icon>star</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>Stars</v-list-item-title>
             </v-list-item>
+-->
 
+<!--
             <v-list-item>
                 <v-list-item-icon>
                     <v-icon>mdi-heart</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>Followers</v-list-item-title>
             </v-list-item>
-
+-->
             <v-list-item>
                 <v-list-item-icon>
                     <v-icon>local_library</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>Blogs</v-list-item-title>
             </v-list-item>
-
+<!--
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>fa fa-briefcase</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Resume / Jobs</v-list-item-title>
             </v-list-item>
+-->
 
+<!--
             <v-list-item>
                 <v-list-item-icon>
                     <v-icon>settings</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>Settings</v-list-item-title>
             </v-list-item>
-
+-->
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>exit_to_app</v-icon>

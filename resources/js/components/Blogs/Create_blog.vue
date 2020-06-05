@@ -3,10 +3,13 @@
 <v-app>
     <v-container fuid>
       <NavBar></NavBar>
-     
+
+      <Vueditor style='height:450px'></Vueditor>
+
       Titulo<input type='text'> <br>
 
       Imagen de portada <input type='file'> <br>
+
 
       <v-btn icon>
         <v-icon>save</v-icon>
