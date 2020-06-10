@@ -2272,8 +2272,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      name: null
+    };
+  },
+  created: function created() {
+    axios.get('api/luis').then(function (response) {
+      console.log(response.data);
+    });
+  },
   components: {
     NavBar: _NavBar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
@@ -39585,7 +39596,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-app", [_c("v-container", [_c("NavBar")], 1)], 1)
+  return _c(
+    "v-app",
+    [
+      _c(
+        "v-container",
+        [_c("NavBar"), _vm._v("\n  " + _vm._s(_vm.name) + "\n")],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
