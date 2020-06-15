@@ -17,13 +17,12 @@ export default {
     },
 
     created(){
-        axios.get('api/luis').then( response => { console.log(response.data) } );
+
+     // axios.get('api/videos').then( response => { console.log(response.data) } );
+
     },
 
     components: { NavBar }
 
-
 }
-
-
 </script>

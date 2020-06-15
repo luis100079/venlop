@@ -8,15 +8,29 @@ import Followers from './components/Followers'
 import Jobs from './components/Jobs'
 import Settings from './components/Settings'
 import Create_blog from './components/Blogs/Create_blog'
+import Log_in from './components/Log_in'
+import Create_account from './components/Create_account'
 
 export default{
 
     mode: 'history',
 
     routes: [
+
         {
             path: '/',
             component: Home
+        },
+
+        {
+            path: '/log_in',
+            component: Log_in
+        },
+
+        {
+            path: '/create_account',
+            component: Create_account
+
         },
 
         {
