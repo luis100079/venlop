@@ -9,7 +9,7 @@
           <v-card-title>
 
             Upload Foto
-
+<!--
                     <v-dialog v-model='dialog' persistent max-width="390">
 
                       <template v-slot:activator='{ on }'>
@@ -63,7 +63,7 @@
                       </v-card>
 
                     </v-dialog>
-
+-->
                        <v-btn color='green' icon>
                           <label for='upload_input'>
                             <v-icon>add_photo_alternate</v-icon>
@@ -187,7 +187,7 @@ export default {
             photo.append('img', src);
             axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
         },
-
+/*
         upload_camera(){
 
             var src = document.getElementById('myCanvas').toDataURL("image/png");
@@ -196,6 +196,8 @@ export default {
             axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
 
         },
+
+*/
 
         close_camera(){
 

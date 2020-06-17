@@ -2316,18 +2316,18 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(res.data);
       });
     },
-    upload_camera: function upload_camera() {
-      var src = document.getElementById('myCanvas').toDataURL("image/png");
-      var photo = new FormData();
-      photo.append('img', src);
-      axios.post('api/upload_photo', photo, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (res) {
-        return console.log(res.data);
-      });
-    },
+
+    /*
+            upload_camera(){
+    
+                var src = document.getElementById('myCanvas').toDataURL("image/png");
+                var photo = new FormData();
+                photo.append('img', src);
+                axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
+    
+            },
+    
+    */
     close_camera: function close_camera() {
       var videoElem = document.getElementById('video1');
       var stream = videoElem.srcObject;
@@ -39626,177 +39626,7 @@ var render = function() {
               _c(
                 "v-card-title",
                 [
-                  _vm._v("\n\n          Upload Foto\n\n                  "),
-                  _c(
-                    "v-dialog",
-                    {
-                      attrs: { persistent: "", "max-width": "390" },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "activator",
-                          fn: function(ref) {
-                            var on = ref.on
-                            return [
-                              _c(
-                                "v-btn",
-                                _vm._g(
-                                  { attrs: { icon: "", color: "green" } },
-                                  on
-                                ),
-                                [_c("v-icon", [_vm._v("add_a_photo")])],
-                                1
-                              )
-                            ]
-                          }
-                        }
-                      ]),
-                      model: {
-                        value: _vm.dialog,
-                        callback: function($$v) {
-                          _vm.dialog = $$v
-                        },
-                        expression: "dialog"
-                      }
-                    },
-                    [
-                      _vm._v(" "),
-                      _c(
-                        "v-card",
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              staticStyle: {
-                                position: "absolute",
-                                "z-index": "2",
-                                right: "0"
-                              },
-                              attrs: { icon: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.close_camera()
-                                }
-                              }
-                            },
-                            [
-                              _c("v-icon", { attrs: { color: "red" } }, [
-                                _vm._v("close")
-                              ])
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("video", {
-                            directives: [
-                              {
-                                name: "start",
-                                rawName: "v-start",
-                                value: this,
-                                expression: "this"
-                              }
-                            ],
-                            attrs: { id: "video1", width: "100%", autoplay: "" }
-                          }),
-                          _vm._v(" "),
-                          _c("v-row", { attrs: { justify: "center" } }, [
-                            _c("canvas", {
-                              staticStyle: { display: "none" },
-                              attrs: {
-                                id: "myCanvas",
-                                width: "300px",
-                                height: "300px"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
-                              _c(
-                                "v-row",
-                                { attrs: { justify: "center" } },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        color: "red",
-                                        id: "camara_icon",
-                                        icon: ""
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.Capture()
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { size: "50" } }, [
-                                        _vm._v("camera")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-row",
-                                {
-                                  staticStyle: { display: "none" },
-                                  attrs: { id: "canvas_btns" }
-                                },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: { color: "green", icon: "" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.upload_camera()
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { size: "40" } }, [
-                                        _vm._v("check_circle_outline")
-                                      ])
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c("v-divider"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: { color: "orange", icon: "" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.return_camera()
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { size: "40" } }, [
-                                        _vm._v("cached")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
+                  _vm._v("\n\n            Upload Foto\n"),
                   _vm._v(" "),
                   _c("v-btn", { attrs: { color: "green", icon: "" } }, [
                     _c(
