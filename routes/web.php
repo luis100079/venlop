@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
+use Illuminate\Http\File;
+use App\User;
+use App\Photo;
+use App\Video;
+use App\Post;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +18,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any?}', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
+Route::get('/', function(){
+    return view('home');
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/a', function(Request $request){
+    $name = time().'_'.rand();
+
+    $img = $request->file('img');
+
+    $img = str_replace('data:image/png;base64,', '', $img);
+    $img = str_replace(' ', '+', $img);
+    $data = base64_decode($img);
+
+    $path = $data->storeAs('users/'. auth()->user()->email, $name.".jpg" );
+
+    $db = new Photo;
+    $db->name = $name;
+    $db->user = auth()->user()->id;
+    $db->save();
+
+
+});
+
+
+Route::get('/{any?}', function () {
+    return view('welcome');
+})->where('any', '[\/\w\.-]*')->middleware('auth');
+

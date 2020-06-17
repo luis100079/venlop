@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,6 +43,3 @@ Route::middleware('auth:api')->group(function(){
     Route::post('posts', 'GetController@posts');
 
 });
-
-
-Route::post('create_account', 'Auth\RegisterController@register');

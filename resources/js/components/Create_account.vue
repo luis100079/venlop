@@ -38,7 +38,7 @@ export default {
     methods: {
         login() {
 //       console.log(this.form)
-         axios.post('/api/create_account', this.form ).then( response => { console.log(response.data) } )
+         axios.post('/api/v-register', this.form ).then( response => { console.log(response.data) } )
 
          }
     },

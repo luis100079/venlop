@@ -9,27 +9,32 @@
       <v-list nav dense>
         <v-list-item-group v-model='group' active-class='green--text text--accent-4'>
 
+            <a href="/profile">
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>person</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Profile</v-list-item-title>
             </v-list-item>
+            </a>
 
+            <a href="/photos">
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>collections</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Photos</v-list-item-title>
             </v-list-item>
+            </a>
 
-
+            <a href="/videos">
             <v-list-item>
                 <v-list-item-icon>
                     <v-icon>video_library</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>Videos</v-list-item-title>
             </v-list-item>
+            </a>
 <!--
             <v-list-item>
                 <v-list-item-icon>
@@ -47,12 +52,14 @@
                 <v-list-item-title>Followers</v-list-item-title>
             </v-list-item>
 -->
+            <a href="/blogs">
             <v-list-item>
                 <v-list-item-icon>
                     <v-icon>local_library</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>Blogs</v-list-item-title>
             </v-list-item>
+            </a>
 <!--
             <v-list-item>
               <v-list-item-icon>
@@ -70,12 +77,14 @@
                 <v-list-item-title>Settings</v-list-item-title>
             </v-list-item>
 -->
+            <a href="/profile">
             <v-list-item>
               <v-list-item-icon>
                 <v-icon>exit_to_app</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Logout</v-list-item-title>
             </v-list-item>
+            </a>
 
         </v-list-item-group>
       </v-list>

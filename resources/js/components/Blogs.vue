@@ -5,11 +5,24 @@
      <NavBar></NavBar>
 
       <v-card>
+
+        <v-card-title>
+          <a href='/create_blog' style='text-decoration:none;'>
+
+          <v-btn icon>
+            <v-icon color='blue'>local_library</v-icon>
+          </v-btn>
+          + New Blog
+
+          </a>
+        </v-card-title>
+
         <v-container fluid>
           <v-row>
 
               <v-col v-for='n in 11' :key='n' cols='3' class='d-flex child-flex'>
 
+                <a :href='`/blog/${n}`'>
                 <v-card flat tile class='d-flex'>
 
                     <v-img
@@ -20,6 +33,7 @@
                     </v-img>
 
                 </v-card>
+                </a>
 
               </v-col>
           </v-row>

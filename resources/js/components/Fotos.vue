@@ -5,52 +5,65 @@
       <NavBar></NavBar>
 
       <v-card>
+
+          <v-card-title>
+
             Upload Foto
 
-                    <v-dialog v-model='dialog'>
+                    <v-dialog v-model='dialog' persistent max-width="390">
 
                       <template v-slot:activator='{ on }'>
 
-                        <v-btn  v-on='on' icon color='green' @click='Take()'>
+                        <v-btn  v-on='on' icon color='green' >
                           <v-icon>add_a_photo</v-icon>
                         </v-btn>
 
                       </template>
 
-                        
-                        <div :class='`d-flex justify-center `' >
+                      <v-card>
 
-                          <video id="video1" :class='`d-flex justify-center`' autoplay v-start='this'>
-                          </video>
+                        <v-btn @click='close_camera()' style='position:absolute; z-index:2; right:0;' icon><v-icon color='red'>close</v-icon></v-btn>
 
-                        </div>
+                        <video id="video1" width='100%' autoplay v-start='this'> </video>
 
-                        <div :class='`d-flex justify-center`' >
-                          <v-btn color='red' @click='Capture()' icon>
+                        <v-row  justify="center">
+
+                        <canvas id="myCanvas" width='300px' height='300px' style='display:none;'></canvas>
+
+                        </v-row>
+
+                        <v-card-actions>
+
+                          <v-row  justify="center">
+
+                          <v-btn color='red' id='camara_icon' @click='Capture()' icon>
                             <v-icon size='50'>camera</v-icon>
                           </v-btn>
-                        </div>
-                            
+
+                          </v-row>
+
+                          <v-row id='canvas_btns' style='display:none;'>
+
+                            <v-btn  @click='upload_camera()' color='green' icon>
+                              <v-icon size='40'>check_circle_outline</v-icon>
+                            </v-btn>
+
+                                  <v-divider></v-divider>
+
+                            <v-btn @click='return_camera()' color='orange' icon>
+                              <v-icon size='40'>cached</v-icon>
+                            </v-btn>
+
+                          </v-row>
 
 
+                        </v-card-actions>
 
 
-<!--
+                      </v-card>
 
-                        <canvas id="myCanvas" width="270" height="135"></canvas>
-
-
-
-                        <v-btn color='red' icon>
-                          <v-icon>cancel</v-icon>
-                        </v-btn>
-
-                         <v-btn color='green' icon>
-                            <v-icon>check_circle_outline</v-icon>
-                        </v-btn>
--->
                     </v-dialog>
- 
+
                        <v-btn color='green' icon>
                           <label for='upload_input'>
                             <v-icon>add_photo_alternate</v-icon>
@@ -59,17 +72,31 @@
 
                      <input type='file' style='display:none' accept='image/*' id='upload_input' @change='preview()'>
 
-
-                    <v-dialog v-model='dialog2'>
+                    <v-dialog v-model='dialog2' max-width="500">
 
                     <v-card>
-                        <img id='prev_img' src='' v-show_preview='this'>
+
+                       <v-btn @click='close_canvas()' style='position:absolute; right:0; z-index:2;' icon><v-icon color='red'>close</v-icon></v-btn>
+
+                      <img id='prev_img' src='' width='100%' v-show_preview='this'>
+
+                      <v-card-actions>
+
+                          <v-row justify="center">
+
+                            <v-btn @click='upload_photo()' color='green' icon>
+                              <v-icon size='60'>backup</v-icon>
+                            </v-btn>
+
+                          </v-row>
+
+                      </v-card-actions>
+
                     </v-card>
- 
+
                     </v-dialog>
 
-
-                     
+          </v-card-title>
 
 
         <v-container fluid>
@@ -78,7 +105,7 @@
 
                 <v-card flat tile class='d-flex'>
 
-                  <v-dialog v-model='dialog' width='500px'>
+                  <v-dialog v-model='dialog3' max-width="500">
 
                     <template v-slot:activator='{ on }'>
 
@@ -93,6 +120,7 @@
                     </template>
 
                     <v-img
+                          width='100%'
                          :src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
                          :lazy-src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
                           aspect-ratio='1'
@@ -117,27 +145,34 @@ import NavBar from './NavBar'
 
 export default {
 
-
-
     name: 'Fotos',
 
     data(){
+
       return {
-          dialog2 : false
+          dialog: false,
+          dialog2 : false,
+          dialog3 : false,
+          tomada: false
       }
+
     },
 
     computed: {},
 
     directives: {
+
         start(e){
+
+          if( document.getElementById('video1') == undefined ){
 
              var v = e;
 
              const constraints = { video: true };
 
              navigator.mediaDevices.getUserMedia(constraints).then( (stream) => { v.srcObject = stream } );
-              },
+          }
+          },
 
         show_preview(e){
              e.src = window.URL.createObjectURL(event.target.files[0]);
@@ -146,12 +181,23 @@ export default {
 
     methods: {
 
-        preview(){
-            this.dialog2=true;
+        upload_photo(){
+            var src = document.getElementById('upload_input').files[0];
+            var photo = new FormData();
+            photo.append('img', src);
+            axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
         },
-        
 
-      Capture() {
+        upload_camera(){
+
+            var src = document.getElementById('myCanvas').toDataURL("image/png");
+            var photo = new FormData();
+            photo.append('img', src);
+            axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
+
+        },
+
+        close_camera(){
 
         var videoElem = document.getElementById('video1');
         const stream = videoElem.srcObject;
@@ -159,21 +205,78 @@ export default {
 
         tracks.forEach(function(track) {
         track.stop();
-        
-    });
 
-      document.getElementById('video1').srcObject = null;
+        }
+
+        );
+
+        this.dialog = false;
 
 
-/*        navigator.mediaDevices.getUserMedia.stop();
+        },
+
+        return_camera(){
+
+        document.getElementById('camara_icon').style='display:block;';
+
+        var v = document.getElementById("video1");
+        v.style='display:block;';
+        var c = document.getElementById("myCanvas");
+        c.style='display:none';
+
+        document.getElementById('canvas_btns').style='display:none';
+
+        const constraints = { video: true };
+
+        navigator.mediaDevices.getUserMedia(constraints).then( (stream) => { v.srcObject = stream } );
+
+
+
+        },
+
+        close_canvas(){
+          this.dialog2 = false;
+        },
+
+        preview(){
+            this.dialog2=true;
+        },
+
+
+      Capture() {
+
+
+
+        document.getElementById('camara_icon').style='display:none;';
 
         var v = document.getElementById("video1");
         var c = document.getElementById("myCanvas");
+        c.style='display:block';
         var ctx = c.getContext("2d");
         var i;
 
-        ctx.drawImage(v,5,5,260,122);
+        ctx.drawImage(v, 0, 30, 300, 270);
+        document.getElementById('canvas_btns').style='display:block';
+
+
+        var videoElem = document.getElementById('video1');
+        const stream = videoElem.srcObject;
+        const tracks = stream.getTracks();
+
+        tracks.forEach(function(track) {
+        track.stop();
+        videoElem.style='display:none';
+        }
+
+        );
+
+
+/*
+        document.getElementById('video1').srcObject = null;
+
+        navigator.mediaDevices.getUserMedia.stop();
 */
+
       }
 
     },

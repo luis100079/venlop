@@ -9,7 +9,7 @@ use App\Photo;
 use App\Video;
 use App\Post;
 
-class ProfileController extends Controller
+class StorageController extends Controller
 {
 
     public function set_avatar(Request $request){
@@ -20,9 +20,18 @@ class ProfileController extends Controller
 
     public function upload_photo(Request $request){
 
-        $path = $request->file('photo')->storeAs('users_'. auth()->user()->id, time().'_'.random() );
+        $name = time().'_'.rand();
+
+        $img = $request->file('img');
+
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+
+        $path = $data->storeAs('users/'. auth()->user()->email, $name.".jpg" );
+
         $db = new Photo;
-        $db->name = $request->name;
+        $db->name = $name;
         $db->user = auth()->user()->id;
         $db->save();
 

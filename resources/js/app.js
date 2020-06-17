@@ -1,4 +1,5 @@
 require('./bootstrap');
+window.Vue = require('vue');
 
 import Vue from 'vue';
 import VueRouter from 'vue-router'
@@ -21,8 +22,8 @@ let config = {
     'insertOrderedList', 'insertUnorderedList', '|', 'picture', 'tables', '|', 'switchView'
   ],
   fontName: [
-    {val: 'arial black'}, 
-    {val: 'times new roman'}, 
+    {val: 'arial black'},
+    {val: 'times new roman'},
     {val: 'Courier New'}
   ],
   fontSize: ['12px', '14px', '16px', '18px', '0.8rem', '1.0rem', '1.2rem', '1.5rem', '2.0rem'],
@@ -31,7 +32,6 @@ let config = {
 
 Vue.use(Vuex);
 Vue.use(Vueditor, config);
-
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 
