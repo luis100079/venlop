@@ -34,6 +34,11 @@ Route::middleware('auth:api')->group(function(){
 
     Route::post('upload_video', 'StorageController@upload_video');
 
+    Route::post('create_post', 'StorageController@create_post');
+
+    Route::post('logout', 'Auth\LoginController@logout');
+
+
     Route::post('user', 'GetController@user');
 
     Route::post('videos', 'GetController@videos');

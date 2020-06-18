@@ -9,6 +9,8 @@ import Jobs from './components/Jobs'
 import Settings from './components/Settings'
 import Create_blog from './components/Blogs/Create_blog'
 import Blog from './components/Blog'
+import Edit_profile from './components/Edit_profile'
+import Results from './components/Results'
 
 export default{
 
@@ -74,6 +76,16 @@ export default{
         {
             path: '/blog/:id',
             component: Blog
+        },
+
+        {
+            path: '/edit_profile',
+            component: Edit_profile
+        },
+
+        {
+            path: '/results',
+            component: Results
         }
 
     ]

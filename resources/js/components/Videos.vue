@@ -13,7 +13,7 @@
 
             <v-btn icon v-on='on'>
               <label for='input_video'>
-                <v-icon color='green' size='50'>theaters</v-icon>
+                <v-icon color='red' size='50'>theaters</v-icon>
               </label>
             </v-btn>
 
@@ -73,6 +73,59 @@
                     </video>
 
                   </v-dialog>
+
+                  <v-card-actions class='justify-center'>
+
+
+                    <v-tooltip top>
+
+                      <template v-slot:activator="{ on, attrs }">
+
+                        <v-btn icon v-on='on' v-bind='attrs'>
+                          <v-icon color='red'>mdi-heart</v-icon>
+                        </v-btn>
+
+                      </template>
+
+                      <span>
+                        Followers
+                      </span>
+
+                    </v-tooltip>
+
+
+                    <v-tooltip top>
+
+                      <template v-slot:activator="{ on, attrs }">
+
+                        <v-btn icon v-on='on' v-bind='attrs'>
+                          <v-icon color='blue'>mdi-eye</v-icon>
+                        </v-btn>
+
+                      </template>
+
+                      <span>Seens</span>
+
+                    </v-tooltip>
+
+                    <v-tooltip top>
+                      <template v-slot:activator='{ on, attrs }'>
+
+                        <v-btn v-on='on' v-bind='attrs' icon>
+                          <v-icon color='red'>delete</v-icon>
+                        </v-btn>
+
+                      </template>
+                      <span>
+                          Delete
+                      </span>
+                    </v-tooltip>
+
+
+
+
+
+                  </v-card-actions>
 
 
 

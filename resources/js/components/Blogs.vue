@@ -22,8 +22,10 @@
 
               <v-col v-for='n in 11' :key='n' cols='3' class='d-flex child-flex'>
 
-                <a :href='`/blog/${n}`'>
-                <v-card flat tile class='d-flex'>
+<!--                <a :href='`/blog/${n}`'> -->
+                <v-card :href='`/blog/${n}`' >
+
+                  <v-card-title class='justify-center'>Blog Title</v-card-title>
 
                     <v-img
                          :src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
@@ -32,8 +34,12 @@
                           class='grey lighten-2'>
                     </v-img>
 
+                    <v-card-actions class='justify-center'>
+                        <span>Made by Author</span>
+                        </v-card-actions>
+
                 </v-card>
-                </a>
+<!--                </a> -->
 
               </v-col>
           </v-row>

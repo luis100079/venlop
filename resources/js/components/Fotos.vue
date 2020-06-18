@@ -64,9 +64,9 @@
 
                     </v-dialog>
 -->
-                    <v-btn color='green' icon>
+                    <v-btn color='red' icon>
                       <label for='upload_input'>
-                        <v-icon>add_photo_alternate</v-icon>
+                        <v-icon size='40'>add_photo_alternate</v-icon>
                       </label>
                     </v-btn>
 
@@ -76,19 +76,15 @@
 
                     <v-card>
 
-                       <v-btn @click='close_canvas()' style='position:absolute; right:0; z-index:2;' icon><v-icon color='red'>close</v-icon></v-btn>
+                      <v-btn @click='close_canvas()' style='position:absolute; right:0; z-index:2;' icon><v-icon color='red'>close</v-icon></v-btn>
 
                       <img id='prev_img' src='' width='100%' v-show_preview='this'>
 
-                      <v-card-actions>
-
-                          <v-row justify="center">
+                      <v-card-actions class='justify-center'>
 
                             <v-btn @click='upload_photo()' color='green' icon>
-                              <v-icon size='60'>backup</v-icon>
+                              <v-icon size='50'>check_circle_outline</v-icon>
                             </v-btn>
-
-                          </v-row>
 
                       </v-card-actions>
 
@@ -105,7 +101,7 @@
 
                 <v-card flat tile class='d-flex'>
 
-                  <v-dialog v-model='dialog3' max-width="500">
+                  <v-dialog  max-width="500">
 
                     <template v-slot:activator='{ on }'>
 
@@ -119,13 +115,48 @@
 
                     </template>
 
+                    <v-card>
+
                     <v-img
-                          width='100%'
                          :src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
                          :lazy-src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
                           aspect-ratio='1'
                           class='grey lighten-2'>
                     </v-img>
+
+                    <v-card-actions class='justify-center'>
+
+                    <v-tooltip top>
+
+                      <template v-slot:activator="{ on, attrs }">
+
+                        <v-btn icon v-on='on' v-bind='attrs'>
+                          <v-icon color='red'>mdi-heart</v-icon>
+                        </v-btn>
+
+                      </template>
+
+                      <span>Likes</span>
+
+                    </v-tooltip>
+
+                     <v-tooltip top>
+                      <template v-slot:activator='{ on, attrs }'>
+
+                        <v-btn v-on='on' v-bind='attrs' icon>
+                          <v-icon color='red'>delete</v-icon>
+                        </v-btn>
+
+                      </template>
+                      <span>
+                          Delete
+                      </span>
+                    </v-tooltip>
+
+
+                    </v-card-actions>
+
+                    </v-card>
 
                   </v-dialog>
 
@@ -152,7 +183,7 @@ export default {
       return {
           dialog: false,
           dialog2 : false,
-          dialog3 : false,
+
           tomada: false
       }
 
@@ -186,7 +217,7 @@ export default {
             var src = document.getElementById('upload_input').files[0];
             var photo = new FormData();
             photo.append('img', src);
-            axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
+            axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( window.location.reload() );
 
         },
 /*

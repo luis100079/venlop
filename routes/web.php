@@ -24,6 +24,11 @@ Auth::routes();
 Route::get('/', function(){
     return view('home');
 });
+
+
+Route::get('/logout', function(){ Auth::logout(); });
+
+
 /*
 Route::get('/x', function(){
 

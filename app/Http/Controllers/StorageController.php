@@ -50,13 +50,20 @@ class StorageController extends Controller
 
     }
 
-    public function create_blog(Request $request){
+    public function create_post(Request $request){
+
+        $name = time().'_'.rand();
+        $img = $request->file('thumbnail');
+        $path = $img->storeAs('public/users/'. auth()->user()->email. '/blogs', $name.".jpg" );
 
         $db = new Post;
         $db->title = $request->title;
         $db->content = $request->content;
         $db->user = auth()->user()->id;
+        $db->thumbnail = $name;
         $db->save();
+
+
 
     }
 
