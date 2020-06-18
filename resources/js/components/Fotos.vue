@@ -64,11 +64,11 @@
 
                     </v-dialog>
 -->
-                       <v-btn color='green' icon>
-                          <label for='upload_input'>
-                            <v-icon>add_photo_alternate</v-icon>
-                          </label>
-                        </v-btn>
+                    <v-btn color='green' icon>
+                      <label for='upload_input'>
+                        <v-icon>add_photo_alternate</v-icon>
+                      </label>
+                    </v-btn>
 
                      <input type='file' style='display:none' accept='image/*' id='upload_input' @change='preview()'>
 
@@ -182,10 +182,12 @@ export default {
     methods: {
 
         upload_photo(){
+
             var src = document.getElementById('upload_input').files[0];
             var photo = new FormData();
             photo.append('img', src);
             axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
+
         },
 /*
         upload_camera(){

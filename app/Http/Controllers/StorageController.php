@@ -24,7 +24,7 @@ class StorageController extends Controller
 
         $img = $request->file('img');
 
-        $path = $img->storeAs('users/'. auth()->user()->email, $name.".jpg" );
+        $path = $img->storeAs('public/users/'. auth()->user()->email. '/photos', $name.".jpg" );
 
         $db = new Photo;
         $db->name = $name;
@@ -36,10 +36,15 @@ class StorageController extends Controller
 
     public function upload_video(Request $request){
 
-        $path = $request->file('video')->storeAs('users_'. auth()->user()->id, time().'_'.random() );
+
+        $name = time().'_'.rand();
+
+        $img = $request->file('video');
+
+        $path = $img->storeAs('public/users/'. auth()->user()->email. '/videos', $name.".mp4" );
 
         $db = new Video;
-        $db->name = $request->name;
+        $db->name = $name;
         $db->user = auth()->user()->id;
         $db->save();
 

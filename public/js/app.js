@@ -2115,10 +2115,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     NavBar: _NavBar__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    upload: function upload() {
+      document.getElementById('x').innerHTML = document.getElementById('vueditor').innerHTML;
+    }
   }
 });
 
@@ -2935,10 +2949,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Videos',
@@ -2956,6 +2966,18 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     preview: function preview() {
       this.upload_dialog = true;
+    },
+    upload_video: function upload_video() {
+      var src = document.getElementById('input_video').files[0];
+      var video = new FormData();
+      video.append('video', src);
+      axios.post('api/upload_video', video, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        return console.log(res.data);
+      });
     }
   },
   components: {
@@ -39567,8 +39589,8 @@ var render = function() {
         [
           _c("NavBar"),
           _vm._v(" "),
-          _c("Vueditor", { staticStyle: { height: "450px" } }),
-          _vm._v("\n\n      Titulo"),
+          _c("textarea", [_vm._v("Next, get a free Tiny Cloud API key!")]),
+          _vm._v("\n\n\n      Titulo"),
           _c("input", { attrs: { type: "text" } }),
           _vm._v(" "),
           _c("br"),
@@ -39579,10 +39601,19 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-btn",
-            { attrs: { icon: "" } },
+            {
+              attrs: { icon: "" },
+              on: {
+                click: function($event) {
+                  return _vm.upload()
+                }
+              }
+            },
             [_c("v-icon", [_vm._v("save")])],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "x" } })
         ],
         1
       )
@@ -40612,7 +40643,14 @@ var render = function() {
                                 [
                                   _c(
                                     "v-btn",
-                                    { attrs: { icon: "" } },
+                                    {
+                                      attrs: { icon: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.upload_video()
+                                        }
+                                      }
+                                    },
                                     [
                                       _c(
                                         "v-icon",
@@ -98951,7 +98989,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 var config = {
-  toolbar: ['removeFormat', 'undo', '|', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider', 'bold', 'italic', 'underline', 'strikeThrough', 'links', 'divider', 'subscript', 'superscript', 'divider', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', '|', 'indent', 'outdent', 'insertOrderedList', 'insertUnorderedList', '|', 'picture', 'tables', '|', 'switchView'],
+  toolbar: ['removeFormat', 'undo', '|', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider', 'bold', 'italic', 'underline', 'strikeThrough', 'links', 'divider', 'subscript', 'superscript', 'divider', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', '|', 'indent', 'outdent', 'insertOrderedList', 'insertUnorderedList', '|',
+  /*'picture',*/
+  'tables', '|', 'switchView'],
   fontName: [{
     val: 'arial black'
   }, {

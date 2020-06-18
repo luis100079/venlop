@@ -24,7 +24,13 @@ Auth::routes();
 Route::get('/', function(){
     return view('home');
 });
+/*
+Route::get('/x', function(){
 
+    return "<video controls src=".'/storage/users/'.auth()->user()->email.'/videos/1592393141_1914678878.mp4'.">";
+
+});
+*/
 Route::get('/{any?}', function () {
     return view('welcome');
 })->where('any', '[\/\w\.-]*')->middleware('auth');

@@ -19,7 +19,7 @@ let config = {
    'removeFormat', 'undo', '|', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider',
     'bold', 'italic', 'underline', 'strikeThrough', 'links', 'divider', 'subscript', 'superscript',
     'divider', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', '|', 'indent', 'outdent',
-    'insertOrderedList', 'insertUnorderedList', '|', 'picture', 'tables', '|', 'switchView'
+    'insertOrderedList', 'insertUnorderedList', '|', /*'picture',*/ 'tables', '|', 'switchView'
   ],
   fontName: [
     {val: 'arial black'},

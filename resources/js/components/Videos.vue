@@ -11,10 +11,6 @@
 
         <v-card-title>
 
-
-
-
-
             <v-btn icon v-on='on'>
               <label for='input_video'>
                 <v-icon color='green' size='50'>theaters</v-icon>
@@ -32,7 +28,7 @@
               <v-card-actions>
 
                 <v-row justify='center'>
-                  <v-btn icon>
+                  <v-btn @click='upload_video()' icon>
                     <v-icon color='green' size='60'>check_circle_outline</v-icon>
                   </v-btn>
                 </v-row>
@@ -121,7 +117,17 @@ export default {
 
         preview(){
           this.upload_dialog = true;
-        }
+        },
+
+        upload_video(){
+
+
+          var src = document.getElementById('input_video').files[0];
+          var video = new FormData();
+          video.append('video', src);
+          axios.post('api/upload_video', video, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
+
+        },
 
     },
 
