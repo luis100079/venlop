@@ -44,15 +44,14 @@
   box-sizing: border-box;
 }
 
-#app{
-    background: url('https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260') no-repeat center fixed;
-    background-size: cover;
-  }
+#app{  background: url('https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260') no-repeat center fixed;
+       background-size: cover;}
 
 html {
 
   background: url('https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260') no-repeat center fixed;
   background-size: cover;
+
   font-family: sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;

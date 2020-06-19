@@ -156,7 +156,7 @@ export default {
 
         logout(){
 
-            axios.post('/logout').then( window.location.reload() );
+            axios.post('/logout').then( window.location.href = '/register' );
 
         }
 
