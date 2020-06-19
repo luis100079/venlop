@@ -38,6 +38,8 @@ Route::middleware('auth:api')->group(function(){
 
     Route::post('logout', 'Auth\LoginController@logout');
 
+    Route::post('upload_avatar', 'StorageController@upload_avatar');
+
 
     Route::post('user', 'GetController@user');
 

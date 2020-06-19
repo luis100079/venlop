@@ -11,6 +11,8 @@ import Create_blog from './components/Blogs/Create_blog'
 import Blog from './components/Blog'
 import Edit_profile from './components/Edit_profile'
 import Results from './components/Results'
+import Chat from './components/Chat'
+import Notifications from './components/Notifications'
 
 export default{
 
@@ -86,6 +88,16 @@ export default{
         {
             path: '/results',
             component: Results
+        },
+
+        {
+            path: '/chat',
+            component: Chat
+        },
+
+        {
+            path: '/notifications',
+            component: Notifications
         }
 
     ]

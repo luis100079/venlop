@@ -53,7 +53,7 @@
                   <v-card-title class="justify-center">Video Title</v-card-title>
 
 
-                  <v-dialog v-model='dialog' width='500px'>
+                  <v-dialog width='500px'>
 
                     <template v-slot:activator='{ on }'>
 
@@ -155,7 +155,7 @@ export default {
 
         return {
 
-            dialog: false,
+
             upload_dialog: false
 
         }
