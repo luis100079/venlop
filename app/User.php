@@ -37,4 +37,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function photos(){
+        return $this->hasMany(Photo::class, 'user');
+    }
+
+    public function videos(){
+        return $this->hasMany(Video::class, 'user');
+    }
+
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
+
+
+
 }

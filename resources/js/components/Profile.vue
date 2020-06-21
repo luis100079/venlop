@@ -15,9 +15,7 @@
         <Album></Album>
      </v-row>
 
-     <v-row>
-
-     </v-row>
+   
 
     </v-container>
   </v-app>

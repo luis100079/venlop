@@ -8,7 +8,7 @@
 
           <v-card-title>
 
-            Upload Foto
+            <span v-show='me'>Upload Foto</span>
 <!--
                     <v-dialog v-model='dialog' persistent max-width="390">
 
@@ -64,7 +64,7 @@
 
                     </v-dialog>
 -->
-                    <v-btn color='red' icon>
+                    <v-btn v-show='me' color='red' icon>
                       <label for='upload_input'>
                         <v-icon size='40'>add_photo_alternate</v-icon>
                       </label>
@@ -97,7 +97,7 @@
 
         <v-container fluid>
           <v-row>
-              <v-col v-for='n in 12' :key='n' cols='3' class='d-flex child-flex'>
+              <v-col v-for='(photo, i) in photos' :key='i' cols='3' class='d-flex child-flex'>
 
                 <v-card flat tile class='d-flex'>
 
@@ -107,8 +107,8 @@
 
                     <v-img
                          v-on='on'
-                         :src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
-                         :lazy-src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
+                         :src='photo.path+photo.name'
+                         :lazy-src='photo.path+photo.name'
                           aspect-ratio='1'
                           class='grey lighten-2'>
                     </v-img>
@@ -118,8 +118,8 @@
                     <v-card>
 
                     <v-img
-                         :src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
-                         :lazy-src='`https://picsum.photos/500/300?image=${n * 5 + 10}`'
+                         :src='photo.path+photo.name'
+                         :lazy-src='photo.path+photo.name'
                           aspect-ratio='1'
                           class='grey lighten-2'>
                     </v-img>
@@ -143,7 +143,7 @@
                      <v-tooltip top>
                       <template v-slot:activator='{ on, attrs }'>
 
-                        <v-btn v-on='on' v-bind='attrs' icon>
+                        <v-btn v-show='me' v-on='on' v-bind='attrs' icon>
                           <v-icon color='red'>delete</v-icon>
                         </v-btn>
 
@@ -181,10 +181,11 @@ export default {
     data(){
 
       return {
+          photos: null,
           dialog: false,
           dialog2 : false,
-
-          tomada: false
+          tomada: false,
+          me: false
       }
 
     },
@@ -316,7 +317,34 @@ export default {
 
     },
 
-    components: { NavBar }
+    components: { NavBar },
+
+
+
+         created(){
+
+
+         axios.post('api/user',  { value: this.$route.query.id } ).then( res => {
+
+                if( res.data.id == this.$route.query.id ){
+
+                    this.me = true;
+
+                    axios.post('api/search_user_photos', { value: this.$route.query.id } ).then( res => { this.photos = res.data ; } );
+
+                  }
+
+                else{
+
+                    axios.post('api/search_user_photos',  { value: this.$route.query.id } ).then( res => { this.photos = res.data } );
+
+                    }
+
+            }
+
+         );
+
+        }
 
   }
 

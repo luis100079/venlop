@@ -39,7 +39,7 @@ Route::middleware('auth:api')->group(function(){
     Route::post('logout', 'Auth\LoginController@logout');
 
     Route::post('upload_avatar', 'StorageController@upload_avatar');
-
+    
 
     Route::post('user', 'GetController@user');
 
@@ -49,4 +49,20 @@ Route::middleware('auth:api')->group(function(){
 
     Route::post('posts', 'GetController@posts');
 
+    Route::post('search', 'GetController@search_users');
+
+
+    Route::post('search_user', 'GetController@search_user');
+
+    Route::post('search_user_photos', 'GetController@search_user_photos');
+
+    Route::post('search_user_videos', 'GetController@search_user_videos');
+
+    Route::post('search_user_posts', 'GetController@search_user_posts');
+   
+
+    Route::post('get_post_data', 'GetController@get_post_data');
+
+    
+    
 });

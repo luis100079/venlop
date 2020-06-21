@@ -4,8 +4,9 @@
     <v-app-bar color='green' dark>
 
       <v-app-bar-nav-icon @click='drawer = true'></v-app-bar-nav-icon>
-
-        <v-text-field prepend-icon="search" class='ml-12'></v-text-field>
+        <form method='get' action='/results'>
+        <v-text-field name='name' placeholder='search'  prepend-icon="search" v-model='data.value' @keyup='search()' class='ml-12'></v-text-field >
+        </form>
 
       <v-spacer></v-spacer>
 
@@ -24,7 +25,7 @@
 
       <a href='/profile'>
       <v-avatar class='mr-12'>
-        <img src='storage/avatars/random/men/jefe.png'>
+        <img :src='"storage/avatars/"+details.id+".jpg"'>
       </v-avatar>
       </a>
 
@@ -40,10 +41,10 @@
 
 
                 <v-avatar>
-                  <img src='storage/avatars/random/men/jefe.png'>
+                  <img :src='"storage/avatars/"+details.id+".jpg"'>
                 </v-avatar>
 
-              <v-list-item-title>Luis Rene López</v-list-item-title>
+              <v-list-item-title> {{ details.name }} </v-list-item-title>
 
             </v-list-item>
 
@@ -148,7 +149,11 @@ export default {
 
     data: () => ({
 
-            drawer: false
+            drawer: false,
+
+            details: null,
+
+            data: { value: null }
 
     }),
 
@@ -158,8 +163,23 @@ export default {
 
             axios.post('/logout').then( window.location.href = '/register' );
 
+        },
+
+        search(){
+
+            axios.post('api/search', this.data).then( res => { console.log(res.data) } );
+
         }
 
+    },
+
+
+      created(){
+
+        axios.post('api/user').then( res => { this.details = res.data } );
+
     }
+
+  
 }
 </script>

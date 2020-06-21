@@ -11,14 +11,14 @@
 
         <v-card-title>
 
-            <v-btn icon v-on='on'>
+            <v-btn icon v-on='on' v-show='me'>
               <label for='input_video'>
                 <v-icon color='red' size='50'>theaters</v-icon>
               </label>
             </v-btn>
 
             <input type='file' accept='video/*' style='display:none' id='input_video' @change='preview()'>
-            Add new
+            <span v-show='me'>Add new</span>
 
             <v-dialog v-model='upload_dialog' max-width="500">
 
@@ -44,22 +44,21 @@
 
         <v-container fluid>
 
-          <v-row >
+          <v-row>
 
-              <v-col v-for='n in 12' :key='n' cols='4' class='d-flex child-flex'>
+              <v-col v-for='(video, i) in videos' :key='i' cols='4' class='d-flex child-flex'>
 
                 <v-card class=text-center>
 
-                  <v-card-title class="justify-center">Video Title</v-card-title>
-
+                  <v-card-title class="justify-center"></v-card-title>
 
                   <v-dialog width='500px'>
 
                     <template v-slot:activator='{ on }'>
 
-                    <video
+                    <video width='100%' height='70%'
                          v-on='on'
-                         :src='`https://www.w3schools.com/html/mov_bbb.mp4`'
+                         :src='video.path+video.name'
                           aspect-ratio='1'
                           class='grey lighten-2'>
                     </video>
@@ -67,7 +66,7 @@
                     </template>
 
                     <video controls
-                         :src='`https://www.w3schools.com/html/mov_bbb.mp4`'
+                         :src='video.path+video.name'
                           aspect-ratio='1'
                           class='grey lighten-2'>
                     </video>
@@ -111,7 +110,7 @@
                     <v-tooltip top>
                       <template v-slot:activator='{ on, attrs }'>
 
-                        <v-btn v-on='on' v-bind='attrs' icon>
+                        <v-btn v-show='me' v-on='on' v-bind='attrs' icon>
                           <v-icon color='red'>delete</v-icon>
                         </v-btn>
 
@@ -155,9 +154,11 @@ export default {
 
         return {
 
+            videos: null,
+
+            me: false,
 
             upload_dialog: false
-
         }
 
     },
@@ -184,7 +185,37 @@ export default {
 
     },
 
-    components: { NavBar }
+    components: { NavBar },
+
+
+
+         created(){
+
+
+         axios.post('api/user',  { value: this.$route.query.id } ).then( res => {
+
+                if( res.data.id == this.$route.query.id ){
+
+                    this.me = true;
+
+                    axios.post('api/search_user_videos', { value: this.$route.query.id } ).then( res => { this.videos = res.data ; } );
+
+                  }
+
+                else{
+
+                    axios.post('api/search_user_videos',  { value: this.$route.query.id } ).then( res => { this.videos = res.data } );
+
+                    }
+
+
+
+            }
+
+         );
+
+        }
+
 
 }
 </script>

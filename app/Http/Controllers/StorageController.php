@@ -43,11 +43,9 @@ class StorageController extends Controller
 
     public function upload_photo(Request $request){
 
-        $name = time().'_'.rand();
-
+        $name = time().'_'.rand().".jpg" ;
         $img = $request->file('img');
-
-        $path = $img->storeAs('public/users/'. auth()->user()->email. '/photos', $name.".jpg" );
+        $path = $img->storeAs('public/photos', $name);
 
         $db = new Photo;
         $db->name = $name;
@@ -60,11 +58,9 @@ class StorageController extends Controller
     public function upload_video(Request $request){
 
 
-        $name = time().'_'.rand();
-
+        $name = time().'_'.rand().".mp4";
         $img = $request->file('video');
-
-        $path = $img->storeAs('public/users/'. auth()->user()->email. '/videos', $name.".mp4" );
+        $path = $img->storeAs('public/videos', $name );
 
         $db = new Video;
         $db->name = $name;
@@ -75,17 +71,16 @@ class StorageController extends Controller
 
     public function create_post(Request $request){
 
-        $name = time().'_'.rand();
+        $name = time().'_'.rand().".jpg";
         $img = $request->file('thumbnail');
-        $path = $img->storeAs('public/users/'. auth()->user()->email. '/blogs', $name.".jpg" );
+        $path = $img->storeAs('public/photos', $name );
 
         $db = new Post;
         $db->title = $request->title;
         $db->content = $request->content;
-        $db->user = auth()->user()->id;
+        $db->user_id = auth()->user()->id;
         $db->thumbnail = $name;
         $db->save();
-
 
     }
 

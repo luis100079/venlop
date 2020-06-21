@@ -3,9 +3,7 @@
 
 <v-container>
   <NavBar></NavBar>
-
-
-    Welcome To blog # {{ $route.params.id }}
+    <v-row> <div id='HTMLContainer'></div> </v-row>
 </v-container>
 
 </v-app>
@@ -16,9 +14,28 @@ import NavBar from './NavBar'
 
 export default {
 
+    components: { NavBar },
 
+    data() {
 
-    components: { NavBar }
+      return{
+            me: false,
+            details: null,
+         
+            }
+
+          },
+
+    created(){
+
+        axios.post('api/get_post_data', { value: this.$route.query.id }).then( res => { 
+                  
+                  this.details = res.data
+                  document.getElementById('HTMLContainer').innerHTML = res.data.content
+
+         } );   
+
+    }
 
 
 }

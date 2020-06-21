@@ -26,8 +26,22 @@ Route::get('/', function(){
 });
 
 
+/*
+
+Route::get('/search', function(Request $request){
+
+    return User::where('name', 'like', '%'.$request->value.'%')->get();
+
+});
+
+*/
+Route::get("aa", function(){ return "AA"; });
+
 Route::get('/logout', function(){ Auth::logout(); });
 
+/*
+Route::post('search_user', 'GetController@search_user');
+*/
 
 /*
 Route::get('/x', function(){
@@ -36,7 +50,8 @@ Route::get('/x', function(){
 
 });
 */
-Route::get('/{any?}', function () {
+Route::get('{any?}', function () {
     return view('welcome');
 })->where('any', '[\/\w\.-]*')->middleware('auth');
+
 

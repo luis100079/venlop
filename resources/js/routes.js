@@ -13,6 +13,7 @@ import Edit_profile from './components/Edit_profile'
 import Results from './components/Results'
 import Chat from './components/Chat'
 import Notifications from './components/Notifications'
+import Users from './components/Users'
 
 export default{
 
@@ -76,7 +77,7 @@ export default{
         },
 
         {
-            path: '/blog/:id',
+            path: '/blog',
             component: Blog
         },
 
@@ -98,6 +99,17 @@ export default{
         {
             path: '/notifications',
             component: Notifications
+        },
+
+        {
+
+            path: '/users',
+            component: Users
+
+        /*
+            path: '/users/:id',
+            component: Users
+        */
         }
 
     ]
