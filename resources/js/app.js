@@ -40,6 +40,6 @@ let app = new Vue({
     el: '#app',
     router: new VueRouter(routes),
     vuetify : new Vuetify(),
-    iconfont: ['mdi','mdiSvg', 'fa4']
+    iconfont: ['mdi','mdiSvg', 'fa4'],
 
 });
