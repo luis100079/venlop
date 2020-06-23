@@ -95,5 +95,4 @@ class GetController extends Controller
     }
 
 
-
 }
