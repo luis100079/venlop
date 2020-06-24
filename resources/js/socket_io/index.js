@@ -1,19 +1,19 @@
-var app = require('express')();
+var server = require('http').Server();
 
-var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-server.listen(3000);
+var Redis = require('ioredis');
 
-app.get('/', function(request, reponse){
+var redis = new Redis();
 
-    reponse.sendFile(__dirname + '/index.html')
+redis.subscribe('test-channel');
 
-})
+redis.on('message' , function(){
 
-io.on('connection', function(socket){
-
-    socket.on('chat.message', function(message){ io.emit('chat.message', message) } )
-
+//  message = JSON.parse(message);
+  console.log("Hola");
 
 })
+
+
+server.listen(3001);

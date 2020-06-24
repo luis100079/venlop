@@ -25,11 +25,18 @@ use App\Post;
 Auth::routes();
 
 Route::get('redis', function(){
+/*
+    $data = [   'event' => 'UserSignedUp',
+
+                'data' => [ 'username' => 'Luis' ]
+            ];
+*/
 
 
-    Redis::set('name', 'Luis Lopez');
+    Redis::publish('test-channel', json_encode( auth()->user()->email ));
 
-    return Redis::get('name');
+    return 'Done';
+
 });
 
 Route::get('/', function(){
