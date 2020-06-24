@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
+
+use Illuminate\Support\Facades\Redis;
+
 use App\User;
 use App\Photo;
 use App\Video;
@@ -20,6 +23,14 @@ use App\Post;
 
 
 Auth::routes();
+
+Route::get('redis', function(){
+
+
+    Redis::set('name', 'Luis Lopez');
+
+    return Redis::get('name');
+});
 
 Route::get('/', function(){
     return view('home');
