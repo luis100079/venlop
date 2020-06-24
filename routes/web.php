@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
-
 use Illuminate\Support\Facades\Redis;
+use App\Events\UserSignedUp;
 
 use App\User;
 use App\Photo;
@@ -21,21 +21,17 @@ use App\Post;
 |
 */
 
-
 Auth::routes();
 
 Route::get('redis', function(){
+
+    Redis::publish('test-channel', json_encode( 'aaaa' ));
+
+    return 'Sent';
+
 /*
-    $data = [   'event' => 'UserSignedUp',
-
-                'data' => [ 'username' => 'Luis' ]
-            ];
+    event( new UserSignedUp('Luis') );
 */
-
-
-    Redis::publish('test-channel', json_encode( auth()->user()->email ));
-
-    return 'Done';
 
 });
 
