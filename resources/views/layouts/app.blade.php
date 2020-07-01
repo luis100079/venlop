@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 style="
-background: url('https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260') no-repeat center fixed;
+background: url('storage/photos/globo-2.jpg') no-repeat center fixed;
 background-size: cover;">
 <head>
     <meta charset="utf-8">
@@ -27,7 +27,7 @@ background-size: cover;">
 
     <div id="app"
         style='
-            background: url("https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260") no-repeat center fixed;
+            background: url("storage/photos/globo-2.jpg") no-repeat center fixed;
             background-size: cover;'>
 
         <nav  class="navbar navbar-expand-md navbar-light bg-dark shadow-sm" >

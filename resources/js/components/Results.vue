@@ -3,7 +3,7 @@
     <v-container>
       <NavBar></NavBar>
 
-    
+
       <v-list v-for='(user, index) of users' :key='index'>
 
         <v-list-item @click='go(user.id)'>
@@ -13,13 +13,13 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-          {{ user.name }} /  {{ user.height }} from {{ user.country }} 
+          {{ user.name }} /  {{ user.height }} from {{ user.country }}
           </v-list-item-content>
 
         </v-list-item>
 
       </v-list>
-     
+
 
     </v-container>
   </v-app>
@@ -27,6 +27,10 @@
 
 <script>
 import NavBar from './NavBar'
+import store from '../store/index.js'
+
+import  { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+
 
 export default {
 

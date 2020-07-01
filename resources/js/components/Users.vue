@@ -50,6 +50,24 @@
 
 
 
+              <v-tooltip top>
+
+                <template v-slot:activator="{ on, attrs }">
+
+                  <v-btn :href='"/chat?with="+details.id' v-on='on' v-bind='attrs' icon>
+                    <v-icon size='30' color='green'>chat</v-icon>
+                  </v-btn>
+
+                </template>
+
+                <span>Edit</span>
+
+              </v-tooltip>
+
+
+
+
+
 
                 <v-tooltip top>
 

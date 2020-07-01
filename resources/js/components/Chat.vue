@@ -2,17 +2,32 @@
   <v-app>
     <v-container fuid>
 
-     <NavBar></NavBar>
+      <NavBar></NavBar>
+
+
 
     </v-container>
     </v-app>
 </template>
 <script>
+
 import NavBar from './NavBar'
+import store from '../store/index.js'
+import  { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+
 
 export default {
 
-    components: { NavBar }
+    stote: store,
+
+    components: { NavBar },
+
+    computed: {
+
+         ...mapState( ['me'] ),
+
+},
+
 
 }
 </script>

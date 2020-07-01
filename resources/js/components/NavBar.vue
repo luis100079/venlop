@@ -23,12 +23,11 @@
         <v-icon color='white'>chat</v-icon>
       </v-btn>
 
-      <a href='/profile'>
+      <a :href='"/users?id="+ me.id '>
       <v-avatar class='mr-12'>
         <img :src='"storage/avatars/"+details.id+".jpg"'>
       </v-avatar>
       </a>
-
 
 
     </v-app-bar>
@@ -37,8 +36,7 @@
       <v-list nav dense>
         <v-list-item-group v-model='group' active-class='green--text text--accent-4'>
 
-            <v-list-item href='/profile'>
-
+            <v-list-item :href='"/users?id="+ me.id '>
 
                 <v-avatar>
                   <img :src='"storage/avatars/"+details.id+".jpg"'>
@@ -145,7 +143,14 @@
 
 <script>
 
+import store from '../store/index.js'
+
+import  { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+
+
 export default {
+
+    store: store,
 
     data: () => ({
 
@@ -156,6 +161,12 @@ export default {
             data: { value: null }
 
     }),
+
+    computed: {
+
+         ...mapState( ['me'] ),
+
+    },
 
     methods: {
 
@@ -178,8 +189,10 @@ export default {
 
         axios.post('api/user').then( res => { this.details = res.data } );
 
+        store.dispatch('getUser')
+
     }
 
-  
+
 }
 </script>

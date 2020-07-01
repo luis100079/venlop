@@ -15,10 +15,13 @@
       <v-tabs-items v-model='tabs' class='d-flex justify-center'>
 
 
-<center>
+
         <v-tab-item class=''>
 
-          <v-card width='50%' v-for="(photo, i) of photos" :key='i' class='justify-center my-12'>
+        <v-row>
+        <v-col sm='12' lg='4'  v-for="(photo, i) of photos" :key='i'>
+
+          <v-card width='' height='400px'  class='justify-center my-1'>
 
             <v-card-title class='justify-center'>
 
@@ -30,7 +33,7 @@
 
             </v-card-title>
 
-              <img width='100%' :src='photo.path+photo.name'>
+              <img width='100%' height='65%' :src='photo.path+photo.name'>
 
             <v-card-actions class='justify-center'>
 
@@ -42,16 +45,21 @@
 
           </v-card>
 
+        </v-col>
+        </v-row>
+
         </v-tab-item>
 
-</center>
 
 
-<center>
+
         <v-tab-item>
 
+        <v-row>
+        <v-col sm='12' lg='4' v-for="(video, i) of videos" :key='i' >
 
-          <v-card width='50%' v-for="(video, i) of videos" :key='i' class='justify-center my-12'>
+
+          <v-card height='400px' class='justify-center my-1'>
 
             <v-card-title class='justify-center'>
 
@@ -63,7 +71,7 @@
 
             </v-card-title>
 
-              <video :src='video.path + video.name' controls width='100%'></video>
+              <video :src='video.path + video.name' controls width='100%' height='65%'></video>
 
 
             <v-card-actions class='justify-center'>
@@ -80,17 +88,21 @@
 
           </v-card>
 
+        </v-col>
+        </v-row>
         </v-tab-item>
-</center>
 
 
 
 
-<center>
+
+
          <v-tab-item>
 
-          <v-card width='50%'  v-for="(post, i) of posts" :key='i' class='justify-center my-12'>
+          <v-row>
+          <v-col v-for="(post, i) of posts" :key='i'>
 
+          <v-card class='justify-center my-1'>
 
             <v-card-title class='justify-center'>
 
@@ -103,7 +115,7 @@
             </v-card-title>
 
               <a :href='"/blog?id="+post.id'>
-              <img width='100%' :src='post.path+post.thumbnail'>
+                <img width='100%' :src='post.path+post.thumbnail' >
               </a>
 
 
@@ -117,9 +129,10 @@
 
           </v-card>
 
+          </v-col>
+          </v-row>
 
         </v-tab-item>
-</center>
 
       </v-tabs-items>
 
@@ -143,7 +156,6 @@ export default {
   computed: {
 
       ...mapState( ['me'] ),
-
 
       },
 

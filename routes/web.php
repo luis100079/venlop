@@ -5,11 +5,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Redis;
 use App\Events\UserSignedUp;
+use App\Events\OrderStatusUpdate;
 
 use App\User;
 use App\Photo;
 use App\Video;
 use App\Post;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +25,12 @@ use App\Post;
 
 Auth::routes();
 
+Route::get('/order', function(){
+    OrderStatusUpdate::dispatch();
+});
+
+/*
+
 Route::get('redis', function(){
 
     Redis::publish('test-channel', json_encode( 'aaaa' ));
@@ -31,14 +39,23 @@ Route::get('redis', function(){
 
 /*
     event( new UserSignedUp('Luis') );
-*/
+
 
 });
+
+/*
 
 Route::get('/', function(){
     return view('home');
 });
 
+*/
+
+Route::get('try', function(){
+
+      return App\Chat::with('sent_to:id,name')->where('from', auth()->user()->id)->get();
+
+});
 
 /*
 
