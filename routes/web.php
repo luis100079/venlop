@@ -11,6 +11,7 @@ use App\User;
 use App\Photo;
 use App\Video;
 use App\Post;
+use App\Chat;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,9 +52,83 @@ Route::get('/', function(){
 
 */
 
+
+Route::get('get_related', function(){
+
+    $x = array();
+
+    $num =  count( auth()->user()->myFollowers );
+
+    foreach( auth()->user()->myFollowers as $z){
+
+        array_push($x, User::findOrFail($z->follower) );
+
+    }
+
+    return $x;
+
+//    return User::findOrFail( auth()->user()->myFollowers[0]->follower );
+
+});
+
+
+Route::post('messages', function(Request $request){
+
+    $num = $request->id;
+
+    return Chat::where(function ($query) use ($num) {
+        $query->where('from', 1 )->where('to', $num);
+    })->orWhere(function ($query) use ($num) {
+        $query->where('from', $num)->where('to',1);
+    })->where('from', $num)->get();
+
+//    return User::findOrFail( $request->id )->chat_received->where('from', auth()->user()->id );
+
+
+
+
+});
+
+
+
 Route::get('try', function(){
 
-      return App\Chat::with('sent_to:id,name')->where('from', auth()->user()->id)->get();
+
+
+
+//    return App\Chat::with('sent_to:id,name')->where('from', auth()->user()->id)->get();
+
+    $user = App\User::findOrFail(1);
+
+//    return App\User::findOrFail($user->myFollowers[0]->follower)->chat_received->where('from', '1');
+
+//  return $user->myFollowers->with('chat_received:id,message');
+
+    $user = App\User::find(1);
+
+    /*
+
+    foreach( $user->myFollowers as $x){
+
+        echo  json_encode(  array('user' => App\User::find( $x->follower )->name)  ) ."<br>";
+    }
+
+    */
+
+
+ //   return App\User::findOrFail($user->myFollowers[0]->follower)->chat_received->where('from', '1');
+
+/*
+
+    foreach( $user->myFollowers as $x ){
+
+        return json_encode( array($x->follower => App\User::findOrFail($x->follower)->chat_received->where('from', '1') ) );
+
+    }
+
+*/
+
+//    return view('chat',['me' => $me ]);
 
 });
 
@@ -81,8 +156,9 @@ Route::get('/x', function(){
 
 });
 */
+
 Route::get('{any?}', function () {
+
     return view('welcome');
+
 })->where('any', '[\/\w\.-]*')->middleware('auth');
-
-
