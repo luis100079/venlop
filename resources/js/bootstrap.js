@@ -40,19 +40,3 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
-import Echo from 'laravel-echo';
-
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-     broadcaster: 'pusher',
-     key: "d9461b0680b177d5911e",
-     cluster: "ap3",
-     forceTLS: true
-});
-
-window.Echo.channel('orders')
-    .listen('OrderStatusUpdate', res => { var e = document.createElement('p');
-                                            e.innerText = res.message;
-                                         document.getElementById('messages').appendChild(e);
-                                     })

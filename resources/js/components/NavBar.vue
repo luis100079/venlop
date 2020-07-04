@@ -1,6 +1,7 @@
 <template>
 
 <div>
+
     <v-app-bar color='green' dark>
 
       <v-app-bar-nav-icon @click='drawer = true'></v-app-bar-nav-icon>
@@ -145,7 +146,7 @@
 
 import store from '../store/index.js'
 
-import  { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 
 export default {

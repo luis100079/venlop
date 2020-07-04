@@ -6,7 +6,7 @@
 
       <v-card max-width='800'>
 
-      <v-list-item v-for='(friend, i) of friends' :key='i' @click='get_chat( friend.id )'>
+      <v-list-item v-for='(friend, i) of friends' :key='i' @click='get_chat( friend.id )' >
 
         <v-list-item-avatar>
             <v-img :src='`storage/avatars/${ friend.id }.jpg`'></v-img>
@@ -15,6 +15,8 @@
         <v-list-item-content>
           <v-list-item-title > {{ friend.name }}_{{ friend.id }} </v-list-item-title>
         </v-list-item-content>
+
+
 
         <v-list-item-icon>
             <v-icon color='green'>chat_bubble</v-icon>
@@ -28,16 +30,12 @@
 
         <v-timeline max-width='500'>
 
-          <v-timeline-item
-                v-for="(n, i) in chat"
-                :key="i"
-                large
-          >
+          <v-timeline-item v-for="(n, i) in chat" :key="i" large >
 
             <template v-slot:icon>
 
               <v-avatar>
-                  <img :src=' n.to === "1"  ? `storage/avatars/${n.to}.jpg`  : `storage/avatars/${n.from}.jpg` '>
+                  <img :src=' n.to === `"${me.id}"`  ? `storage/avatars/${n.to}.jpg`  : `storage/avatars/${n.from}.jpg` '>
               </v-avatar>
 
             </template>
@@ -46,7 +44,7 @@
                 <span> {{ }} </span>
             </template>
 
-            <v-card class="elevation-2" :color='  n.to === 1  ? `orange`  : `green`  '>
+            <v-card class="elevation-2" :color='  n.to === me.id  ? `orange`  : `green`  '>
               <v-card-title class="headline">{{ n.message }}</v-card-title>
             </v-card>
 
@@ -55,13 +53,11 @@
       </v-timeline>
 
       <v-card-actions>
-          <v-text-field color='green' placeholder='Type new message'></v-text-field>
-          <v-button icon style='cursor:pointer;'> <v-icon color='green'> fa fa-send </v-icon> </v-button>
+          <v-text-field color='green' v-model='text_message' placeholder='Type new message'></v-text-field>
+          <v-btn icon style='cursor:pointer;'> <v-icon color='green' @click='send_message()'> fa fa-send </v-icon> </v-btn>
       </v-card-actions>
 
-        </v-card>
-
-
+      </v-card>
 
     </v-container>
     </v-app>
@@ -69,45 +65,90 @@
 <script>
 
 import NavBar from './NavBar'
-import store from '../store/index.js'
-import  { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
+import store from '../store/index.js'
+
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+
+
+
+import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+
+broadcaster : 'pusher',
+key : 'd9461b0680b177d5911e',
+cluster : 'ap3',
+encrypted: true
+
+});
 
 export default {
 
-    stote: store,
+    store: store,
 
     data(){
+
         return {
+
+            active_chat: null,
 
             friends: [],
 
-            chat: null,
+            chat: [],
 
+            text_message: null,
+
+            pending: { }
 
 
         }
     },
 
-    methods: {
-
-        get_chat(e){ axios.post('messages', { id: e }).then( res =>{ this.chat = res.data  } ) }
-
-     },
-
-    components: { NavBar },
-
-    computed: {
+     computed: {
 
          ...mapState( ['me'] ),
 
     },
 
+    methods: {
+
+        get_chat(e){ this.active_chat = e;  axios.post('messages', { id: e } ).then( res =>{ this.chat = res.data; console.log( res.data ) } ) },
+
+        send_message(){ /* console.log( { to: this.active_chat, text: this.text_message } ); */
+
+            axios.post('sendMessage',  { to: this.active_chat, text: this.text_message }  ).then( res => { console.log(res.data);  this.chat.push( {message: this.text_message, from: this.me.id, to:this.active_chat} ) } );
+
+        },
+
+        add_message(message){
+                                console.log(message);
+
+                                if( this.active_chat === message.message.from || this.active_chat === message.message.to ){
+
+                                  this.chat.push(message.message)
+
+                                } else{
+
+
+
+                                }
+
+                            },
+
+     },
+
+    components: { NavBar },
+
     created() {
 
-             axios.get('get_related').then( res => { this.friends = res.data } );
+             store.dispatch('getUser');
+             axios.post('api/user').then( res => {   window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { console.log(e); this.add_message(e) } ) } );
+             axios.get('get_related').then( res => { this.friends = res.data; res.data.forEach( function(i){ console.log(i) } ); } );
 
-    }
+    },
 
 
 }

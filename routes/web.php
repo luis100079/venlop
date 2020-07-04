@@ -6,6 +6,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Redis;
 use App\Events\UserSignedUp;
 use App\Events\OrderStatusUpdate;
+use App\Events\sendMessage;
 
 use App\User;
 use App\Photo;
@@ -71,16 +72,24 @@ Route::get('get_related', function(){
 
 });
 
+Route::post('sendMessage', function(Request $request){
+
+  $chat = new Chat;
+  $chat->from = auth()->user()->id;
+  $chat->to = $request->to;
+  $chat->message = $request->text;
+  $chat->save();
+
+  event( new sendMessage($chat) );
+
+});
+
 
 Route::post('messages', function(Request $request){
 
     $num = $request->id;
 
-    return Chat::where(function ($query) use ($num) {
-        $query->where('from', 1 )->where('to', $num);
-    })->orWhere(function ($query) use ($num) {
-        $query->where('from', $num)->where('to',1);
-    })->where('from', $num)->get();
+    return Chat::where(function ($query) use ($num) { $query->where('from', auth()->user()->id )->where('to', $num); })->orWhere(function ($query) use ($num) { $query->where('from', $num)->where('to', auth()->user()->id ); })->where('from', $num)->get();
 
 //    return User::findOrFail( $request->id )->chat_received->where('from', auth()->user()->id );
 
