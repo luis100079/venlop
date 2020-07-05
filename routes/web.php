@@ -31,6 +31,12 @@ Route::get('/order', function(){
     OrderStatusUpdate::dispatch();
 });
 
+Route::post('like', function(Request $request){
+
+   $photo = Photo::findOrFail( $request->id )->like( auth()->user()->id );
+
+});
+
 /*
 
 Route::get('redis', function(){
@@ -92,8 +98,6 @@ Route::post('messages', function(Request $request){
     return Chat::where(function ($query) use ($num) { $query->where('from', auth()->user()->id )->where('to', $num); })->orWhere(function ($query) use ($num) { $query->where('from', $num)->where('to', auth()->user()->id ); })->where('from', $num)->get();
 
 //    return User::findOrFail( $request->id )->chat_received->where('from', auth()->user()->id );
-
-
 
 
 });

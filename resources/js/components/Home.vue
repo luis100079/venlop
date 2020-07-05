@@ -37,8 +37,8 @@
 
             <v-card-actions class='justify-center'>
 
-                <v-btn icon>
-                  <v-icon color='red'>mdi-heart-outline</v-icon>
+                <v-btn icon @click='like(photo.id)'>
+                  <v-icon color='red' v-text='`mdi-heart-outline`'></v-icon>
                 </v-btn>
 
             </v-card-actions>
@@ -178,6 +178,10 @@ export default {
     methods: {
         go(id){
             location.href='/users?id='+id
+        },
+
+        like(id){
+          axios.post('like', { id: id } ).then( res => { console.log(res.data) } );
         }
     },
 
