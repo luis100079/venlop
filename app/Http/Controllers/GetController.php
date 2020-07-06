@@ -72,9 +72,6 @@ class GetController extends Controller
     }
 
 
-
-
-
     public function list_photos(){
 
         return Photo::all();

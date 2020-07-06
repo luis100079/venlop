@@ -176,6 +176,7 @@ export default {
     },
 
     methods: {
+
         go(id){
             location.href='/users?id='+id
         },
