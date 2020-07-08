@@ -9,6 +9,7 @@ use App\Photo;
 use App\Video;
 use App\Post;
 use App\Chat;
+use App\Likable;
 
 class StorageController extends Controller
 {
@@ -85,10 +86,33 @@ class StorageController extends Controller
 
     }
 
-    public function like(Request $request){
+    public function like_photo(Request $request){
 
-        $photo = Photo::findOrFail( $request->id )->like( auth()->user()->id );
+        $like = Likable::where('user_id', auth()->user()->id )->where('likable_id', $request->id )->where('likable_type', 'App\Photo');
 
+        if( count( $like->get() ) == 0 ){
+
+          Photo::findOrFail( $request->id )->like( auth()->user()->id );
+
+        }else {
+
+            $like->delete();
+
+        }
+
+
+
+
+        /*
+        if( $like == null ){
+
+         $photo = Photo::findOrFail( $request->id )->like( auth()->user()->id );
+
+        }
+
+        else{ $like->delete(); }
+
+*/
     }
 
     public function sendMessage(Request $request){

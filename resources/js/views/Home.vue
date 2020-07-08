@@ -208,59 +208,18 @@ export default {
 
         if( this.photos[index].my_likes.filter( i => { return i.id == this.me.id }).length !== 0  ){
 
-            console.log(' function 1 ')
-            console.log( this.photos[index].my_likes.filter( i => { return i.id == this.me.id }) )
-
-
-            this.photos[index].my_likes.forEach( (e, i) => { e.id == this.me.id && this.photos[index].my_likes.splice( i, 1) } )
-
+          this.photos[index].my_likes.forEach( (e, i) => { e.id == this.me.id && this.photos[index].my_likes.splice( i, 1) } )
 
         }
-
-
 
         else if ( this.photos[index].my_likes.filter( i => { return i.id == this.me.id }).length == 0 ){
 
-              this.photos[index].my_likes.push( { id: this.me.id } )
-
-              console.log(' function 2 ')
-
-           }
-
-
-
-/*
-        if( this.photos[index].my_likes.filter( i => { return i.id == this.me.id }) != null  ){
-
-
-               this.photos[index].my_likes.forEach( (e, i) => { e.id == this.me.id && this.photos[index].my_likes.splice( i, 1) } )
-
-        }else if( this.photos[index].length == null || this.photos[index].my_likes.filter( i => { return i.id == this.me.id }) == null ){
-
-            console.log( 'not found' )
+            this.photos[index].my_likes.push( { id: this.me.id } )
 
         }
 
-*/
 
-/*
-          if( this.photos[index].my_likes[index].id != false ){
-
-              this.photos[index].my_likes[index].id = false
-
-              this.photos[index].my_likes.length -= 1;
-
-          }
-
-          else{
-
-            this.photos[index].my_likes[index].id = this.me.id
-            this.photos[index].my_likes.length += 1;
-
-          }
-*/
-
-  //        axios.post('like', { id: id } );
+        axios.post('api/like_photo', { id: id } );
 
         },
 

@@ -71,7 +71,7 @@ Route::middleware('auth:api')->group(function(){
 
     Route::post('try', 'GetController@try');
 
-    Route::post('like', 'StorageController@like');
+    Route::post('like_photo', 'StorageController@like_photo');
 
     Route::post('get_related', 'GetController@get_related');
 

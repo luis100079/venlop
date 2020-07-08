@@ -26,7 +26,9 @@ class GetController extends Controller
     }
 
     public function user(){
+
         return auth()->user();
+
     }
 
     public function search_users(Request $request){
