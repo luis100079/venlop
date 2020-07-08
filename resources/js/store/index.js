@@ -6,17 +6,25 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 
   state: {
-    me: null
+
+    me: []
+
   },
+
   mutations: {
 
-      fullData(state, data){
+      fillData(state, data){
+
           state.me = data
+
+
       }
 
   },
   actions: {
-    getUser: function({ commit }){ axios.post('api/user').then( res => commit('fullData', res.data) ) }
+
+    getUser: function({ commit }){ axios.post('api/user').then( res => commit('fillData', res.data) ) }
+
   },
   modules: {
   }

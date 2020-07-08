@@ -2,7 +2,7 @@
 
 <div>
 
-    <v-app-bar color='green' dark>
+    <v-app-bar color='purple' dark>
 
       <v-app-bar-nav-icon @click='drawer = true'></v-app-bar-nav-icon>
         <form method='get' action='/results'>
@@ -24,9 +24,9 @@
         <v-icon color='white'>chat</v-icon>
       </v-btn>
 
-      <a :href='"/users?id="+ me.id '>
+      <a :href='"/user?id="+ me.id '>
       <v-avatar class='mr-12'>
-        <img :src='"storage/avatars/"+details.id+".jpg"'>
+        <img :src='"storage/avatars/"+me.id+".jpg"'>
       </v-avatar>
       </a>
 
@@ -35,15 +35,15 @@
 
     <v-navigation-drawer v-model='drawer' absolute temporary>
       <v-list nav dense>
-        <v-list-item-group v-model='group' active-class='green--text text--accent-4'>
+        <v-list-item-group active-class='dark--text text--accent-4'>
 
-            <v-list-item :href='"/users?id="+ me.id '>
+            <v-list-item :href='"/user?id="+ me.id '>
 
                 <v-avatar>
-                  <img :src='"storage/avatars/"+details.id+".jpg"'>
+                  <img :src='"storage/avatars/"+me.id+".jpg"'>
                 </v-avatar>
 
-              <v-list-item-title> {{ details.name }} </v-list-item-title>
+              <v-list-item-title> {{ me.name }} </v-list-item-title>
 
             </v-list-item>
 
@@ -157,8 +157,6 @@ export default {
 
             drawer: false,
 
-            details: null,
-
             data: { value: null }
 
     }),
@@ -179,7 +177,7 @@ export default {
 
         search(){
 
-            axios.post('api/search', this.data).then( res => { console.log(res.data) } );
+            axios.post('api/search', this.data);
 
         }
 
@@ -187,8 +185,6 @@ export default {
 
 
       created(){
-
-        axios.post('api/user').then( res => { this.details = res.data } );
 
         store.dispatch('getUser')
 

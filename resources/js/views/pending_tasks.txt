@@ -1,0 +1,13 @@
+1. Display likes
+
+2. Fix Edit Profile
+
+3. Fix NavBar
+
+4. Fix "ChatWith"
+
+5. Create Infinite loading
+
+6.Fix all pending views
+
+7.Prepare Error Handing

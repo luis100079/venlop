@@ -8,6 +8,7 @@ use App\User;
 use App\Photo;
 use App\Video;
 use App\Post;
+use App\Chat;
 
 class StorageController extends Controller
 {
@@ -83,5 +84,23 @@ class StorageController extends Controller
         $db->save();
 
     }
+
+    public function like(Request $request){
+
+        $photo = Photo::findOrFail( $request->id )->like( auth()->user()->id );
+
+    }
+
+    public function sendMessage(Request $request){
+
+        $chat = new Chat;
+        $chat->from = auth()->user()->id;
+        $chat->to = $request->to;
+        $chat->message = $request->text;
+        $chat->save();
+
+        event( new sendMessage($chat) );
+
+      }
 
 }

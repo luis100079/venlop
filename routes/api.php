@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\User;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -69,5 +70,15 @@ Route::middleware('auth:api')->group(function(){
     Route::post('list_posts', 'GetController@list_posts');
 
     Route::post('try', 'GetController@try');
+
+    Route::post('like', 'StorageController@like');
+
+    Route::post('get_related', 'GetController@get_related');
+
+    Route::post('sendMessage', 'StorageController@sendMessage');
+
+    Route::post('messages', 'GetController@messages');
+
+    Route::post('/logout', function(){ Auth::logout(); });
 
 });

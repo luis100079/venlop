@@ -1,19 +1,18 @@
-import Home from './components/Home'
-import Profile from './components/Profile'
-import Videos from './components/Videos'
-import Fotos from './components/Fotos'
-import Blogs from './components/Blogs'
-import Stars from './components/Stars'
-import Followers from './components/Followers'
-import Jobs from './components/Jobs'
-import Settings from './components/Settings'
-import Create_blog from './components/Blogs/Create_blog'
-import Blog from './components/Blog'
-import Edit_profile from './components/Edit_profile'
-import Results from './components/Results'
-import Chat from './components/Chat'
-import Notifications from './components/Notifications'
-import Users from './components/Users'
+import Home from './views/Home'
+import Profile from './views/Profile' /* remember resolve this one  */
+import Videos from './views/Videos'
+import Fotos from './views/Fotos'
+import Blogs from './views/Blogs'
+import Create_blog from './views/Create_blog'
+import Blog from './views/Blog'
+import Edit_profile from './views/Edit_profile'
+import Results from './views/Results'
+import Chat from './views/Chat'
+import Notifications from './views/Notifications'
+import User from './views/User'
+
+import Prueba from './views/Prueba'
+import NavBar from './components/NavBar'
 
 export default{
 
@@ -27,13 +26,23 @@ export default{
         },
 
         {
+            path: '/prueba',
+            component: Prueba
+        },
+
+        {
+            path: '/navbar',
+            component: NavBar
+        },
+
+        {
             path: '/home',
             component: Home
         },
 
         {
-            path: '/profile',
-            component: Profile
+            path: '/user',
+            component: User
         },
 
         {
@@ -54,26 +63,6 @@ export default{
         {
             path: '/create_blog',
             component: Create_blog
-        },
-
-        {
-            path: '/stars',
-            component: Stars
-        },
-
-        {
-            path: '/followers',
-            component: Followers
-        },
-
-        {
-            path: '/jobs',
-            component: Jobs
-        },
-
-        {
-            path: '/settings',
-            component: Settings
         },
 
         {
@@ -99,17 +88,6 @@ export default{
         {
             path: '/notifications',
             component: Notifications
-        },
-
-        {
-
-            path: '/users',
-            component: Users
-
-        /*
-            path: '/users/:id',
-            component: Users
-        */
         }
 
     ]
