@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
+use App\Events\sendMessage;
+
 use App\User;
 use App\Photo;
 use App\Video;
@@ -95,19 +97,6 @@ class StorageController extends Controller
 
         }
 
-
-
-
-        /*
-        if( $like == null ){
-
-         $photo = Photo::findOrFail( $request->id )->like( auth()->user()->id );
-
-        }
-
-        else{ $like->delete(); }
-
-*/
     }
 
     public function sendMessage(Request $request){
@@ -120,6 +109,6 @@ class StorageController extends Controller
 
         event( new sendMessage($chat) );
 
-      }
+    }
 
 }

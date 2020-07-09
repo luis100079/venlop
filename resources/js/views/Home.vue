@@ -190,16 +190,32 @@ export default {
 
            tabs: null,
 
-           photos: null,
+           photos: [],
 
-           posts: null,
+           posts: [],
 
-           videos: null,
+           videos: [],
 
          }
     },
 
     methods: {
+
+        scroll( ){
+
+            window.onscroll = () =>{
+
+              let bottomOfWindow =   document.documentElement.scrollTop + window.innerHeight  ===   document.documentElement.offsetHeight;
+
+              if(bottomOfWindow){
+
+                axios.post('api/list_photos', { num: this.photos.length }).then( res => { res.data.forEach( arr => { this.photos.push(arr) } ); } );
+
+                }
+
+            }
+
+        },
 
         go(id){
 
@@ -230,10 +246,16 @@ export default {
         ...mapMutations([ '' ]),
     },
 
+    mounted() {
+
+      this.scroll( )
+
+    },
+
 
     created(){
 
-        axios.post('api/list_photos').then( res => { this.photos = res.data; } );
+        axios.post('api/list_photos', { num: 0 }).then( res => { this.photos = res.data; } );
 
         axios.post('api/list_posts').then( res => { this.posts = res.data; } );
 
@@ -242,6 +264,8 @@ export default {
         store.dispatch('getUser');
 
     },
+
+
 
     components: { NavBar, Bottom_navbar }
 

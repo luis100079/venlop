@@ -77,9 +77,15 @@ class GetController extends Controller
     }
 
 
-    public function list_photos(){
+    public function list_photos(Request $request){
 
-        return Photo::with('myLikes')->get();
+        $list = array();
+
+        for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+        return Photo::with('myLikes')->find($list);
+
+        return $posts;
 
     }
 

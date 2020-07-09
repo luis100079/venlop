@@ -146,7 +146,7 @@ export default {
 
         send_message(){ /* console.log( { to: this.active_chat, text: this.text_message } ); */
 
-            axios.post('api/sendMessage',  { to: this.active_chat, text: this.text_message }  ).then( res => { console.log(res.data);  this.chat.push( {message: this.text_message, from: this.me.id, to:this.active_chat} ) } );
+            axios.post('api/sendMessage',  { to: this.active_chat, text: this.text_message }  ).then( res => { console.log(res.data);  this.chat.push( {message: this.text_message, to:this.active_chat} ) } );
 
         },
 
