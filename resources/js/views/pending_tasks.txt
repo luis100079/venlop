@@ -4,11 +4,16 @@
 
 3. Fix NavBar
 
-4. Fix "ChatWith"
-
-5. Create Infinite loading
 
 
-6.Fix all pending views
+4. Create Infinite loading
 
-7.Prepare Error Handing
+5. Create notofications system
+
+6. Fix "ChatWith"
+
+
+
+7.Fix all pending views
+
+8.Prepare Error Handing
