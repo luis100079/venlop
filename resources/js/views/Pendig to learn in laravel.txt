@@ -1,0 +1,4 @@
+Pendig to learn in laravel:
+
+1. Error Handlig
+2. SQl Queries

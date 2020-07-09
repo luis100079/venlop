@@ -22,13 +22,9 @@
 
             <v-card-text>
 
-              <p> Country: {{ details.country }} </p>
-
-              <p>Age: {{ details.age }}</p>
-
-              <p> Tel: {{ details.tel }} </p>
-
-              <p> Interested in: {{ details.interested_in }} </p>
+              <p v-for='(detail, i) in details' :key='i' v-show=' detail != null && i != "id" && i != "created_at" && i != "updated_at"  && i != "about_me" && i != "gender" && i != "email" '>
+                  {{ i }}: {{ detail }}
+              </p>
 
             </v-card-text>
 
@@ -41,21 +37,21 @@
                 <template v-slot:activator="{ on, attrs }">
 
                   <v-btn icon v-on='on' v-bind='attrs'>
-                    <v-icon color='red'>mdi-heart-outline</v-icon>
+                    <v-icon color='red' v-text=' me ? "mdi-heart" : "mdi-heart-outline" '></v-icon>
                   </v-btn>
 
                 </template>
 
-                <span>
+                <span v-text=' me ? "My Followers" : "Follow" '>
                     Follow
                 </span>
 
               </v-tooltip>
 
 
+             <div v-show=' !me '>
 
-
-              <v-tooltip top>
+              <v-tooltip top >
 
                 <template v-slot:activator="{ on, attrs }">
 
@@ -69,6 +65,8 @@
 
               </v-tooltip>
 
+             </div>
+
 
                 <v-tooltip top>
 
@@ -81,7 +79,7 @@
                   </template>
 
                   <span>
-                      Edit
+                      Edit Profile
                   </span>
 
                 </v-tooltip>
@@ -109,61 +107,7 @@
 
         <v-flex xs12 md8>
 
-          <v-card>
-
-            <v-carousel>
-              <v-carousel-item  v-for='(video, i) in videos' :key='i'>
-                  <v-sheet height='100%'>
-
-                    <video width='100%' height='90%' controls :src='video.path+video.name'></video>
-
-                  </v-sheet>
-
-              </v-carousel-item>
-            </v-carousel>
-
-
-            <v-card-actions class='justify-center'>
-                <v-btn :href='`/videos?id=${ details.id }`' color='success'>All Videos...</v-btn>
-            </v-card-actions>
-
-          </v-card>
-
-        </v-flex>
-
-
-
-
-
-        <v-flex xs12 md4>
-
-        <v-card>
-
-          <v-carousel height='400'>
-            <v-carousel-item  v-for='(post, i) in posts' :key='i'
-                :src='post.path + post.thumbnail' :href='"/blog?id="+post.id'
-                reverse-transition='fade-transition' transition='fade-transition'>
-
-
-                <v-card-title class='justify-center'> {{ post.title }} </v-card-title>
-
-            </v-carousel-item>
-          </v-carousel>
-
-          <v-card-actions class='justify-center'>
-            <v-btn :href='`/blogs?id=${ details.id }`' color='success'>All Blogs...</v-btn>
-          </v-card-actions>
-
-        </v-card>
-
-        </v-flex>
-
-
-
-
-         <v-flex xs12 md8>
-
-          <v-card>
+          <v-card v-show='  photos.length != 0  '>
             <v-container fluid>
               <v-row>
                 <v-col v-for='(photo, i) of photos' :key='i' cols='4'
@@ -222,6 +166,63 @@
 
           </v-card>
 
+
+        </v-flex>
+
+
+
+
+
+        <v-flex xs12 md4>
+
+
+
+        <v-card v-show='  posts.length != 0  '>
+
+          <v-carousel height='400'>
+            <v-carousel-item  v-for='(post, i) in posts' :key='i'
+                :src='post.path + post.thumbnail' :href='"/blog?id="+post.id'
+                reverse-transition='fade-transition' transition='fade-transition'>
+
+
+                <v-card-title class='justify-center'> {{ post.title }} </v-card-title>
+
+            </v-carousel-item>
+          </v-carousel>
+
+          <v-card-actions class='justify-center'>
+            <v-btn :href='`/blogs?id=${ details.id }`' color='success'>All Blogs...</v-btn>
+          </v-card-actions>
+
+        </v-card>
+
+        </v-flex>
+
+
+
+
+         <v-flex xs12 md8>
+
+          <v-card v-show='  videos.length != 0  '>
+
+            <v-carousel>
+              <v-carousel-item  v-for='(video, i) in videos' :key='i'>
+                  <v-sheet height='100%'>
+
+                    <video width='100%' height='90%' controls :src='video.path+video.name'></video>
+
+                  </v-sheet>
+
+              </v-carousel-item>
+            </v-carousel>
+
+
+            <v-card-actions class='justify-center'>
+                <v-btn :href='`/videos?id=${ details.id }`' color='success'>All Videos...</v-btn>
+            </v-card-actions>
+
+          </v-card>
+
          </v-flex>
 
 
@@ -248,9 +249,9 @@ export default {
               data: { value: this.$route.query.id  },
 
               details: [],
-              photos: null,
-              videos: null,
-              posts: null,
+              photos: [],
+              videos: [],
+              posts: [],
               show: false,
               me: false,
 

@@ -13,6 +13,7 @@ import User from './views/User'
 
 import Prueba from './views/Prueba'
 import NavBar from './components/NavBar'
+import Bottom_navbar from './components/bottom_navbar'
 
 export default{
 
@@ -28,6 +29,11 @@ export default{
         {
             path: '/prueba',
             component: Prueba
+        },
+
+        {
+            path: '/bottom_navbar',
+            component: Bottom_navbar
         },
 
         {

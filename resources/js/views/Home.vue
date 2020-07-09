@@ -157,6 +157,8 @@
 
   </v-container>
 
+  <Bottom_navbar></Bottom_navbar>
+
   </v-app>
 
 </template>
@@ -164,6 +166,8 @@
 <script>
 
 import NavBar from '../components/NavBar.vue'
+
+import Bottom_navbar from '../components/bottom_navbar'
 
 import store from '../store/index.js'
 
@@ -239,7 +243,7 @@ export default {
 
     },
 
-    components: { NavBar }
+    components: { NavBar, Bottom_navbar }
 
 }
 

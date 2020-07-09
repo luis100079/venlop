@@ -24,23 +24,18 @@ class StorageController extends Controller
 
       $db = User::findOrFail( auth()->user()->id );
 
+      if($request->gender == "Male"){ $request->gender = 1; }else if( $request->gender == "Female" ){ $request->gender == 0; }
 
       $db->name = $request->name;
-
+      $db->profession = $request->profession;
       $db->tel = $request->tel;
-      $db->age = $request->age;
-      $db->height = $request->height;
-      $db->weight = $request->weight;
       $db->country = $request->country;
       $db->gender = $request->gender;
-      $db->address = $request->address;
-      $db->m_status = $request->m_status;
-      $db->interested_in = $request->interested_in;
       $db->about_me = $request->about_me;
+
 
       $db->save();
 
-    $db->name;
     }
 
     public function upload_photo(Request $request){
