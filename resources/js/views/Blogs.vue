@@ -1,8 +1,6 @@
 <template>
-  <v-app>
-    <v-container fuid>
 
-     <NavBar></NavBar>
+    <v-container fuid>
 
       <v-card>
 
@@ -55,16 +53,14 @@
       </v-card>
 
     </v-container>
-  </v-app>
+
 </template>
 
 <script>
-import NavBar from '../components/NavBar'
 
 export default {
 
     name: 'Blogs',
-    components: { NavBar },
 
     data(){
 

@@ -7,15 +7,13 @@
 
      <v-layout wrap align-center>
 
-
-
         <v-flex xs12 md4>
 
           <v-card>
 
             <v-img class='blue-grey darken-4 white--text align-end'
                     aspect-ratio='1.7'
-                    :src='"storage/avatars/"+details.id+".jpg"'>
+                    :src=" `/storage/avatars/${details.id}.jpg`">
               <v-card-title>{{ details.name }}</v-card-title>
 
             </v-img>

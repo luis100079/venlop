@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\Notification;
+
 use App\Events\sendMessage;
+use App\Events\React;
+use App\Notifications\Activity;
 
 use App\User;
 use App\Photo;
@@ -12,6 +16,8 @@ use App\Video;
 use App\Post;
 use App\Chat;
 use App\Likable;
+use App\Follower;
+
 
 class StorageController extends Controller
 {
@@ -19,6 +25,10 @@ class StorageController extends Controller
     public function upload_avatar(Request $request){
 
         $path = $request->file('avatar')->storeAs('public/avatars', $request->user()->id.".jpg");
+        $user = User::find( auth()->user()->id );
+        $user->photo = 1;
+        $user->save();
+
 
     }
 
@@ -89,13 +99,29 @@ class StorageController extends Controller
 
         if( count( $like->get() ) == 0 ){
 
+          $user = Photo::findOrFail( $request->id )->get_user;
+
+          $photo = Photo::findOrFail( $request->id )->name;
+
           Photo::findOrFail( $request->id )->like( auth()->user()->id );
+
+          event( new React($user->id) );
+
+          Notification::send( $user, new Activity( auth()->user(), $photo ) );
+
+        //  request()->user()->notify(new Activity());
 
         }else {
 
             $like->delete();
 
         }
+
+    }
+
+    public function comment_photo(Request $request){
+
+        Photo::find($request->photo_id)->comment(auth()->user(), $request->comment);
 
     }
 
@@ -106,6 +132,12 @@ class StorageController extends Controller
         $chat->to = $request->to;
         $chat->message = $request->text;
         $chat->save();
+
+        $relation1 = Follower::where( 'user', auth()->user()->id )->where('follower', $request->to )->get();
+        $relation2 = Follower::where( 'user', $request->to )->where('follower', auth()->user()->id )->get();
+
+        if( $relation1->first() === null ){ Follower::create( ['user' => auth()->user()->id, 'follower' => $request->to] ); }
+        if( $relation2->first() === null ){ Follower::create( ['user' =>  $request->to, 'follower' => auth()->user()->id ] ); }
 
         event( new sendMessage($chat) );
 

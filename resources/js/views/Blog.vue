@@ -1,23 +1,18 @@
 <template>
-<v-app>
 
-  <NavBar></NavBar>
+  <v-container>
 
-<v-container>
+    <div id='HTMLContainer'></div>
 
-        <div id='HTMLContainer'></div>
+  </v-container>
 
-</v-container>
-
-</v-app>
 </template>
 
 <script>
-import NavBar from '../components/NavBar'
+
 
 export default {
 
-    components: { NavBar },
 
     data() {
 

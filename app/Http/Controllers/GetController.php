@@ -83,7 +83,7 @@ class GetController extends Controller
 
         for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
 
-        return Photo::with('myLikes')->find($list);
+        return Photo::with('myLikes', 'myComments')->find($list);
 
         return $posts;
 
@@ -108,11 +108,7 @@ class GetController extends Controller
 
         $num =  count( auth()->user()->myFollowers );
 
-        foreach( auth()->user()->myFollowers as $z){
-
-            array_push($x, User::findOrFail($z->follower) );
-
-        }
+        foreach( auth()->user()->myFollowers as $z){ array_push($x, User::findOrFail($z->follower) ); }
 
         return $x;
 
@@ -129,6 +125,12 @@ class GetController extends Controller
 
     //    return User::findOrFail( $request->id )->chat_received->where('from', auth()->user()->id );
 
+
+    }
+
+    public function notifications(Request $request){
+
+        return tap( auth()->user()->unreadNotifications )->markAsRead();
 
     }
 

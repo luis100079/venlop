@@ -14,12 +14,12 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-          {{ user.name }} /  {{ user.height }} from {{ user.country }}
+            <v-breadcrumbs :items="[{text: user.name}, {text: user.profession}]" divider='/'> </v-breadcrumbs>
           </v-list-item-content>
 
         </v-list-item>
 
-      </v-list>
+          </v-list>
 
 
     </v-container>
@@ -49,7 +49,7 @@ export default {
     methods: {
         go(id){
 
-            window.location.href = 'users?id=' + id
+            window.location.href = 'user?id=' + id
 
         },
 

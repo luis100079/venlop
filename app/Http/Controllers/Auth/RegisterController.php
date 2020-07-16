@@ -9,8 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use \Illuminate\Http\UploadedFile;
-
+use Illuminate\Http\UploadedFile;
 class RegisterController extends Controller
 {
     /*
@@ -75,11 +74,17 @@ class RegisterController extends Controller
         return User::create([
 
             'name' => $data['name'],
- //         'gender' => $data['gender'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
 
         ]);
+
+/*
+        $id = User::where('email', $data['email'] )->get()[0]->id;
+
+        Storage::copy(base_path('/public/storage/avatars/men/sample_1.png'), base_path('/public/storage/avatars/'.$id.'.jpg') );
+*/
+
 
     }
 }

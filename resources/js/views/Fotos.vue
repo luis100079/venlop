@@ -1,8 +1,6 @@
 <template>
-  <v-app>
-    <v-container>
 
-      <NavBar></NavBar>
+    <v-container>
 
       <v-card>
 
@@ -179,12 +177,9 @@
 
     </v-container>
 
-  </v-app>
 </template>
 
 <script>
-
-import NavBar from '../components/NavBar'
 
 export default {
 
@@ -328,10 +323,6 @@ export default {
       }
 
     },
-
-    components: { NavBar },
-
-
 
          created(){
 

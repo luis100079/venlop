@@ -1,9 +1,5 @@
 <template>
 
-  <v-app>
-
-    <NavBar></Navbar>
-
     <v-container>
 
 
@@ -19,18 +15,26 @@
 
       <v-tabs-items v-model='tabs' class='d-flex justify-center'>
 
+
         <v-tab-item>
+
+
+          <v-dialog  v-model="comment_dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+
+            <template v-slot:activator="{ on, attrs }">
+
+
+
+
 
         <v-layout wrap align-center>
 
 
           <v-flex v-for="(photo, i) of photos" :key='i' xs12 md4>
 
-            <v-card height='400px'  class='justify-center my-1'>
+            <v-card height='auto'  class='justify-center my-1'>
 
               <v-card-title class='justify-center'>
-
-
 
                   <v-avatar @click='go(photo.user)'>
                       <v-img :src='"/storage/avatars/"+photo.user+".jpg"'></v-img>
@@ -39,7 +43,7 @@
               </v-card-title>
 
 
-              <img width='100%' height='65%' :src='photo.path+photo.name'>
+              <img width='100%' height='250px' :src='photo.path+photo.name'>
 
 
               <v-card-actions class='justify-center'>
@@ -52,14 +56,83 @@
                      {{ photo.my_likes.length }}
                  </span>
 
+                <v-btn @click='active_img = photo.name; active_img_id = photo.id; comments = photo.my_comments'  v-bind="attrs" v-on="on" color='orange' icon>
+                  <v-icon color='warning'> comment </v-icon>
+                </v-btn>
+
+                 <span id='fotos-length' v-show=' photo.my_commengts.length != 0 '>
+                     {{ photo.my_likes.length }}
+                 </span>
+
+
+
               </v-card-actions>
+
 
             </v-card>
 
           </v-flex>
         </v-layout>
 
+
+
+
+         </template>
+
+            <v-card>
+
+
+                    <v-toolbar dark color='warning'>
+
+                        <v-btn icon dark @click="comment_dialog = false; comments = []">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+
+
+                        <v-toolbar-title>Comments</v-toolbar-title>
+
+                    </v-toolbar>
+
+
+                    <img width='100%' height='200px' :src='"storage/photos/"+active_img'>
+
+                    <v-textarea label='leave a comment' rows='1' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
+
+                    </v-textarea>
+
+                    <v-list>
+
+                    <v-list-item v-for='(comment, i) of comments ' :key='i'>
+
+                        <v-list-item-avatar>
+                            <v-img :src='"storage/avatars/"+comment.id+".jpg"'></v-img>
+                        </v-list-item-avatar>
+
+                        <v-list-item-content>
+
+                            <v-list-item-title> {{ comment.name }} </v-list-item-title>
+
+                            <v-list-item-subtitle> {{ comment.pivot.comment }} </v-list-item-subtitle>
+
+                        </v-list-item-content>
+
+                    </v-list-item>
+
+                    </v-list>
+
+
+                   </v-card>
+
+         </v-dialog>
+
+
+
+
         </v-tab-item>
+
+
+
+
 
 
 
@@ -95,6 +168,7 @@
               </v-btn>
 
             </v-card-actions>
+
 
           </v-card>
 
@@ -157,17 +231,9 @@
 
   </v-container>
 
-  <Bottom_navbar></Bottom_navbar>
-
-  </v-app>
-
 </template>
 
 <script>
-
-import NavBar from '../components/NavBar.vue'
-
-import Bottom_navbar from '../components/bottom_navbar'
 
 import store from '../store/index.js'
 
@@ -188,6 +254,14 @@ export default {
 
            medias: ['Photos', 'Videos', 'Posts'],
 
+           comment_dialog : false,
+
+           new_comment: "",
+
+           active_img : null,
+
+           active_img_id : null,
+
            tabs: null,
 
            photos: [],
@@ -196,10 +270,22 @@ export default {
 
            videos: [],
 
+           comments: [],
+
          }
     },
 
     methods: {
+
+        comment(){
+
+//        console.log( {photo_id: this.active_img_id, comment: this.new_comment } );
+
+          this.comments.unshift({id: this.me.id, name: this.me.name, pivot:{ comment: this.new_comment } })
+
+          axios.post('api/comment_photo', {photo_id: this.active_img_id, comment: this.new_comment });
+
+        },
 
         scroll( ){
 
@@ -265,9 +351,6 @@ export default {
 
     },
 
-
-
-    components: { NavBar, Bottom_navbar }
 
 }
 

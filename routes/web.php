@@ -4,9 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\Activity;
+
 use App\Events\UserSignedUp;
 use App\Events\OrderStatusUpdate;
 use App\Events\sendMessage;
+use App\Events\React;
 
 use App\User;
 use App\Photo;
@@ -31,11 +35,17 @@ Route::get('/order', function(){
     OrderStatusUpdate::dispatch();
 });
 
+// Route::get('/comments', function(){ return Photo::find(1)->mycomments; });
+
+// Route::get('not', function(){ return tap( auth()->user()->unreadNotifications )->markAsRead(); });
+
 Route::post('like', function(Request $request){
 
    $photo = Photo::findOrFail( $request->id )->like( auth()->user()->id );
 
 });
+
+Route::get('/react', function(){ event( new React() ); });
 
 /*
 

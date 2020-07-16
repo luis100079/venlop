@@ -4,15 +4,14 @@
 
 3. Fix NavBar
 
-
-
 4. Create Infinite loading
+
+
+
 
 5. Create notofications system
 
 6. Fix "ChatWith"
-
-
 
 7.Fix all pending views
 

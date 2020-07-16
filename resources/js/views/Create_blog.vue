@@ -1,9 +1,5 @@
 <template>
 
-<v-app>
-
-      <NavBar></NavBar>
-
       <v-container fuid>
 
         <v-text-field  prepend-icon="menu_book" label='Blog name' v-model='title'></v-text-field>
@@ -42,18 +38,20 @@
 
     </v-container>
 
-</v-app>
-
 </template>
 
 
 <script>
-import NavBar from '../components/NavBar'
+
 import Editor from '@tinymce/tinymce-vue'
+
+import store from '../store/index.js'
+import  { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+
 
 export default {
 
-    components: { NavBar, Editor },
+    store: store,
 
     data(){
         return {
@@ -76,10 +74,18 @@ export default {
             data.append('title', this.title);
             data.append('content', this.content);
 
-            axios.post('api/create_post', data,  { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => { window.location.href='/blogs' } );
+            axios.post('api/create_post', data,  { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => { window.location.href='/blogs?id='+this.me.id } );
         }
 
-    }
+    },
+
+    computed: {
+         ...mapState( ['me'] ),
+    },
+
+    components: {
+     'editor': Editor
+   }
 }
 
 </script>

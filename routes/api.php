@@ -81,4 +81,8 @@ Route::middleware('auth:api')->group(function(){
 
     Route::post('/logout', function(){ Auth::logout(); });
 
+    Route::post('notifications', 'GetController@notifications');
+
+    Route::post('comment_photo', 'StorageController@comment_photo');
+
 });

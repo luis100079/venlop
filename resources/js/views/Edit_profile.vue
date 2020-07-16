@@ -1,7 +1,4 @@
 <template>
-  <v-app>
-
-      <NavBar></NavBar>
 
       <v-container>
 
@@ -10,12 +7,11 @@
 
         <v-flex xs12 md5>
 
-            <img id='img' :src='dir' width='80%' height='auto'>
+            <img id='img' :src=" `storage/avatars/${details.id}.jpg` " width='80%' height='auto'>
 
             <v-file-input id='file_input' accept='image/*' placeholder="Change Photo" prepend-icon="mdi-camera" @change='preview()'></v-file-input>
-
+  
             <v-btn v-show=' show ' @click='upload_avatar()' color='success'>Upload Photo</v-btn>
-
 
         </v-flex>
 
@@ -25,7 +21,7 @@
 
         <form>
 
-        <v-text-field label='Name' :rules='rules' v-model='details.name'> </v-text-field>
+        <v-text-field label='Name' :rules='rules' v-model='details.name' required> </v-text-field>
 
         <v-text-field label='Profession' :rules='rules' v-model='details.profession'> </v-text-field>
 
@@ -46,25 +42,14 @@
     </v-layout>
 
     </v-container>
-  </v-app>
+
 </template>
 
 <script>
 
-import NavBar from '../components/NavBar'
-
 export default {
 
-  components: {
-
-    NavBar
-
-  },
-
   data: () => ({
-
-
-      dir: '/storage/avatars/sample_1.png',
 
       img: null,
 
@@ -72,6 +57,8 @@ export default {
 
       show: false,
 
+      details: {},
+/*
       details: {
 
           name: null,
@@ -83,6 +70,8 @@ export default {
 
       },
 
+*/
+
       rules: [
         value => !!value || 'Required.',
         value => (value && value.length >= 3) || 'Min 3 characters',
@@ -91,6 +80,7 @@ export default {
 
 
   }),
+
 
   methods: {
 
@@ -111,13 +101,27 @@ export default {
         var data = new FormData();
         var src = document.getElementById('file_input').files[0];
         data.append('avatar', src);
-        axios.post('/api/upload_avatar', data,  { headers: { 'Content-Type' : 'multipart/form-data' }  }).then( window.location.href = '/user?id=1' );
+        axios.post('/api/upload_avatar', data,  { headers: { 'Content-Type' : 'multipart/form-data' }  }).then( window.location.href = '/user?id='+this.details.id );
 
     },
 
+
+
+
+
+
+
+
+
     set_details(){
-        axios.post('/api/set_details', this.details).then( window.location.href = '/user?id=1' );
+        axios.post('/api/set_details', this.details).then( window.location.href = '/user?id='+this.details.id );
     }
+
+  },
+
+  beforeCreate() {
+
+    axios.post('/api/user', this.details).then( res => { this.details = res.data; } );
 
   }
 

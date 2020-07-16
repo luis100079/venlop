@@ -16,8 +16,6 @@ class sendMessage implements ShouldBroadcast
 
     public $message;
 
-    private $id = 1;
-
     /**
      * Create a new event instance.
      *
@@ -37,8 +35,6 @@ class sendMessage implements ShouldBroadcast
 
     public function broadcastOn()
     {
-
-     //   return $this->id === 5 ? new PrivateChannel('chat.'.auth()->user()->id) : null;
         return new PrivateChannel('chat.'.$this->message->to);
     }
 

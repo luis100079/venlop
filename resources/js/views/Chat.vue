@@ -1,40 +1,32 @@
 <template>
-  <v-app>
 
-      <NavBar></NavBar>
+  <v-container fuid>
 
-      <v-container fuid>
+    <v-dialog v-model='chat_dialog' max-width='600' fullscreen hide-overlay transition="dialog-bottom-transition">
 
-
-      <v-dialog max-width='600'>
-
-        <template v-slot:activator="{ on, attrs }">
-
+      <template v-slot:activator="{ on, attrs }">
 
       <v-row>
 
       <v-col align='center'>
 
 
-
       <v-card max-width='800'>
 
-      <v-list-item v-for='(friend, i) of friends' :key='i' @click='get_chat( friend.id )'  v-bind="attrs"
-          v-on="on">
+        <v-list-item v-for='(friend, i) of friends' :key='i' @click='get_chat( friend.id )'  v-bind="attrs" v-on="on">
 
         <v-list-item-avatar>
             <v-img :src='`storage/avatars/${ friend.id }.jpg`'></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title > {{ friend.name }} </v-list-item-title>
+          <v-list-item-title> {{ friend.name }} </v-list-item-title>
         </v-list-item-content>
 
-
-
         <v-list-item-icon>
-            <v-icon color='green'>chat_bubble</v-icon>
+            <v-icon large color='yellow'>chat_bubble</v-icon>
         </v-list-item-icon>
+
 
       </v-list-item>
 
@@ -48,11 +40,20 @@
 
 
 
-
-
         <v-card max-width='600'>
 
-        <v-timeline max-width='500'>
+          <v-app-bar dark color="black" fixed>
+
+            <v-btn icon dark @click="chat_dialog = false; chat = [] ">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+
+            <v-toolbar-title>Chat</v-toolbar-title>
+
+          </v-app-bar>
+
+
+        <v-timeline max-width='500' class='my-12'>
 
           <v-timeline-item v-for="(n, i) in chat" :key="i" large >
 
@@ -86,13 +87,11 @@
 
       </v-dialog>
 
-
     </v-container>
-    </v-app>
+
+
 </template>
 <script>
-
-import NavBar from '../components/NavBar'
 
 import store from '../store/index.js'
 
@@ -129,7 +128,9 @@ export default {
 
             text_message: null,
 
-            pending: { }
+            pending: { },
+
+            chat_dialog: false,
 
         }
     },
@@ -144,33 +145,41 @@ export default {
 
         get_chat(e){ this.active_chat = e;  axios.post('api/messages', { id: e } ).then( res =>{ this.chat = res.data; } ) },
 
-        send_message(){ /* console.log( { to: this.active_chat, text: this.text_message } ); */
+        send_message(){
 
-            axios.post('api/sendMessage',  { to: this.active_chat, text: this.text_message }  ).then( res => { console.log(res.data);  this.chat.push( {message: this.text_message, to:this.active_chat} ) } );
+            this.chat.push(  {message: this.text_message, to:this.active_chat, from:this.me.id } )
+
+            axios.post('api/sendMessage',  { to: this.active_chat, text: this.text_message }  ).then( res => { console.log(res.data); } );
 
         },
 
         add_message(message){
-                                if( this.active_chat === message.message.from || this.active_chat === message.message.to ){
 
-                                  this.chat.push(message.message)
-
-                                }
+                        if( this.active_chat == message.message.from || this.active_chat == message.message.to ){ this.chat.push(message.message)}
 
                             },
 
      },
 
-    components: { NavBar },
-
     created() {
 
              store.dispatch('getUser');
-             axios.post('api/user').then( res => {   window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.add_message(e) } ) } );
+
+             axios.post('api/user').then( res => {   window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.add_message(e); } ) } );
+
              axios.post('api/get_related').then( res => { this.friends = res.data; } );
+
+             if( this.$route.query.with != undefined ){
+
+                this.active_chat = this.$route.query.with;
+
+                axios.post('api/messages', { id: this.$route.query.with } ).then( res =>{ this.chat = res.data; this.chat_dialog = true; } )
+
+              }
 
     },
 
 
 }
+
 </script>
