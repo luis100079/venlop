@@ -10,6 +10,7 @@ import Results from './views/Results'
 import Chat from './views/Chat'
 import Notifications from './views/Notifications'
 import User from './views/User'
+import NotFound from './views/NotFound'
 
 import Prueba from './views/Prueba'
 import NavBar from './components/NavBar'
@@ -21,80 +22,39 @@ export default{
 
     routes: [
 
-        {
-            path: '/',
-            component: Home
-        },
+        { path: '/',  component: Home },
 
-        {
-            path: '/prueba',
-            component: Prueba
-        },
+        { path: '/venlop', component: NotFound },
 
-        {
-            path: '/bottom_navbar',
-            component: Bottom_navbar
-        },
+        { path: '*', redirect: '/venlop' },
 
-        {
-            path: '/navbar',
-            component: NavBar
-        },
+        { path: '/prueba', component: Prueba },
 
-        {
-            path: '/home',
-            component: Home
-        },
+        { path: '/bottom_navbar', component: Bottom_navbar },
 
-        {
-            path: '/user',
-            component: User
-        },
+        { path: '/navbar', omponent: NavBar },
 
-        {
-            path: '/photos',
-            component: Fotos
-        },
+        { path: '/home', component: Home },
 
-        {
-            path: '/videos',
-            component: Videos
-        },
+        { path: '/user', component: User },
 
-        {
-            path: '/blogs',
-            component: Blogs
-        },
+        { path: '/photos', component: Fotos },
 
-        {
-            path: '/create_blog',
-            component: Create_blog
-        },
+        { path: '/videos', component: Videos },
 
-        {
-            path: '/blog',
-            component: Blog
-        },
+        { path: '/blogs', component: Blogs },
 
-        {
-            path: '/edit_profile',
-            component: Edit_profile
-        },
+        { path: '/create_blog', component: Create_blog },
 
-        {
-            path: '/results',
-            component: Results
-        },
+        { path: '/blog', component: Blog },
 
-        {
-            path: '/chat',
-            component: Chat
-        },
+        { path: '/edit_profile', component: Edit_profile },
 
-        {
-            path: '/notifications',
-            component: Notifications
-        }
+        { path: '/results', component: Results },
+
+        { path: '/chat', component: Chat },
+
+        { path: '/notifications', component: Notifications }
 
     ]
 

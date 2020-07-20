@@ -4,10 +4,10 @@
 
     <v-app-bar color='grey darken-3' dark fixed>
 
-      <v-app-bar-nav-icon @click='drawer = true' color='purple lighten-2'></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click='drawer = true' color='green accent-3'></v-app-bar-nav-icon>
 
         <form method='get' action='/results'>
-          <v-text-field color='green' name='name' placeholder='search'  prepend-icon="search" v-model='data.value' @keyup='search()' :class=' mobile ? "ml-12" : "ml-1" '></v-text-field >
+          <v-text-field color='green accent-3' name='name' placeholder='search'  prepend-icon="search" v-model='data.value' @keyup='search()' :class=' mobile ? "ml-12" : "ml-1" '></v-text-field >
         </form>
 
         <v-spacer></v-spacer>
@@ -15,7 +15,7 @@
       <div v-show='mobile'>
 
       <v-btn icon href='/home' class='mr-12'>
-        <v-icon color='green' >home</v-icon>
+        <v-icon color='green accent-3' >home</v-icon>
       </v-btn>
 
 
@@ -25,12 +25,12 @@
       </v-btn>
 
       <v-btn icon href="/chat" class='mr-12'>
-        <v-icon color='green' >chat</v-icon>
+        <v-icon color='green accent-3' >chat</v-icon>
       </v-btn>
 
       <a :href='"/user?id="+ me.id '>
       <v-avatar class='mr-12'>
-        <img :src='"storage/avatars/"+me.id+".jpg"'>
+        <img :src='avatar'>
       </v-avatar>
       </a>
 
@@ -38,7 +38,7 @@
 
     </v-app-bar>
 
-    <v-navigation-drawer v-model='drawer' absolute temporary color='grey darken-3'>
+    <v-navigation-drawer v-model='drawer' temporary color='grey darken-3' fixed>
 
       <v-list nav dense>
 
@@ -50,59 +50,59 @@
                   <img :src=" `/storage/avatars/${me.id}.jpg` ">
                 </v-avatar>
 
-              <v-list-item-title  class='green--text ml-3'> {{ me.name }}  </v-list-item-title>
+              <v-list-item-title  class='white--text ml-3'> {{ me.name }}  </v-list-item-title>
 
             </v-list-item>
 
             <v-list-item href='/home'>
               <v-list-item-icon>
-                <v-icon color='purple lighten-2' >home</v-icon>
+                <v-icon color='green accent-3' >home</v-icon>
               </v-list-item-icon>
-              <v-list-item-title  class='green--text'>Home</v-list-item-title>
+              <v-list-item-title  class='white--text'>Home</v-list-item-title>
             </v-list-item>
 
 
             <v-list-item href='/photos'>
               <v-list-item-icon>
-                <v-icon  color='purple lighten-2'>collections</v-icon>
+                <v-icon  color='green accent-3'>collections</v-icon>
               </v-list-item-icon>
-              <v-list-item-title class='green--text'>Photos</v-list-item-title>
+              <v-list-item-title class='white--text'>Photos</v-list-item-title>
             </v-list-item>
 
 
             <v-list-item href='/videos'>
                 <v-list-item-icon>
-                    <v-icon color='purple lighten-2'>video_library</v-icon>
+                    <v-icon color='green accent-3'>video_library</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title class='green--text'>Videos</v-list-item-title>
+                <v-list-item-title class='white--text'>Videos</v-list-item-title>
             </v-list-item>
 
             <v-list-item href='/blogs'>
                 <v-list-item-icon>
-                    <v-icon color='purple lighten-2'>local_library</v-icon>
+                    <v-icon color='green accent-3'>local_library</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title class='green--text'>Blogs</v-list-item-title>
+                <v-list-item-title class='white--text'>Blogs</v-list-item-title>
             </v-list-item>
 
              <v-list-item href='/chat'>
                 <v-list-item-icon>
-                    <v-icon color='purple lighten-2'>chat</v-icon>
+                    <v-icon color='green accent-3'>chat</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title class='green--text'>Chat</v-list-item-title>
+                <v-list-item-title class='white--text'>Chat</v-list-item-title>
             </v-list-item>
 
              <v-list-item href='/notifications'>
                 <v-list-item-icon>
-                    <v-icon color='purple lighten-2' v-text='notify.icon'></v-icon>
+                    <v-icon color='green accent-3' v-text='notify.icon'></v-icon>
                 </v-list-item-icon>
-                <v-list-item-title class='green--text'>Notifications</v-list-item-title>
+                <v-list-item-title class='white--text'>Notifications</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click='logout()'>
               <v-list-item-icon>
-                <v-icon color='purple lighten-2'>exit_to_app</v-icon>
+                <v-icon color='green accent-3'>exit_to_app</v-icon>
               </v-list-item-icon>
-              <v-list-item-title class='green--text'>Logout</v-list-item-title>
+              <v-list-item-title class='white--text'>Logout</v-list-item-title>
             </v-list-item>
 
 
@@ -142,7 +142,9 @@ export default {
 
     data: () => ({
 
-            notify : { icon: 'notifications', color: 'green', },
+            avatar: '',
+
+            notify : { icon: 'notifications', color: 'green accent-3', },
 
             drawer: false,
 
@@ -180,6 +182,8 @@ export default {
 
         axios.post('api/user').then( res => {
 
+
+                                            res.data.avatar === false ? this.avatar = 'storage/avatars/men/sample_1.png' : this.avatar =  'storage/avatars/'+res.data.id+'.jpg';
                                             window.Echo.private('reaction.'+ res.data.id ).listen('React',  e  => { this.notify.icon = "notifications_active"; this.notify.color = "yellow"; document.getElementById('notify').play() } );
                                             window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { console.log('New Message '); } );
 

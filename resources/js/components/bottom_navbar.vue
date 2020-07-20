@@ -5,25 +5,30 @@
     <v-bottom-navigation dark  fixed>
 
     <v-btn href='/home'>
-      <span class='green--text'>Home</span>
-      <v-icon color='purple lighten-2' >home</v-icon>
+      <span class='white--text'>Home</span>
+      <v-icon color='green accent-3' >home</v-icon>
     </v-btn>
 
     <v-btn value="favorites" href='/chat'>
-      <span class='green--text'>Chat</span>
+      <span class='white--text'>Chat</span>
 
+        <v-icon :color='message_notify.color' v-text='message_notify.icon'></v-icon>
+
+<!--
       <v-badge :content='message_notify.quantity'>
-      <v-icon :color='message_notify.color' v-text='message_notify.icon'></v-icon>
       </v-badge>
+-->
 
     </v-btn>
 
     <v-btn value="nearby" href='notifications'>
-      <span class='green--text'>Notifications</span>
+      <span class='white--text'>Notifications</span>
 
-      <v-badge :content='notify.quantity'>
       <v-icon :color='notify.color' v-text='notify.icon'></v-icon>
+<!--
+      <v-badge :content='notify.quantity'>
       </v-badge>
+-->
 
     </v-btn>
 
@@ -41,9 +46,9 @@ export default {
 
         return {
 
-            notify : { icon: 'notifications', color: 'purple lighten-2', quantity: 0 },
+            notify : { icon: 'notifications', color: 'green accent-3', quantity: 0 },
 
-            message_notify: { icon: 'chat_bubble', color:'purple lighten-2', quantity: 0 },
+            message_notify: { icon: 'chat_bubble', color:'green accent-3', quantity: 0 },
 
             mobile: screen.width  <= 800 ? true : false,
 

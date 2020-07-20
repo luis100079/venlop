@@ -4,7 +4,7 @@
 
 
       <template>
-        <v-tabs color='green' v-model='tabs' centered>
+        <v-tabs color='warning' v-model='tabs' centered>
 
           <v-tab v-for='(media, i) of medias' :key='i'> {{ media }} </v-tab>
 
@@ -46,25 +46,27 @@
               <img width='100%' height='250px' :src='photo.path+photo.name'>
 
 
+              <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center>
+
+
               <v-card-actions class='justify-center'>
 
                 <v-btn icon @click='like(photo.id, i)'>
-                  <v-icon color='red' v-text=' photo.my_likes.filter( arr => { return  arr.id === me.id }).length ? `mdi-heart` : `mdi-heart-outline` '></v-icon>
+                  <v-icon size='30' color='red' v-text=' photo.my_likes.filter( arr => { return  arr.id === me.id }).length ? `mdi-heart` : `mdi-heart-outline` '></v-icon>
                 </v-btn>
 
-                 <span id='fotos-length' v-show=' photo.my_likes.length != 0 '>
-                     {{ photo.my_likes.length }}
-                 </span>
-
-                <v-btn @click='active_img = photo.name; active_img_id = photo.id; comments = photo.my_comments'  v-bind="attrs" v-on="on" color='orange' icon>
-                  <v-icon color='warning'> comment </v-icon>
-                </v-btn>
-
-                 <span id='fotos-length' v-show=' photo.my_commengts.length != 0 '>
+                 <span id='fotos-length' class='font-italic' v-show=' photo.my_likes.length != 0 '>
                      {{ photo.my_likes.length }}
                  </span>
 
 
+                <v-btn class='ml-3' @click='active_img = photo.name; active_img_id = photo.id; comments = photo.my_comments'  v-bind="attrs" v-on="on" color='orange' icon>
+                  <v-icon size='30' color='warning'> comment </v-icon>
+                </v-btn>
+
+                 <span id='fotos-length' class='font-italic' v-show=' photo.my_comments.length != 0 '>
+                     {{ photo.my_comments.length }}
+                 </span>
 
               </v-card-actions>
 
@@ -82,21 +84,28 @@
             <v-card>
 
 
-                    <v-toolbar dark color='warning'>
+                    <v-app-bar dark color='warning' fixed>
 
                         <v-btn icon dark @click="comment_dialog = false; comments = []">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
 
+                        <v-toolbar-title class='font-italic'>Comments</v-toolbar-title>
 
-                        <v-toolbar-title>Comments</v-toolbar-title>
+                        <v-spacer></v-spacer>
 
-                    </v-toolbar>
+                        <v-icon size='30' color='white'>comment</v-icon>
+
+                    </v-app-bar>
 
 
-                    <img width='100%' height='200px' :src='"storage/photos/"+active_img'>
+                    <img class='mt-12' width='100%' height='200px' :src='"storage/photos/"+active_img'>
 
-                    <v-textarea label='leave a comment' rows='1' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
+
+                    <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center> <v-divider></v-divider>
+
+
+                    <v-textarea label='leave a comment' rows='2' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
 
                     </v-textarea>
 
@@ -155,16 +164,16 @@
 
             </v-card-title>
 
-            <video :src='video.path + video.name' controls width='100%' height='65%'></video>
+            <video style='cursor:pointer' :src='video.path + video.name' @click='play($event)' width='100%' height='65%'></video>
 
             <v-card-actions class='justify-center'>
 
               <v-btn icon>
-                <v-icon color='red'>mdi-heart-outline</v-icon>
+                <v-icon size='30' color='red'>mdi-heart-outline</v-icon>
               </v-btn>
 
-              <v-btn icon>
-                <v-icon color='green'>mdi-eye</v-icon>
+              <v-btn class='ml-3' color='orange' icon>
+                  <v-icon size='30' color='warning'> comment </v-icon>
               </v-btn>
 
             </v-card-actions>
@@ -190,33 +199,79 @@
 
             <v-flex  v-for="(post, i) of posts" :key='i' xs12 md4>
 
+
+
+
               <v-card class='justify-center my-1'>
 
-                <v-card-title class='justify-center'>
+                <a :href='"/blog?id="+post.id' style='text-decoration:none'>
+                  <v-img class='blue-grey darken-4 white--text align-center' aspect-ratio='1.7' :src='post.path+post.thumbnail'>
+                     <h1 class='ml-6 font-weight-thin font-italic'>{{ post.title }}</h1>
+                  </v-img>
+                </a>
 
-                  <v-avatar>
-                    <v-img :src='"/storage/avatars/"+post.user.id+".jpg"'></v-img>
-                  </v-avatar>
+                <v-card-text>
+                  <p>  <v-avatar size='30'>
+                                  <v-img :src='"/storage/avatars/"+post.user.id+".jpg"'></v-img>
+                                </v-avatar>
+
+                    Luis Rene López Hernandez</p>
+
+                      <v-icon color='green accent-3'>mdi-eye</v-icon> 101
+                      <v-icon color='red'>mdi-heart</v-icon> 100
+                    <v-icon color='green accent-3'>comment</v-icon> 100
+                <v-icon color='warning'>mdi-calendar</v-icon> 101
+
+                </v-card-text>
+
+<!--
+
+                <v-card-title class='justify-center'>
 
                   <h2 class='ml-6 font-weight-thin font-italic'>{{ post.title }}</h2>
 
                 </v-card-title>
 
 
-                <a :href='"/blog?id="+post.id'>
-                  <img width='100%' :src='post.path+post.thumbnail' >
-                </a>
-
 
                 <v-card-actions class='justify-center'>
 
                   <v-btn icon>
-                    <v-icon color='green'>mdi-eye</v-icon>
+                    <v-icon color='red'>mdi-heart</v-icon>
+                  </v-btn>
+
+                  <v-btn icon>
+                    <v-icon color='blue'>mdi-eye</v-icon>
+                  </v-btn>
+
+
+                  <v-btn icon>
+                    <v-icon color='warning'>comments</v-icon>
                   </v-btn>
 
                 </v-card-actions>
 
+
+<center>
+                <v-card-text>
+
+                  <v-avatar>
+                    <v-img :src='"/storage/avatars/"+post.user.id+".jpg"'></v-img>
+                  </v-avatar>
+
+                  Published by Luis Rene Lopez
+
+                </v-card-text>
+
+</center>
+
+-->
+
               </v-card>
+
+
+
+
 
             </v-flex>
 
@@ -224,6 +279,11 @@
 
 
         </v-tab-item>
+
+
+
+
+
 
 
       </v-tabs-items>
@@ -252,7 +312,7 @@ export default {
     data(){
         return {
 
-           medias: ['Photos', 'Videos', 'Posts'],
+           medias: ['Photos', 'Videos', 'Blogs'],
 
            comment_dialog : false,
 
@@ -276,6 +336,8 @@ export default {
     },
 
     methods: {
+
+        play(event){ event.target.paused ? event.target.play() : event.target.pause() },
 
         comment(){
 

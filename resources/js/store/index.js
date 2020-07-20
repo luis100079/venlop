@@ -9,6 +9,7 @@ export default new Vuex.Store({
 
     me: []
 
+
   },
 
   mutations: {

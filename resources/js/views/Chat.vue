@@ -11,7 +11,13 @@
       <v-col align='center'>
 
 
-      <v-card max-width='800'>
+      <v-card max-width='800' >
+
+        <v-card-title class='justify-center'>
+            <v-icon color='green accent-3'>fa fa-group</v-icon>
+            <v-btn color='black' text>Known People</v-btn>
+        </v-card-title>
+
 
         <v-list-item v-for='(friend, i) of friends' :key='i' @click='get_chat( friend.id )'  v-bind="attrs" v-on="on">
 
@@ -40,7 +46,7 @@
 
 
 
-        <v-card max-width='600'>
+        <v-card max-width='600' id='chat_card'  style='background:#E0FFFF'>
 
           <v-app-bar dark color="black" fixed>
 
@@ -48,41 +54,42 @@
               <v-icon>mdi-close</v-icon>
             </v-btn>
 
-            <v-toolbar-title>Chat</v-toolbar-title>
+            <v-toolbar-title>Chat</v-toolbar-title> <v-spacer></v-spacer> <v-icon color='#E0FFFF'>chat_bubble</v-icon>
 
           </v-app-bar>
 
 
-        <v-timeline max-width='500' class='my-12'>
+          <div>
 
-          <v-timeline-item v-for="(n, i) in chat" :key="i" large >
+            <div class="mb-12">.</div>
 
-            <template v-slot:icon>
+            <div class="mb-12">.</div>
 
-              <v-avatar>
-                  <img :src=' n.to === `"${me.id}"`  ? `storage/avatars/${n.to}.jpg`  : `storage/avatars/${n.from}.jpg` '>
-              </v-avatar>
 
-            </template>
+            <div v-for="(n, i) in chat" :key="i" :class=' n.to === me.id ? "d-flex justify-start" : "d-flex justify-end" '>
 
-            <template v-slot:opposite>
-                <span> {{ }} </span>
-            </template>
+                <v-card class='my-3 ml-6 mr-6' :color='n.to === me.id ? "orange"  : "#32CD32" '>
+                  <v-card-text class='white--text'>{{ n.message }} </v-card-text>
+                </v-card>
 
-            <v-card class="elevation-2" :color='  n.to === me.id  ? `orange`  : `green`  '>
-              <v-card-title class="headline">{{ n.message }}</v-card-title>
-            </v-card>
+            </div>
 
-          </v-timeline-item>
+             <div class="my-12 ">.</div>
 
-      </v-timeline>
+            <div class="my-12">.</div>
 
-      <v-card-actions>
-          <v-text-field color='green' v-model='text_message' placeholder='Type new message'></v-text-field>
-          <v-btn icon style='cursor:pointer;'> <v-icon color='green' @click='send_message()'> fa fa-send </v-icon> </v-btn>
-      </v-card-actions>
+          </div>
 
-      </v-card>
+      <v-bottom-navigation dark color='black' fixed>
+
+          <v-text-field id='message_input' color='green' v-model='text_message' placeholder='Type new message' @keyup.enter='send_message(); $event.target.value="" '></v-text-field>
+          <v-btn icon style='cursor:pointer;'> <v-icon color='green' @click='send_message(); ' > fa fa-send </v-icon> </v-btn>
+
+      </v-bottom-navigation>
+
+        </v-card>
+
+
 
 
       </v-dialog>
@@ -128,6 +135,8 @@ export default {
 
             text_message: null,
 
+            sub_message: null,
+
             pending: { },
 
             chat_dialog: false,
@@ -143,19 +152,27 @@ export default {
 
     methods: {
 
-        get_chat(e){ this.active_chat = e;  axios.post('api/messages', { id: e } ).then( res =>{ this.chat = res.data; } ) },
+
+
+        get_chat(e){ this.active_chat = e;  axios.post('api/messages', { id: e } ).then( res =>{ this.chat = res.data;  } );  },
 
         send_message(){
 
-            this.chat.push(  {message: this.text_message, to:this.active_chat, from:this.me.id } )
+            this.sub_message = this.text_message;
 
-            axios.post('api/sendMessage',  { to: this.active_chat, text: this.text_message }  ).then( res => { console.log(res.data); } );
+            this.text_message = "";
+
+            document.getElementById('chat_card').scrollIntoView(false)
+
+            this.chat.push(  {message: this.sub_message, to:this.active_chat, from:this.me.id } );
+
+            axios.post('api/sendMessage',  { to: this.active_chat, text: this.sub_message }  );
 
         },
 
         add_message(message){
 
-                        if( this.active_chat == message.message.from || this.active_chat == message.message.to ){ this.chat.push(message.message)}
+                        if( this.active_chat == message.message.from || this.active_chat == message.message.to ){ this.chat.push(message.message); document.getElementById('chat_card').scrollIntoView(false) }
 
                             },
 
