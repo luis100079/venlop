@@ -1,293 +1,28 @@
 <template>
 
-    <v-container>
+  <v-container>
 
+    <template>
+      <v-tabs color='warning' v-model='tabs' centered>
+        <v-tab v-for='(category, i) of categories' :key='i'> {{ category }} </v-tab>
+      </v-tabs>
+    </template>
 
-      <template>
-        <v-tabs color='warning' v-model='tabs' centered>
+    <v-tabs-items v-model='tabs' class='d-flex justify-center'>
 
-          <v-tab v-for='(media, i) of medias' :key='i'> {{ media }} </v-tab>
+      <v-tab-item>
+        <Photos></Photos>
+      </v-tab-item>
 
-        </v-tabs>
-      </template>
+      <v-tab-item>
+        <Videos></Videos>
+      </v-tab-item>
 
+      <v-tab-item>
+        <Blogs></Blogs>
+      </v-tab-item>
 
-
-      <v-tabs-items v-model='tabs' class='d-flex justify-center'>
-
-
-        <v-tab-item>
-
-
-          <v-dialog  v-model="comment_dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-
-            <template v-slot:activator="{ on, attrs }">
-
-
-
-
-
-        <v-layout wrap align-center>
-
-
-          <v-flex v-for="(photo, i) of photos" :key='i' xs12 md4>
-
-            <v-card height='auto'  class='justify-center my-1'>
-
-              <v-card-title class='justify-center'>
-
-                  <v-avatar @click='go(photo.user)'>
-                      <v-img :src='"/storage/avatars/"+photo.user+".jpg"'></v-img>
-                  </v-avatar>
-
-              </v-card-title>
-
-
-              <img width='100%' height='250px' :src='photo.path+photo.name'>
-
-
-              <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center>
-
-
-              <v-card-actions class='justify-center'>
-
-                <v-btn icon @click='like(photo.id, i)'>
-                  <v-icon size='30' color='red' v-text=' photo.my_likes.filter( arr => { return  arr.id === me.id }).length ? `mdi-heart` : `mdi-heart-outline` '></v-icon>
-                </v-btn>
-
-                 <span id='fotos-length' class='font-italic' v-show=' photo.my_likes.length != 0 '>
-                     {{ photo.my_likes.length }}
-                 </span>
-
-
-                <v-btn class='ml-3' @click='active_img = photo.name; active_img_id = photo.id; comments = photo.my_comments'  v-bind="attrs" v-on="on" color='orange' icon>
-                  <v-icon size='30' color='warning'> comment </v-icon>
-                </v-btn>
-
-                 <span id='fotos-length' class='font-italic' v-show=' photo.my_comments.length != 0 '>
-                     {{ photo.my_comments.length }}
-                 </span>
-
-              </v-card-actions>
-
-
-            </v-card>
-
-          </v-flex>
-        </v-layout>
-
-
-
-
-         </template>
-
-            <v-card>
-
-
-                    <v-app-bar dark color='warning' fixed>
-
-                        <v-btn icon dark @click="comment_dialog = false; comments = []">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-
-                        <v-toolbar-title class='font-italic'>Comments</v-toolbar-title>
-
-                        <v-spacer></v-spacer>
-
-                        <v-icon size='30' color='white'>comment</v-icon>
-
-                    </v-app-bar>
-
-
-                    <img class='mt-12' width='100%' height='200px' :src='"storage/photos/"+active_img'>
-
-
-                    <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center> <v-divider></v-divider>
-
-
-                    <v-textarea label='leave a comment' rows='2' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
-
-                    </v-textarea>
-
-                    <v-list>
-
-                    <v-list-item v-for='(comment, i) of comments ' :key='i'>
-
-                        <v-list-item-avatar>
-                            <v-img :src='"storage/avatars/"+comment.id+".jpg"'></v-img>
-                        </v-list-item-avatar>
-
-                        <v-list-item-content>
-
-                            <v-list-item-title> {{ comment.name }} </v-list-item-title>
-
-                            <v-list-item-subtitle> {{ comment.pivot.comment }} </v-list-item-subtitle>
-
-                        </v-list-item-content>
-
-                    </v-list-item>
-
-                    </v-list>
-
-
-                   </v-card>
-
-         </v-dialog>
-
-
-
-
-        </v-tab-item>
-
-
-
-
-
-
-
-        <v-tab-item>
-
-        <v-layout wrap align-center>
-
-          <v-flex  v-for="(video, i) of videos" :key='i' xs12 md4>
-
-
-          <v-card height='400px' class='justify-center my-1'>
-
-            <v-card-title class='justify-center'>
-
-              <v-avatar>
-                <v-img :src='"/storage/avatars/"+video.user+".jpg"'></v-img>
-              </v-avatar>
-
-              <h2 class='ml-6 font-weight-thin font-italic'></h2>
-
-            </v-card-title>
-
-            <video style='cursor:pointer' :src='video.path + video.name' @click='play($event)' width='100%' height='65%'></video>
-
-            <v-card-actions class='justify-center'>
-
-              <v-btn icon>
-                <v-icon size='30' color='red'>mdi-heart-outline</v-icon>
-              </v-btn>
-
-              <v-btn class='ml-3' color='orange' icon>
-                  <v-icon size='30' color='warning'> comment </v-icon>
-              </v-btn>
-
-            </v-card-actions>
-
-
-          </v-card>
-
-
-          </v-flex>
-
-        </v-layout>
-
-
-        </v-tab-item>
-
-
-
-
-        <v-tab-item>
-
-
-          <v-layout wrap align-center>
-
-            <v-flex  v-for="(post, i) of posts" :key='i' xs12 md4>
-
-
-
-
-              <v-card class='justify-center my-1'>
-
-                <a :href='"/blog?id="+post.id' style='text-decoration:none'>
-                  <v-img class='blue-grey darken-4 white--text align-center' aspect-ratio='1.7' :src='post.path+post.thumbnail'>
-                     <h1 class='ml-6 font-weight-thin font-italic'>{{ post.title }}</h1>
-                  </v-img>
-                </a>
-
-                <v-card-text>
-                  <p>  <v-avatar size='30'>
-                                  <v-img :src='"/storage/avatars/"+post.user.id+".jpg"'></v-img>
-                                </v-avatar>
-
-                    Luis Rene López Hernandez</p>
-
-                      <v-icon color='green accent-3'>mdi-eye</v-icon> 101
-                      <v-icon color='red'>mdi-heart</v-icon> 100
-                    <v-icon color='green accent-3'>comment</v-icon> 100
-                <v-icon color='warning'>mdi-calendar</v-icon> 101
-
-                </v-card-text>
-
-<!--
-
-                <v-card-title class='justify-center'>
-
-                  <h2 class='ml-6 font-weight-thin font-italic'>{{ post.title }}</h2>
-
-                </v-card-title>
-
-
-
-                <v-card-actions class='justify-center'>
-
-                  <v-btn icon>
-                    <v-icon color='red'>mdi-heart</v-icon>
-                  </v-btn>
-
-                  <v-btn icon>
-                    <v-icon color='blue'>mdi-eye</v-icon>
-                  </v-btn>
-
-
-                  <v-btn icon>
-                    <v-icon color='warning'>comments</v-icon>
-                  </v-btn>
-
-                </v-card-actions>
-
-
-<center>
-                <v-card-text>
-
-                  <v-avatar>
-                    <v-img :src='"/storage/avatars/"+post.user.id+".jpg"'></v-img>
-                  </v-avatar>
-
-                  Published by Luis Rene Lopez
-
-                </v-card-text>
-
-</center>
-
--->
-
-              </v-card>
-
-
-
-
-
-            </v-flex>
-
-          </v-layout>
-
-
-        </v-tab-item>
-
-
-
-
-
-
-
-      </v-tabs-items>
-
+    </v-tabs-items>
 
   </v-container>
 
@@ -295,124 +30,17 @@
 
 <script>
 
-import store from '../store/index.js'
-
-import  { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+import Photos from '../components/Photos'
+import Videos from '../components/Videos'
+import Blogs from '../components/Blogs'
 
 export default {
-
-  store: store,
-
-  computed: {
-
-      ...mapState( ['me'] ),
-
-      },
+ 
+  components: {Photos, Videos, Blogs},
 
     data(){
-        return {
-
-           medias: ['Photos', 'Videos', 'Blogs'],
-
-           comment_dialog : false,
-
-           new_comment: "",
-
-           active_img : null,
-
-           active_img_id : null,
-
-           tabs: null,
-
-           photos: [],
-
-           posts: [],
-
-           videos: [],
-
-           comments: [],
-
-         }
-    },
-
-    methods: {
-
-        play(event){ event.target.paused ? event.target.play() : event.target.pause() },
-
-        comment(){
-
-//        console.log( {photo_id: this.active_img_id, comment: this.new_comment } );
-
-          this.comments.unshift({id: this.me.id, name: this.me.name, pivot:{ comment: this.new_comment } })
-
-          axios.post('api/comment_photo', {photo_id: this.active_img_id, comment: this.new_comment });
-
-        },
-
-        scroll( ){
-
-            window.onscroll = () =>{
-
-              let bottomOfWindow =   document.documentElement.scrollTop + window.innerHeight  ===   document.documentElement.offsetHeight;
-
-              if(bottomOfWindow){
-
-                axios.post('api/list_photos', { num: this.photos.length }).then( res => { res.data.forEach( arr => { this.photos.push(arr) } ); } );
-
-                }
-
-            }
-
-        },
-
-        go(id){
-
-            location.href='/user?id='+id
-
-        },
-
-        like(id, index){
-
-
-        if( this.photos[index].my_likes.filter( i => { return i.id == this.me.id }).length !== 0  ){
-
-          this.photos[index].my_likes.forEach( (e, i) => { e.id == this.me.id && this.photos[index].my_likes.splice( i, 1) } )
-
-        }
-
-        else if ( this.photos[index].my_likes.filter( i => { return i.id == this.me.id }).length == 0 ){
-
-            this.photos[index].my_likes.push( { id: this.me.id } )
-
-        }
-
-
-        axios.post('api/like_photo', { id: id } );
-
-        },
-
-        ...mapMutations([ '' ]),
-    },
-
-    mounted() {
-
-      this.scroll( )
-
-    },
-
-
-    created(){
-
-        axios.post('api/list_photos', { num: 0 }).then( res => { this.photos = res.data; } );
-
-        axios.post('api/list_posts').then( res => { this.posts = res.data; } );
-
-        axios.post('api/list_videos').then( res => { this.videos = res.data; } );
-
-        store.dispatch('getUser');
-
-    },
-
+        return { categories: ['Photos', 'Videos', 'Blogs'], tabs: null, }
+    }
 
 }
 

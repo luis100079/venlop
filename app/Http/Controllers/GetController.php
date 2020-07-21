@@ -84,21 +84,25 @@ class GetController extends Controller
         for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
 
         return Photo::with('myLikes', 'myComments')->find($list);
-
-        return $posts;
-
     }
 
-    public function list_videos(){
+    public function list_videos(Request $request){
 
-        return Video::all();
+        $list = array();
+
+        for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+        return Videos::with('myLikes', 'myComments')->find($list);
 
     }
 
     public function list_posts(){
 
-        $posts = Post::with('user:id,name')->get();
-        return $posts;
+        $list = array();
+
+        for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+        return Post::with('myLikes', 'myComments')->find($list);
 
     }
 
@@ -114,7 +118,6 @@ class GetController extends Controller
 
     //    return User::findOrFail( auth()->user()->myFollowers[0]->follower );
 
-
     }
 
     public function messages(Request $request){
@@ -124,7 +127,6 @@ class GetController extends Controller
         return Chat::where(function ($query) use ($num) { $query->where('from', auth()->user()->id )->where('to', $num); })->orWhere(function ($query) use ($num) { $query->where('from', $num)->where('to', auth()->user()->id ); })->where('from', $num)->get();
 
     //    return User::findOrFail( $request->id )->chat_received->where('from', auth()->user()->id );
-
 
     }
 
