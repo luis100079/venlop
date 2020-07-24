@@ -70,39 +70,80 @@ class GetController extends Controller
 
     public function get_post_data(Request $request){
 
-     return Post::findOrFail($request->value);
-
-  //      return [ "data" => $post, "author_name" $post->user->name, "author_id" => $post->user->id ];
+        $post = Post::findOrFail($request->value); /*  Post::with('myLikes', 'myComments') */
+        $post->seens = (int)$post->seens + 1;
+        $post->save();
+        return json_encode( ['content' => $post, 'comments' => $post->myComments, 'likes' => $post->myLikes] );
 
     }
 
 
     public function list_photos(Request $request){
 
-        $list = array();
+        if($request->type !== true){
 
-        for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+          $list = array();
 
-        return Photo::with('myLikes', 'myComments')->find($list);
+          for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+          return Photo::with('myLikes', 'myComments', 'get_user')->find($list);
+
+        }
+
+        else{
+
+            $list = array();
+
+            for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+            return Photo::with('myLikes', 'myComments',  'get_user')->where('user', auth()->user()->id)->find($list);
+
+        }
     }
 
     public function list_videos(Request $request){
 
-        $list = array();
+        if($request->type !== true){
 
-        for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+          $list = array();
 
-        return Videos::with('myLikes', 'myComments')->find($list);
+          for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+          return Video::with('myLikes', 'myComments', 'get_user')->find($list);
+
+        }else{
+
+          $list = array();
+
+          for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+          return Video::with('myLikes', 'myComments', 'get_user')->where('user', auth()->user()->id)->find($list);
+
+        }
 
     }
 
-    public function list_posts(){
+    public function list_posts(Request $request){
 
-        $list = array();
+        if($request->type !== true){
 
-        for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+          $list = array();
 
-        return Post::with('myLikes', 'myComments')->find($list);
+          for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+          return Post::with('myLikes', 'myComments', 'user')->find($list);
+
+        }else{
+
+
+          $list = array();
+
+          for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
+
+          return Post::with('myLikes', 'myComments', 'user')->where('user_id', auth()->user()->id)->find($list);
+
+
+        }
 
     }
 

@@ -17,6 +17,7 @@ class CreateVideosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user');
             $table->string('name');
+            $table->longText('description');
             $table->timestamps();
 
             $table->foreign('user')

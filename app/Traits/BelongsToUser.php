@@ -12,6 +12,12 @@ trait BelongsToUser{
 
     }
 
+    public function get_user(){
+
+      return $this->belongsTo(User::class, 'user');
+
+  }
+
 }
 
 ?>

@@ -21,11 +21,10 @@
 
       <v-btn icon href='/notifications' class='mr-12'>
         <v-icon :color='notify.color' v-text='notify.icon'></v-icon>
-        <audio id='notify' src='/storage/sounds/pristine.mp3'></audio>
       </v-btn>
 
       <v-btn icon href="/chat" class='mr-12'>
-        <v-icon color='green accent-3' >chat</v-icon>
+        <v-icon :color='notify_message.color' >chat</v-icon>
       </v-btn>
 
       <a :href='"/user?id="+ me.id '>
@@ -47,7 +46,7 @@
             <v-list-item :href='"/user?id="+ me.id '>
 
                 <v-avatar>
-                  <img :src=" `/storage/avatars/${me.id}.jpg` ">
+                  <img :src="avatar">
                 </v-avatar>
 
               <v-list-item-title  class='white--text ml-3'> {{ me.name }}  </v-list-item-title>
@@ -62,31 +61,31 @@
             </v-list-item>
 
 
-            <v-list-item href='/photos'>
+            <v-list-item :href='`photos?id=${me.id}`'>
               <v-list-item-icon>
                 <v-icon  color='green accent-3'>collections</v-icon>
               </v-list-item-icon>
-              <v-list-item-title class='white--text'>Photos</v-list-item-title>
+              <v-list-item-title class='white--text'>My Photos / New</v-list-item-title>
             </v-list-item>
 
 
-            <v-list-item href='/videos'>
+            <v-list-item :href='`videos?id=${me.id}`'>
                 <v-list-item-icon>
                     <v-icon color='green accent-3'>video_library</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title class='white--text'>Videos</v-list-item-title>
+                <v-list-item-title class='white--text'>My Videos / New</v-list-item-title>
             </v-list-item>
 
-            <v-list-item href='/blogs'>
+            <v-list-item :href='`blogs?id=${me.id}`'>
                 <v-list-item-icon>
                     <v-icon color='green accent-3'>local_library</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title class='white--text'>Blogs</v-list-item-title>
+                <v-list-item-title class='white--text'>My Blogs / New</v-list-item-title>
             </v-list-item>
 
              <v-list-item href='/chat'>
                 <v-list-item-icon>
-                    <v-icon color='green accent-3'>chat</v-icon>
+                    <v-icon :color='notify_message.color'>chat</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title class='white--text'>Chat</v-list-item-title>
             </v-list-item>
@@ -96,6 +95,13 @@
                     <v-icon color='green accent-3' v-text='notify.icon'></v-icon>
                 </v-list-item-icon>
                 <v-list-item-title class='white--text'>Notifications</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item href='/edit_profile'>
+                <v-list-item-icon>
+                    <v-icon color='green accent-3'>edit</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title class='white--text'>Edit Profile</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click='logout()'>
@@ -128,23 +134,19 @@ encrypted: true
 
 });
 
-
-import store from '../store/index.js'
-
-import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
-
-
 export default {
 
     name: 'Navbar',
-
-    store: store,
 
     data: () => ({
 
             avatar: '',
 
+            me: '',
+
             notify : { icon: 'notifications', color: 'green accent-3', },
+
+            notify_message: { color: 'green accent-3' },
 
             drawer: false,
 
@@ -153,12 +155,6 @@ export default {
             mobile: screen.width  <= 600 ? false : true,
 
     }),
-
-    computed: {
-
-         ...mapState( ['me'] ),
-
-    },
 
     methods: {
 
@@ -178,14 +174,13 @@ export default {
 
       created(){
 
-        store.dispatch('getUser');
-
         axios.post('api/user').then( res => {
 
 
-                                            res.data.avatar === false ? this.avatar = 'storage/avatars/men/sample_1.png' : this.avatar =  'storage/avatars/'+res.data.id+'.jpg';
-                                            window.Echo.private('reaction.'+ res.data.id ).listen('React',  e  => { this.notify.icon = "notifications_active"; this.notify.color = "yellow"; document.getElementById('notify').play() } );
-                                            window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { console.log('New Message '); } );
+                                            Number(res.data.avatar) === 0 ? this.avatar = 'storage/avatars/men/sample_1.png' : this.avatar =  'storage/avatars/'+res.data.id+'.jpg';
+                                            this.me = res.data;
+                                            window.Echo.private('reaction.'+ res.data.id ).listen('React',  e  => { this.notify.icon = "notifications_active"; this.notify.color = "yellow"; } );
+                                            window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.notify_message.color = 'yellow'; } );
 
                                             }
 

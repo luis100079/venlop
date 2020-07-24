@@ -60,8 +60,8 @@ export default {
 
         axios.post('api/user').then( res => {
 
-                                            window.Echo.private('reaction.'+ res.data.id ).listen('React',  e  => { this.notify.icon = "notifications_active"; this.notify.color = "yellow"; this.notify.quantity += 1; } );
-                                            window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.message_notify.color = "yellow"; this.message_notify.quantity += 1; } );
+                                            window.Echo.private('reaction.'+ res.data.id ).listen('React',  e  => { this.notify.icon = "notifications_active"; this.notify.color = "yellow"; } );
+                                            window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.message_notify.color = "yellow";  } );
 
                                             } );
 

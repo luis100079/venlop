@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\User;
 
 
@@ -73,6 +74,10 @@ Route::middleware('auth:api')->group(function(){
 
     Route::post('like_photo', 'StorageController@like_photo');
 
+    Route::post('like_video', 'StorageController@like_video');
+
+    Route::post('like_blog', 'StorageController@like_blog');
+
     Route::post('get_related', 'GetController@get_related');
 
     Route::post('sendMessage', 'StorageController@sendMessage');
@@ -84,5 +89,15 @@ Route::middleware('auth:api')->group(function(){
     Route::post('notifications', 'GetController@notifications');
 
     Route::post('comment_photo', 'StorageController@comment_photo');
+
+    Route::post('comment_video', 'StorageController@comment_video');
+
+    Route::post('comment_blog', 'StorageController@comment_blog');
+
+    Route::post('delete_photo', 'StorageController@delete_photo');
+
+    Route::post('delete_video', 'StorageController@delete_video');
+
+    Route::post('delete_blog', 'StorageController@delete_blog');
 
 });

@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    use Traits\BelongsToUser;
+    use Traits\BelongsToUser, Traits\Likable, Traits\Commentable;
 }

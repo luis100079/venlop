@@ -12,15 +12,15 @@
 
             <v-card-title class='justify-center'>
 
-              <v-avatar @click='visitUser(photo.user)'>
-                <v-img :src='"/storage/avatars/"+photo.user+".jpg"'></v-img>
+              <v-avatar style='cursor:pointer;' @click='visitUser(photo.user)'>
+                <v-img :src=" Number(photo.get_user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+photo.get_user.id+'.jpg'"></v-img>
               </v-avatar>
 
             </v-card-title>
 
             <img width='100%' height='250px' :src='photo.path+photo.name'>
 
-            <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center>
+            <center><v-card-text class='font-italic'><span>{{ photo.get_user.name }}</span> <br> <span v-text=' photo.description !== null ? `"`+photo.description+`"` : "" '></span> </v-card-text></center>
 
             <v-card-actions class='justify-center'>
 
@@ -32,7 +32,7 @@
                 {{ photo.my_likes.length }}
               </span>
 
-              <v-btn class='ml-3' @click='active_img_src = photo.name; active_img_id = photo.id; comments = photo.my_comments'  v-bind="attrs" v-on="on" color='orange' icon>
+              <v-btn class='ml-4' @click='active_img_src = photo.name; active_img_id = photo.id; comments = photo.my_comments'  v-bind="attrs" v-on="on" color='orange' icon>
                 <v-icon size='30' color='warning'> comment </v-icon>
               </v-btn>
 
@@ -40,7 +40,37 @@
                 {{ photo.my_comments.length }}
               </span>
 
-            </v-card-actions>
+
+            <v-menu top right>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                dark
+                icon
+                v-bind="attrs"
+                v-on="on"
+                class='ml-4'
+
+              >
+                <v-icon color='primary'>widgets</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+
+              <v-list-item v-show='Number(photo.user) === Number(me.id)' @click='delete_photo(photo.id, i)'>
+                <v-list-item-title><v-icon color='red'>delete</v-icon></v-list-item-title>
+                Delete
+              </v-list-item>
+
+              <v-list-item @click=''>
+                <v-list-item-title><v-icon color='warning'>flag</v-icon></v-list-item-title>
+                Report
+              </v-list-item>
+
+            </v-list>
+          </v-menu>
+
+          </v-card-actions>
 
           </v-card>
 
@@ -65,12 +95,13 @@
 
     </v-app-bar>
 
-
-    <img class='mt-12' width='100%' height='200px' :src='"storage/photos/"+active_img_src'>
+<!--
+    <img style='display:block; margin:auto' class='mt-12' max-width='1000px' height='200px' :src='"storage/photos/"+active_img_src'>
 
     <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center> <v-divider></v-divider>
+-->
 
-    <v-textarea label='leave a comment' rows='2' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
+    <v-textarea class='mt-12' label='leave a comment' rows='3' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
     </v-textarea>
 
     <v-list>
@@ -105,6 +136,8 @@ export default {
 
         return{
 
+          type: false,
+
            me: [],
 
            photos: [],
@@ -132,7 +165,7 @@ export default {
 
               if(bottomOfWindow){
 
-                axios.post('api/list_photos', { num: this.photos.length }).then( res => { res.data.forEach( arr => { this.photos.push(arr) } ); } );
+                axios.post('api/list_photos', { type: this.type, num: this.photos.length }).then( res => { console.log(res.data); (res.data).forEach( arr => { this.photos.push(arr) } ); } );
 
                 }
 
@@ -166,13 +199,21 @@ export default {
 
         },
 
+        delete_photo(id, i){
+
+            axios.post('api/delete_photo', {id: id}).then( this.photos.splice( i, 1) );
+        }
+
     },
 
     mounted() { this.scroll() },
 
-    created(){ 
-        axios.post('api/user').then( res => { this.me = res.data } )     
-        axios.post('api/list_photos', { num: 0 }).then( res => { this.photos = res.data; } )        
+    created(){
+
+        if(this.$route.path === "/photos"){ this.type = true };
+        axios.post('api/user').then( res => { this.me = res.data } );
+        axios.post('api/list_photos', { type: this.type, num: 0 }).then( res => { console.log(res.data); this.photos = res.data } );
+
     }
 
 }

@@ -10,11 +10,11 @@
         <v-list-item @click='go(user.id)'>
 
           <v-list-item-avatar size='80'>
-            <img :src='"storage/avatars/"+user.id+".jpg"' >
+            <img :src=" Number(user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+user.id+'.jpg' ">
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-breadcrumbs :items="[{text: user.name}, {text: user.profession}]" divider='/'> </v-breadcrumbs>
+            <v-breadcrumbs :items="[{text: user.name}, {text: user.profession}]" :divider=' user.profession !== null ? "/" : "" '> </v-breadcrumbs>
           </v-list-item-content>
 
         </v-list-item>
@@ -59,7 +59,7 @@ export default {
 
      created(){
 
-         axios.post('api/search', this.data).then( res => {this.users = res.data } );
+         axios.post('api/search', this.data).then( res => { this.users = res.data; } );
 
         }
 

@@ -23,10 +23,11 @@
 
         <v-layout wrap align-center>
 
+            <blogs_list></blogs_list>
+
+<!--
+
             <v-flex  v-for='(post, i) in posts' :key='i'  xs12 md3>
-
-
-
 
                 <v-card :href='`/blog?id=${post.id}`' >
 
@@ -45,10 +46,14 @@
                       </v-card-actions>
 
                 </v-card>
-<!--                </a> -->
+
 
             </v-flex>
+
+-->
         </v-layout>
+
+
         </v-container>
       </v-card>
 
@@ -57,6 +62,7 @@
 </template>
 
 <script>
+import blogs_list from "../components/Blogs"
 
 export default {
 
@@ -67,13 +73,17 @@ export default {
       return {
         posts: null,
         me: false,
+        type: false,
 
       }
 
     },
 
+    components: {blogs_list},
+
     created(){
 
+        if(this.$route.path === "/videos"){ this.type = true };
 
         axios.post('api/user',  { value: this.$route.query.id } ).then( res => {
 

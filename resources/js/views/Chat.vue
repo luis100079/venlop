@@ -22,7 +22,7 @@
         <v-list-item v-for='(friend, i) of friends' :key='i' @click='get_chat( friend.id )'  v-bind="attrs" v-on="on">
 
         <v-list-item-avatar>
-            <v-img :src='`storage/avatars/${ friend.id }.jpg`'></v-img>
+            <v-img :src="Number(friend.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+friend.id+'.jpg' "></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -103,21 +103,6 @@
 import store from '../store/index.js'
 
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
-
-
-
-import Echo from 'laravel-echo';
-
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-
-broadcaster : 'pusher',
-key : 'd9461b0680b177d5911e',
-cluster : 'ap3',
-encrypted: true
-
-});
 
 export default {
 

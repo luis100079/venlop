@@ -18,4 +18,12 @@ trait Commentable{
 
     }
 
+    public function mycomments(){
+
+        {
+            return $this->morphToMany(User::class, 'commentable')->withPivot('comment');
+        }
+
+    }
+
 }

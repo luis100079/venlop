@@ -44,6 +44,7 @@
 
         <v-container fluid>
 
+        <Videos_list></Videos_list>
 
 <!---
 
@@ -54,7 +55,9 @@
 -->
 
 
-            <v-layout wrap align-center>
+<!--
+
+               <v-layout wrap align-center>
 
             <v-flex  v-for='(video, i) in videos' :key='i'  xs12 md3>
 
@@ -146,7 +149,7 @@
             </v-flex>
 
             </v-layout>
-
+-->
 
         </v-container>
 
@@ -159,6 +162,7 @@
 <script>
 
 import NavBar from '../components/NavBar'
+import Videos_list from '../components/Videos'
 
 export default {
 
@@ -202,12 +206,9 @@ export default {
 
     },
 
-    components: { NavBar },
-
-
+    components: { NavBar, Videos_list },
 
          created(){
-
 
          axios.post('api/user',  { value: this.$route.query.id } ).then( res => {
 

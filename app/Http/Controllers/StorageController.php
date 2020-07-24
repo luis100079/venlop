@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\File;
+// use Illuminate\Http\File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Notification;
 
 use App\Events\sendMessage;
@@ -21,6 +22,45 @@ use App\Follower;
 
 class StorageController extends Controller
 {
+    public function delete_photo(Request $request){
+
+        $photo = Photo::findOrFail($request->id);
+
+        if( (int)$photo->user === (int)auth()->user()->id ){
+
+            $photo->delete();
+            File::delete('storage/photos/'.$photo->name);
+
+        }
+
+    }
+
+    public function delete_video(Request $request){
+
+        $video = Video::findOrFail($request->id);
+
+        if( (int)$video->user === (int)auth()->user()->id ){
+
+            $video->delete();
+            File::delete('storage/videos/'.$video->name);
+
+        }
+
+    }
+
+    public function delete_blog(Request $request){
+
+        $blog = Post::findOrFail($request->id);
+
+        if( (int)$blog->user_id === (int)auth()->user()->id ){
+
+            $blog->delete();
+            File::delete('storage/videos/'.$blog->thumbnail);
+
+        }
+
+    }
+
 
     public function upload_avatar(Request $request){
 
@@ -93,6 +133,8 @@ class StorageController extends Controller
 
     }
 
+
+
     public function like_photo(Request $request){
 
         $like = Likable::where('user_id', auth()->user()->id )->where('likable_id', $request->id )->where('likable_type', 'App\Photo');
@@ -119,11 +161,89 @@ class StorageController extends Controller
 
     }
 
-    public function comment_photo(Request $request){
 
-        Photo::find($request->photo_id)->comment(auth()->user(), $request->comment);
+    public function like_video(Request $request){
+
+    //    $request->id = 1;
+
+        $like = Likable::where('user_id', auth()->user()->id )->where('likable_id', $request->id )->where('likable_type', 'App\Video');
+
+        if( count( $like->get() ) == 0 ){
+
+          $user = Video::findOrFail( $request->id )->get_user;
+
+          $video = Video::findOrFail( $request->id )->name;
+
+          Video::findOrFail( $request->id )->like( auth()->user()->id );
+
+/*          event( new React($user->id) );
+
+          Notification::send( $user, new Activity( auth()->user(), $photo ) );
+*/
+
+        //  request()->user()->notify(new Activity());
+
+        }else {
+
+            $like->delete();
+
+        }
 
     }
+
+
+
+    public function like_blog(Request $request){
+
+
+        $like = Likable::where('user_id', auth()->user()->id )->where('likable_id', $request->id )->where('likable_type', 'App\Post');
+
+        if( count( $like->get() ) == 0 ){
+
+          $user = Post::findOrFail( $request->id )->get_user;
+
+          $blog = Post::findOrFail( $request->id )->name;
+
+          Post::findOrFail( $request->id )->like( auth()->user()->id );
+
+/*          event( new React($user->id) );
+
+          Notification::send( $user, new Activity( auth()->user(), $photo ) );
+*/
+
+        //  request()->user()->notify(new Activity());
+
+        }else {
+
+            $like->delete();
+
+        }
+
+    }
+
+
+
+    public function comment_photo(Request $request){
+
+        Photo::find($request->blog_id)->comment(auth()->user(), $request->comment);
+
+    }
+
+    public function comment_blog(Request $request){
+
+        Post::find($request->blog_id)->comment(auth()->user(), $request->comment);
+
+    }
+
+
+
+
+    public function comment_video(Request $request){
+
+        Video::find($request->video_id)->comment(auth()->user(), $request->comment);
+
+    }
+
 
     public function sendMessage(Request $request){
 

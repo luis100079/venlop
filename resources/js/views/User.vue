@@ -13,14 +13,14 @@
 
             <v-img class='blue-grey darken-4 white--text align-end'
                     aspect-ratio='1.7'
-                    :src=" `/storage/avatars/${details.id}.jpg`">
+                    :src=" Number(details.avatar) === 0 ? `/storage/avatars/men/sample_1.png`  : `/storage/avatars/${details.id}.jpg`  ">
               <v-card-title>{{ details.name }}</v-card-title>
 
             </v-img>
 
             <v-card-text>
 
-              <p v-for='(detail, i) in details' :key='i' v-show=' detail != null && i != "id" && i != "created_at" && i != "updated_at"  && i != "about_me" && i != "gender" && i != "email" '>
+              <p v-for='(detail, i) in details' :key='i' v-show=' detail != null && i != "id" && i != "created_at" && i != "updated_at"  && i != "about_me" && i != "gender" && i != "email" && i != "avatar" '>
                   {{ i }}: {{ detail }}
               </p>
 
@@ -173,8 +173,6 @@
 
         <v-flex xs12 md4>
 
-
-
         <v-card v-show='  posts.length != 0  '>
 
           <v-carousel height='400'>
@@ -182,8 +180,7 @@
                 :src='post.path + post.thumbnail' :href='"/blog?id="+post.id'
                 reverse-transition='fade-transition' transition='fade-transition'>
 
-
-                <v-card-title class='justify-center'> {{ post.title }} </v-card-title>
+                <v-card-title class='white--text justify-center'> {{ post.title }} </v-card-title>
 
             </v-carousel-item>
           </v-carousel>
@@ -207,7 +204,7 @@
               <v-carousel-item  v-for='(video, i) in videos' :key='i'>
                   <v-sheet height='100%'>
 
-                    <video width='100%' height='90%' controls :src='video.path+video.name'></video>
+                    <video width='100%' height='90%' :src='video.path+video.name'></video>
 
                   </v-sheet>
 

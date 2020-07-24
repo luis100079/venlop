@@ -6,7 +6,7 @@
 
           <v-card-title>
 
-            <span v-show='me'>Upload Foto</span>
+            <span v-show='me' style="cursor:pointer" >Upload Foto</span>
 <!--
                     <v-dialog v-model='dialog' persistent max-width="390">
 
@@ -64,7 +64,7 @@
 -->
                     <v-btn v-show='me' color='red' icon>
                       <label for='upload_input'>
-                        <v-icon size='40'>add_photo_alternate</v-icon>
+                        <v-icon  style="cursor:pointer"  size='40'>add_photo_alternate</v-icon>
                       </label>
                     </v-btn>
 
@@ -95,8 +95,10 @@
 
         <v-container fluid>
 
+        <photos_component></photos_component>
 
 
+<!--
             <v-layout wrap align-center>
 
             <v-flex v-for='(photo, i) in photos' :key='i'  xs12 md3>
@@ -170,7 +172,7 @@
 
             </v-layout>
 
-
+-->
 
         </v-container>
       </v-card>
@@ -180,10 +182,13 @@
 </template>
 
 <script>
+import photos_component from '../components/Photos'
 
 export default {
 
     name: 'Fotos',
+
+    components: { photos_component },
 
     data(){
 

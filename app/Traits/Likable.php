@@ -6,6 +6,14 @@ use App\User;
 
 trait likable{
 
+    public function mylikes(){
+
+        {
+            return $this->morphToMany(User::class, 'likable');
+        }
+
+    }
+
     public function like($user = null){
 
         return $this->likes()->attach( User::find( $user ) );

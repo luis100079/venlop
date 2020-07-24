@@ -2,17 +2,16 @@
 
   <v-container>
 
-
     <v-card>
 
         <v-card-title>
 
           <span style='font-size:12px;'>
 
-           <v-avatar><v-img src='storage/avatars/1.jpg'></v-img></v-avatar> Luis Rene Lopez<br>
-           <v-icon color='green accent-3'>mdi-eye</v-icon> 192
-           <v-btn icon> <v-icon color='red'>mdi-heart-outline</v-icon> </v-btn> 153 <br>
-           <v-icon color='warning'>mdi-calendar</v-icon> Published on 17/12/2818 <br>
+           <v-avatar><v-img :src='photo'></v-img></v-avatar> <span>.....Name.....</span> <br>
+           <v-icon color='green accent-3'>mdi-eye</v-icon> <span> {{ details.seens }} </span>
+           <v-btn icon  @click='like()'> <v-icon color='red' v-text=' likes.filter( arr => { return  arr.id === me.id }).length ? `mdi-heart` : `mdi-heart-outline` '></v-icon> </v-btn>  <span  v-show='likes.length != 0'>{{ likes.length }}</span>  <br>
+           <v-icon color='warning'>mdi-calendar</v-icon> <span>Published on {{ date_created  }}</span> <br>
 
           </span>
         </v-card-title>
@@ -27,7 +26,7 @@
 
           <template v-slot:activator="{ on, attrs }">
 
-            <v-btn color='warning' v-bind="attrs" v-on="on" text>Comments (  <v-icon>comment</v-icon>  123)</v-btn>
+            <v-btn color='warning' v-bind="attrs" v-on="on" text>Comments (  <v-icon>comment</v-icon>  <span v-show='comments.length != 0 '>{{ comments.length }}</span> )</v-btn>
 
           </template>
 
@@ -36,7 +35,7 @@
 
             <v-app-bar dark color='warning' fixed>
 
-              <v-btn icon dark @click="comment_dialog = false; comments = []">
+              <v-btn icon dark @click="comment_dialog = false; new_comment = []">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
 
@@ -50,7 +49,25 @@
 
               <span class='my-1'>...</span>
 
-              <v-textarea background-color="grey lighten-5" class='my-12' label='leave a comment' rows='2' color='warning'> </v-textarea>
+              <v-textarea background-color="grey lighten-5" class='my-12' label='leave a comment' v-model='new_comment' rows='2' color='warning' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '> </v-textarea>
+
+
+    <v-list>
+
+      <v-list-item v-for='(comment, i) of comments ' :key='i'>
+
+        <v-list-item-avatar>
+          <v-img :src='"storage/avatars/"+comment.id+".jpg"'></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title> {{ comment.name }} </v-list-item-title>
+          <v-list-item-subtitle> {{ comment.pivot.comment }} </v-list-item-subtitle>
+        </v-list-item-content>
+
+      </v-list-item>
+
+    </v-list>
 
 
             </v-card>
@@ -76,25 +93,68 @@ export default {
     data() {
 
       return{
-            me: false,
-            details: null,
+            id: "",
+            photo: "",
+            me: [],
+            new_comment: "",
+            details: [],
+            comments: [],
+            likes: [],
             comment_dialog: false,
-
+            date_created: "",
             }
 
           },
+
+    methods: {
+
+      like(){
+
+
+        if( this.likes.filter( i => { return i.id == this.me.id }).length !== 0  ){
+
+             this.likes.forEach( (e, i) => { e.id == this.me.id && this.likes.splice( i, 1) } )
+
+          }
+
+        else if ( this.likes.filter( i => { return i.id == this.me.id }).length == 0 ){
+
+          this.likes.push( { id: this.me.id } )
+
+        }
+
+          axios.post('api/like_blog', { id: this.id } ).then( res =>{ console.log(res.data) } );
+
+        },
+
+        comment(){
+
+          this.comments.unshift({ id: this.me.id, name: this.me.name, pivot: { comment: this.new_comment } })
+
+          axios.post('api/comment_blog', {blog_id: this.id, comment: this.new_comment });
+
+        },
+
+
+      },
 
     created(){
 
         axios.post('api/get_post_data', { value: this.$route.query.id }).then( res => {
 
-                  this.details = res.data
-                  document.getElementById('HTMLContainer').innerHTML = res.data.content
+              this.id = this.$route.query.id;
+              this.photo = "storage/avatars/"+res.data.content.user_id+".jpg";
+              this.details = res.data.content;
+              this.comments = res.data.comments; console.log(res.data.comments);
+              this.likes = res.data.likes;
+              this.date_created = (res.data.content.created_at).substr(0,10)
+              document.getElementById('HTMLContainer').innerHTML = res.data.content.content;
 
          } );
 
-    }
+         axios.post('api/user').then( res => { this.me = res.data } );
 
+    }
 
 }
 </script>
