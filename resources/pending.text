@@ -1,0 +1,2 @@
+Delete polymorphic relatinships when deleting elements.
+https://laracasts.com/discuss/channels/eloquent/cascade-deleting-with-polymorphic-relationship

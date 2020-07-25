@@ -7,7 +7,7 @@
       <v-card class='justify-center my-1'>
 
           <a :href='"/blog?id="+post.id' style='text-decoration:none'>
-            <v-img class='blue-grey darken-4 white--text align-center' aspect-ratio='1.7' :src='post.path+post.thumbnail'>
+            <v-img class='blue-grey darken-4 white--text align-center' aspect-ratio='1.7' :src='"storage/photos/"+post.thumbnail'>
             </v-img>
           </a>
 
@@ -19,7 +19,7 @@
 
             <p>
               <v-avatar size='30'>
-                <v-img :src='"/storage/avatars/"+post.user_id+".jpg"'></v-img>
+                <v-img  :src="Number(post.user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+post.user.id+'.jpg'"></v-img>
               </v-avatar> <span>{{ post.user.name }}</span>
             </p>
 

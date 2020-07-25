@@ -18,7 +18,7 @@
 
             </v-card-title>
 
-            <img width='100%' height='250px' :src='photo.path+photo.name'>
+            <img width='100%' height='250px' :src='"storage/photos/"+photo.name'>
 
             <center><v-card-text class='font-italic'><span>{{ photo.get_user.name }}</span> <br> <span v-text=' photo.description !== null ? `"`+photo.description+`"` : "" '></span> </v-card-text></center>
 
@@ -109,7 +109,7 @@
       <v-list-item v-for='(comment, i) of comments ' :key='i'>
 
         <v-list-item-avatar>
-          <v-img :src='"storage/avatars/"+comment.id+".jpg"'></v-img>
+          <v-img  :src="Number(comment.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+comment.id+'.jpg'"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -165,7 +165,7 @@ export default {
 
               if(bottomOfWindow){
 
-                axios.post('api/list_photos', { type: this.type, num: this.photos.length }).then( res => { console.log(res.data); (res.data).forEach( arr => { this.photos.push(arr) } ); } );
+                axios.post('api/list_photos', { type: this.type, num: this.photos.length }).then( res => { (res.data).forEach( arr => { this.photos.push(arr) } ); } );
 
                 }
 
@@ -177,7 +177,7 @@ export default {
 
         comment(){
 
-            this.comments.unshift({id: this.me.id, name: this.me.name, pivot:{ comment: this.new_comment } })
+            this.comments.unshift({id: this.me.id, name: this.me.name, pivot:{ comment: this.new_comment }, avatar:this.me.avatar  })
 
             axios.post('api/comment_photo', {photo_id: this.active_img_id, comment: this.new_comment });
 
@@ -212,7 +212,7 @@ export default {
 
         if(this.$route.path === "/photos"){ this.type = true };
         axios.post('api/user').then( res => { this.me = res.data } );
-        axios.post('api/list_photos', { type: this.type, num: 0 }).then( res => { console.log(res.data); this.photos = res.data } );
+        axios.post('api/list_photos', { type: this.type, num: 0 }).then( res => { this.photos = res.data } );
 
     }
 

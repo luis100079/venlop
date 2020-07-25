@@ -8,7 +8,7 @@
 
           <span style='font-size:12px;'>
 
-           <v-avatar><v-img :src='photo'></v-img></v-avatar> <span>.....Name.....</span> <br>
+           <v-avatar><v-img :src="Number(user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+user.id+'.jpg'"></v-img></v-avatar> <span>{{ user.name }}</span> <br>
            <v-icon color='green accent-3'>mdi-eye</v-icon> <span> {{ details.seens }} </span>
            <v-btn icon  @click='like()'> <v-icon color='red' v-text=' likes.filter( arr => { return  arr.id === me.id }).length ? `mdi-heart` : `mdi-heart-outline` '></v-icon> </v-btn>  <span  v-show='likes.length != 0'>{{ likes.length }}</span>  <br>
            <v-icon color='warning'>mdi-calendar</v-icon> <span>Published on {{ date_created  }}</span> <br>
@@ -57,7 +57,7 @@
       <v-list-item v-for='(comment, i) of comments ' :key='i'>
 
         <v-list-item-avatar>
-          <v-img :src='"storage/avatars/"+comment.id+".jpg"'></v-img>
+          <v-img  :src="  Number(comment.avatar) === 0   ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+comment.id+'.jpg'"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -95,6 +95,7 @@ export default {
       return{
             id: "",
             photo: "",
+            user: "",
             me: [],
             new_comment: "",
             details: [],
@@ -129,7 +130,7 @@ export default {
 
         comment(){
 
-          this.comments.unshift({ id: this.me.id, name: this.me.name, pivot: { comment: this.new_comment } })
+          this.comments.unshift({ id: this.me.id, name: this.me.name, pivot: { comment: this.new_comment }, avatar:this.me.avatar })
 
           axios.post('api/comment_blog', {blog_id: this.id, comment: this.new_comment });
 
@@ -140,13 +141,15 @@ export default {
 
     created(){
 
+
         axios.post('api/get_post_data', { value: this.$route.query.id }).then( res => {
 
               this.id = this.$route.query.id;
               this.photo = "storage/avatars/"+res.data.content.user_id+".jpg";
               this.details = res.data.content;
-              this.comments = res.data.comments; console.log(res.data.comments);
+              this.comments = res.data.comments;
               this.likes = res.data.likes;
+              this.user = res.data.user;
               this.date_created = (res.data.content.created_at).substr(0,10)
               document.getElementById('HTMLContainer').innerHTML = res.data.content.content;
 

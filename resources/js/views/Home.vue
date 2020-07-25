@@ -35,7 +35,7 @@ import Videos from '../components/Videos'
 import Blogs from '../components/Blogs'
 
 export default {
- 
+
   components: {Photos, Videos, Blogs},
 
     data(){

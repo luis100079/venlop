@@ -13,14 +13,14 @@
         <v-card-title class='justify-center'>
 
           <v-avatar>
-            <v-img :src='"/storage/avatars/"+video.user+".jpg"'></v-img>
+            <v-img :src=" Number(video.get_user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+video.get_user.id+'.jpg'"></v-img>
           </v-avatar>
 
           <h2 class='ml-6 font-weight-thin font-italic'></h2>
 
         </v-card-title>
 
-        <video style='cursor:pointer' :src='video.path + video.name' @click='play($event)' width='100%' height='250px'></video>
+        <video style='cursor:pointer' :src='"storage/videos/" + video.name' @click='play($event)' width='100%' height='250px'></video>
 
           <center><v-card-text class='font-italic'><span>{{ video.get_user.name }}</span> <br> <span v-text=' video.description !== null ? `"`+video.description+`"` : "" '></span> </v-card-text></center>
 
@@ -101,7 +101,7 @@
 
     <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center> <v-divider></v-divider>
 -->
-    <v-textarea  class='mt-12' label='leave a comment' rows='2' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
+    <v-textarea  class='mt-12' label='leave a comment' rows='3' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
     </v-textarea>
 
     <v-list>
@@ -109,7 +109,7 @@
       <v-list-item v-for='(comment, i) of comments ' :key='i'>
 
         <v-list-item-avatar>
-          <v-img :src='"storage/avatars/"+comment.id+".jpg"'></v-img>
+          <v-img  :src="Number(comment.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+comment.id+'.jpg'"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -164,7 +164,7 @@ export default {
 
         comment(){
 
-          this.comments.unshift({id: this.me.id, name: this.me.name, pivot:{ comment: this.new_comment } })
+          this.comments.unshift({id: this.me.id, name: this.me.name, pivot:{ comment: this.new_comment },  avatar:this.me.avatar })
 
           axios.post('api/comment_video', {video_id: this.active_video_id, comment: this.new_comment });
 
@@ -207,7 +207,7 @@ export default {
 
         }
 
-          axios.post('api/like_video', { id: id } ).then( res =>{ console.log(res.data) } );
+          axios.post('api/like_video', { id: id } );
 
         },
 

@@ -19,6 +19,8 @@ use App\User;
 
 Auth::routes();
 
+Route::get('post', 'GetController@get_post_data');
+
 Route::get('{any?}', function () {
 
     return view('welcome');

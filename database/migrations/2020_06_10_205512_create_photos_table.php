@@ -17,7 +17,7 @@ class CreatePhotosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user');
             $table->string('name');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
 
             $table->foreign('user')

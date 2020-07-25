@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->longText('content');
             $table->text('thumbnail');
             $table->unsignedBigInteger('user_id');
+            $table->integer('seens')->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')

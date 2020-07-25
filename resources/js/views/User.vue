@@ -30,6 +30,9 @@
 
               <v-btn @click='show = !show ' color='green' text>About me</v-btn>
 
+
+<!--
+
               <v-tooltip top>
 
                 <template v-slot:activator="{ on, attrs }">
@@ -46,6 +49,7 @@
 
               </v-tooltip>
 
+-->
 
              <div v-show=' !me '>
 
@@ -121,7 +125,7 @@
                              <v-img
                                 v-on='on'
 
-                                :src='photo.path+photo.name'
+                                :src='"storage/photos/"+photo.name'
                                 aspect-ratio='1'
                                 class='grey lighten-2'>
 
@@ -132,19 +136,11 @@
                         <v-card>
 
                          <v-img
-                         :src='photo.path+photo.name'
+                         :src='"storage/photos/"+photo.name'
                           aspect-ratio='1'
                           class='grey lighten-2'>
 
                           </v-img>
-
-                          <v-card-actions class='justify-center'>
-
-                            <v-btn icon>
-                              <v-icon color='red'>mdi-heart-outline</v-icon>
-                            </v-btn>
-
-                          </v-card-actions>
 
                         </v-card>
 
@@ -177,7 +173,7 @@
 
           <v-carousel height='400'>
             <v-carousel-item  v-for='(post, i) in posts' :key='i'
-                :src='post.path + post.thumbnail' :href='"/blog?id="+post.id'
+                :src=' "storage/photos/" + post.thumbnail' :href='"/blog?id="+post.id'
                 reverse-transition='fade-transition' transition='fade-transition'>
 
                 <v-card-title class='white--text justify-center'> {{ post.title }} </v-card-title>
@@ -196,7 +192,7 @@
 
 
 
-         <v-flex xs12 md8>
+         <v-flex xs12 md8 class=''>
 
           <v-card v-show='  videos.length != 0  '>
 
@@ -204,7 +200,7 @@
               <v-carousel-item  v-for='(video, i) in videos' :key='i'>
                   <v-sheet height='100%'>
 
-                    <video width='100%' height='90%' :src='video.path+video.name'></video>
+                    <video width='100%' height='90%' :src='"storage/videos/"+video.name'></video>
 
                   </v-sheet>
 
@@ -250,18 +246,6 @@ export default {
               show: false,
               me: false,
 
-                 items: [ {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-          },]
           }
       },
 

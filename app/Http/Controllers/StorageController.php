@@ -66,31 +66,33 @@ class StorageController extends Controller
 
         $path = $request->file('avatar')->storeAs('public/avatars', $request->user()->id.".jpg");
         $user = User::find( auth()->user()->id );
-        $user->photo = 1;
+        $user->avatar = 1;
         $user->save();
-
 
     }
 
     public function set_details(Request $request){
 
+      request()->validate([ 'name' => ['required', 'max:50'] ]);
+
       $db = User::findOrFail( auth()->user()->id );
 
       if($request->gender == "Male"){ $request->gender = 1; }else if( $request->gender == "Female" ){ $request->gender == 0; }
 
-      $db->name = $request->name;
+      $db->name =  $request->name;
       $db->profession = $request->profession;
-      $db->tel = $request->tel;
-      $db->country = $request->country;
+      $db->tel =  $request->tel;
+      $db->country =  $request->country;
       $db->gender = $request->gender;
       $db->about_me = $request->about_me;
-
 
       $db->save();
 
     }
 
     public function upload_photo(Request $request){
+
+//        request()->validate([ 'img' => ['mimes:jpg', 'file|size:3000'], ]);
 
         $name = time().'_'.rand().".jpg" ;
         $img = $request->file('img');
@@ -119,6 +121,8 @@ class StorageController extends Controller
     }
 
     public function create_post(Request $request){
+
+        request()->validate([ 'title' => ['required', 'max:50'] ]);
 
         $name = time().'_'.rand().".jpg";
         $img = $request->file('thumbnail');
@@ -225,7 +229,7 @@ class StorageController extends Controller
 
     public function comment_photo(Request $request){
 
-        Photo::find($request->blog_id)->comment(auth()->user(), $request->comment);
+        Photo::find($request->photo_id)->comment(auth()->user(), $request->comment);
 
     }
 

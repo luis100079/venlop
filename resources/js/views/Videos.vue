@@ -3,9 +3,7 @@
 
     <v-container>
 
-
       <NavBar></NavBar>
-
 
         <v-card>
 
@@ -24,7 +22,6 @@
 
               <v-card style='overflow:hidden;'>
                 <video width='100%' id='video_1' v-show_preview='this' controls></video>
-
               <v-card-actions>
 
                 <v-row justify='center'>
@@ -193,12 +190,10 @@ export default {
 
         upload_video(){
 
-
           var src = document.getElementById('input_video').files[0];
           var video = new FormData();
           video.append('video', src);
-          axios.post('api/upload_video', video, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
-
+          axios.post('api/upload_video', video, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => { window.location.reload() } );
 
         },
 

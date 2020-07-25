@@ -73,7 +73,7 @@ class GetController extends Controller
         $post = Post::findOrFail($request->value); /*  Post::with('myLikes', 'myComments') */
         $post->seens = (int)$post->seens + 1;
         $post->save();
-        return json_encode( ['content' => $post, 'comments' => $post->myComments, 'likes' => $post->myLikes] );
+        return json_encode( ['content' => $post, 'comments' => $post->myComments, 'likes' => $post->myLikes, 'user' => $post->user, ] );
 
     }
 

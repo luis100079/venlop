@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 style="
-background: url('storage/photos/globo-2.jpg') no-repeat center fixed;
+background: url('storage/photos/background.jpg') no-repeat center fixed;
 background-size: cover;">
 <head>
     <meta charset="utf-8">
@@ -25,19 +25,19 @@ background-size: cover;">
 <body>
 
 
-    <div id="app"
-        style='
-            background: url("storage/photos/globo-2.jpg") no-repeat center fixed;
-            background-size: cover;'>
+    <div id="app" style='
+            background: url("storage/photos/background.jpg") no-repeat center fixed; background-size: cover;'>
 
         <nav  class="navbar navbar-expand-md navbar-light bg-dark shadow-sm" >
 
             <div class="container">
+
                 <a class="navbar-brand text-success " href="{{ url('/') }}">
                     {{ config('app.name', 'Venlop') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
+
+                <button class="navbar-toggler  btn-success" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon text-success"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
