@@ -11,13 +11,12 @@
       <v-col align='center'>
 
 
-      <v-card max-width='800' >
+      <v-card max-width='800'>
 
         <v-card-title class='justify-center'>
             <v-icon color='green accent-3'>fa fa-group</v-icon>
             <v-btn color='black' text>Known People</v-btn>
         </v-card-title>
-
 
         <v-list-item v-for='(friend, i) of friends' :key='i' @click='get_chat( friend.id )'  v-bind="attrs" v-on="on">
 
@@ -139,7 +138,11 @@ export default {
 
 
 
-        get_chat(e){ this.active_chat = e;  axios.post('api/messages', { id: e } ).then( res =>{ this.chat = res.data;  } );  },
+        get_chat(e){ this.active_chat = e;
+                     axios.post('api/messages', { id: e } ).then( res =>{ this.chat = res.data; } );
+                     axios.post('api/read_messages', { fiend: e } ).then( res =>{ console.log(res.data); } );
+
+                       },
 
         send_message(){
 

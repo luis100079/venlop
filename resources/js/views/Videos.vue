@@ -22,11 +22,14 @@
 
               <v-card style='overflow:hidden;'>
                 <video width='100%' id='video_1' v-show_preview='this' controls></video>
+
+                <v-text-field  color='green' id='video_description' label='Description'></v-text-field>
+<!-- v-model="video_description" -->
               <v-card-actions>
 
                 <v-row justify='center'>
                   <v-btn @click='upload_video()' icon>
-                    <v-icon color='green' size='60'>check_circle_outline</v-icon>
+                    <v-icon color='green' size='80'>check_circle_outline</v-icon>
                   </v-btn>
                 </v-row>
 
@@ -171,6 +174,8 @@ export default {
 
             videos: null,
 
+            video_description: "",
+
             me: false,
 
             upload_dialog: false
@@ -193,6 +198,7 @@ export default {
           var src = document.getElementById('input_video').files[0];
           var video = new FormData();
           video.append('video', src);
+          video.append('video_description', document.getElementById('video_description').value);
           axios.post('api/upload_video', video, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => { window.location.reload() } );
 
         },

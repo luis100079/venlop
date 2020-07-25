@@ -192,7 +192,7 @@
 
 
 
-         <v-flex xs12 md8 class=''>
+         <v-flex xs12 md7 class='ml-11'>
 
           <v-card v-show='  videos.length != 0  '>
 

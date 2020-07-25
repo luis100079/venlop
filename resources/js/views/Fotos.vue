@@ -76,13 +76,15 @@
 
                       <v-btn @click='close_canvas()' style='position:absolute; right:0; z-index:2;' icon><v-icon color='red'>close</v-icon></v-btn>
 
-                      <img id='prev_img' src='' width='100%' v-show_preview='this'>
+                      <img id='prev_img' src='' height='400' width='100%' v-show_preview='this'>
+
+                         <v-text-field id="photo_description" color='green' label='Description'></v-text-field>
 
                       <v-card-actions class='justify-center'>
 
-                            <v-btn @click='upload_photo()' color='green' icon>
-                              <v-icon size='50'>check_circle_outline</v-icon>
-                            </v-btn>
+                        <v-btn @click='upload_photo()' color='green' icon>
+                          <v-icon size='80'>check_circle_outline</v-icon>
+                        </v-btn>
 
                       </v-card-actions>
 
@@ -197,7 +199,7 @@ export default {
           dialog: false,
           dialog2 : false,
           tomada: false,
-          me: false
+          me: false,
       }
 
     },
@@ -230,6 +232,7 @@ export default {
             var src = document.getElementById('upload_input').files[0];
             var photo = new FormData();
             photo.append('img', src);
+            photo.append('photo_description', document.getElementById('photo_description').value);
             axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( window.location.reload() );
 
         },

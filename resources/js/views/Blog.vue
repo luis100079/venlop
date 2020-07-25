@@ -8,7 +8,11 @@
 
           <span style='font-size:12px;'>
 
-           <v-avatar><v-img :src="Number(user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+user.id+'.jpg'"></v-img></v-avatar> <span>{{ user.name }}</span> <br>
+           <a :href=' "user?id="+user.id '>
+           <v-avatar ><v-img :src="Number(user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+user.id+'.jpg'"></v-img></v-avatar>
+           </a> <span>{{ user.name }}</span>
+           <br>
+
            <v-icon color='green accent-3'>mdi-eye</v-icon> <span> {{ details.seens }} </span>
            <v-btn icon  @click='like()'> <v-icon color='red' v-text=' likes.filter( arr => { return  arr.id === me.id }).length ? `mdi-heart` : `mdi-heart-outline` '></v-icon> </v-btn>  <span  v-show='likes.length != 0'>{{ likes.length }}</span>  <br>
            <v-icon color='warning'>mdi-calendar</v-icon> <span>Published on {{ date_created  }}</span> <br>
@@ -56,9 +60,11 @@
 
       <v-list-item v-for='(comment, i) of comments ' :key='i'>
 
+        <a :href=' "user?id="+comment.id '>
         <v-list-item-avatar>
           <v-img  :src="  Number(comment.avatar) === 0   ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+comment.id+'.jpg'"></v-img>
         </v-list-item-avatar>
+        </a>
 
         <v-list-item-content>
           <v-list-item-title> {{ comment.name }} </v-list-item-title>
@@ -124,7 +130,7 @@ export default {
 
         }
 
-          axios.post('api/like_blog', { id: this.id } ).then( res =>{ console.log(res.data) } );
+          axios.post('api/like_blog', { id: this.id } );
 
         },
 

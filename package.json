@@ -14,7 +14,6 @@
     "express": "^4.17.1",
     "ioredis": "^4.17.3",
     "laravel-echo": "^1.8.0",
-    "material-icons": "^0.3.1",
     "pusher-js": "^6.0.3",
     "socket.io": "^2.3.0",
     "vue-router": "^3.3.1",

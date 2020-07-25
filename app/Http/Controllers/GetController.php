@@ -173,7 +173,21 @@ class GetController extends Controller
 
     public function notifications(Request $request){
 
-        return tap( auth()->user()->unreadNotifications )->markAsRead();
+        if( (int)$request->clear ===  0){ return  auth()->user()->unreadNotifications; }
+
+        else{
+
+          return  tap( auth()->user()->unreadNotifications )->markAsRead();
+
+        }
+
+    }
+
+    public function unread_messages(Request $request){
+
+        $id = auth()->user()->id;
+
+        return Chat::where(function ($query) use($id) { $query->where('to', $id)->where('seen', 0); })->orWhere(function ($query) use($id) { $query->where('to', $id)->where('seen', 0); })->where('to', 1)->get();
 
     }
 

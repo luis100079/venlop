@@ -100,6 +100,7 @@ class StorageController extends Controller
 
         $db = new Photo;
         $db->name = $name;
+        $db->description = $request->photo_description;
         $db->user = auth()->user()->id;
         $db->save();
 
@@ -115,6 +116,7 @@ class StorageController extends Controller
 
         $db = new Video;
         $db->name = $name;
+        $db->description = $request->video_description;
         $db->user = auth()->user()->id;
         $db->save();
 
@@ -147,15 +149,17 @@ class StorageController extends Controller
 
           $user = Photo::findOrFail( $request->id )->get_user;
 
-          $photo = Photo::findOrFail( $request->id )->name;
+          $photo = Photo::findOrFail( $request->id );
 
-          Photo::findOrFail( $request->id )->like( auth()->user()->id );
+          if( $photo->user !== auth()->user()->id ){
 
-          event( new React($user->id) );
+            Photo::findOrFail( $request->id )->like( auth()->user()->id );
 
-          Notification::send( $user, new Activity( auth()->user(), $photo ) );
+            event( new React($user->id) );
 
-        //  request()->user()->notify(new Activity());
+            Notification::send( $user, new Activity( auth()->user(), $photo->name, "liked", "photo", auth()->user()->avatar ) );
+
+          }
 
         }else {
 
@@ -180,13 +184,6 @@ class StorageController extends Controller
 
           Video::findOrFail( $request->id )->like( auth()->user()->id );
 
-/*          event( new React($user->id) );
-
-          Notification::send( $user, new Activity( auth()->user(), $photo ) );
-*/
-
-        //  request()->user()->notify(new Activity());
-
         }else {
 
             $like->delete();
@@ -204,18 +201,19 @@ class StorageController extends Controller
 
         if( count( $like->get() ) == 0 ){
 
-          $user = Post::findOrFail( $request->id )->get_user;
+          $user = Post::findOrFail( $request->id )->user;
 
-          $blog = Post::findOrFail( $request->id )->name;
+          $blog = Post::findOrFail( $request->id );
 
           Post::findOrFail( $request->id )->like( auth()->user()->id );
 
-/*          event( new React($user->id) );
+          if( (int)$blog->user_id !== auth()->user()->id ){
 
-          Notification::send( $user, new Activity( auth()->user(), $photo ) );
-*/
+            event( new React($user->id) );
 
-        //  request()->user()->notify(new Activity());
+            Notification::send( $user, new Activity( auth()->user(), $blog->thumbnail, "liked", "blog", auth()->user()->avatar ) );
+
+          }
 
         }else {
 
@@ -225,11 +223,24 @@ class StorageController extends Controller
 
     }
 
+    public function read_messages(Requesr $request){}
+
 
 
     public function comment_photo(Request $request){
 
         Photo::find($request->photo_id)->comment(auth()->user(), $request->comment);
+
+        $photo = Photo::find($request->photo_id);
+
+        if( (int)$photo->user !== auth()->user()->id ){
+
+            event( new React($photo->user) );
+
+            Notification::send( $photo->get_user, new Activity( auth()->user(), $photo->name, "commented", "photo", auth()->user()->avatar ) );
+
+          }
+
 
     }
 
@@ -237,9 +248,17 @@ class StorageController extends Controller
 
         Post::find($request->blog_id)->comment(auth()->user(), $request->comment);
 
+        $post = Post::find($request->blog_id);
+
+        if( (int)$post->user_id !== auth()->user()->id ){
+
+            event( new React($post->user_id) );
+
+            Notification::send( $post->user, new Activity( auth()->user(), $post->thumbnail, "commented", "blog", auth()->user()->avatar ) );
+
+          }
+
     }
-
-
 
 
     public function comment_video(Request $request){

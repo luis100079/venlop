@@ -12,15 +12,18 @@ class Activity extends Notification
 {
     use Queueable;
 
-    protected $data, $photo;
+    protected $data, $photo, $media, $type;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($data, $photo)
+    public function __construct($data, $photo, $type, $media, $avatar)
     {
+        $this->type = $type;
+        $this->media = $media;
+        $this->avatar = $avatar;
         $this->data = $data;
         $this->photo =  $photo;
     }
@@ -64,7 +67,10 @@ class Activity extends Notification
         return [
             'name' => $this->data->name,
             'id' => $this->data->id,
+            'avatar' => $this->avatar,
             'photo' => $this->photo,
+            'type' => $this->type,
+            'media' => $this->media,
         ];
     }
 }

@@ -18,13 +18,28 @@
         <v-icon color='green accent-3' >home</v-icon>
       </v-btn>
 
-
       <v-btn icon href='/notifications' class='mr-12'>
+
+       <v-badge
+                    :content="notifications"
+                    :value="notifications"
+                      color="red"
+                      overlap
+                    >
         <v-icon :color='notify.color' v-text='notify.icon'></v-icon>
+        </v-badge>
       </v-btn>
 
+
       <v-btn icon href="/chat" class='mr-12'>
+          <v-badge
+            :content="messages"
+            :value="messages"
+                color="red"
+                overlap
+          >
         <v-icon :color='notify_message.color' >chat</v-icon>
+          </v-badge>
       </v-btn>
 
       <a :href='"/user?id="+ me.id '>
@@ -91,9 +106,12 @@
             </v-list-item>
 
              <v-list-item href='/notifications'>
+
                 <v-list-item-icon>
                     <v-icon color='green accent-3' v-text='notify.icon'></v-icon>
                 </v-list-item-icon>
+
+
                 <v-list-item-title class='white--text'>Notifications</v-list-item-title>
             </v-list-item>
 
@@ -154,6 +172,10 @@ export default {
 
             mobile: screen.width  <= 600 ? false : true,
 
+            notifications: 0,
+
+            messages: 0,
+
     }),
 
     methods: {
@@ -176,15 +198,19 @@ export default {
 
         axios.post('api/user').then( res => {
 
-
                                             Number(res.data.avatar) === 0 ? this.avatar = 'storage/avatars/men/sample_1.png' : this.avatar =  'storage/avatars/'+res.data.id+'.jpg';
                                             this.me = res.data;
-                                            window.Echo.private('reaction.'+ res.data.id ).listen('React',  e  => { this.notify.icon = "notifications_active"; this.notify.color = "yellow"; } );
-                                            window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.notify_message.color = 'yellow'; } );
+                                            window.Echo.private('reaction.'+ res.data.id ).listen('React',  e  => { this.notify.icon = "notifications_active"; this.notify.color = "yellow"; this.notifications ++ ;} );
+                                            window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.messages ++; this.notify_message.color = 'yellow'; } );
 
                                             }
 
                                     );
+
+         axios.post('api/notifications', { clear: 0 } ).then( res => { this.notifications = res.data.length; if( res.data.length != 0){  this.notify.icon = "notifications_active"; this.notify.color = "yellow"; } } )
+
+         axios.post('api/unread_messages', { clear: 0 } ).then( res => { console.log(res.data.length); this.messages = res.data.length; if( res.data.length != 0){ this.notify_message.color = 'yellow'; } } )
+
 
     }
 

@@ -100,4 +100,8 @@ Route::middleware('auth:api')->group(function(){
 
     Route::post('delete_blog', 'StorageController@delete_blog');
 
+    Route::post('unread_messages', 'GetController@unread_messages');
+
+    Route::post('read_messages', 'StorageController@read_messages');
+
 });

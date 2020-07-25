@@ -2562,6 +2562,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
@@ -2587,7 +2605,9 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
       data: {
         value: null
       },
-      mobile: screen.width <= 600 ? false : true
+      mobile: screen.width <= 600 ? false : true,
+      notifications: 0,
+      messages: 0
     };
   },
   methods: {
@@ -2607,10 +2627,32 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
       window.Echo["private"]('reaction.' + res.data.id).listen('React', function (e) {
         _this.notify.icon = "notifications_active";
         _this.notify.color = "yellow";
+        _this.notifications++;
       });
       window.Echo["private"]('chat.' + res.data.id).listen('sendMessage', function (e) {
+        _this.messages++;
         _this.notify_message.color = 'yellow';
       });
+    });
+    axios.post('api/notifications', {
+      clear: 0
+    }).then(function (res) {
+      _this.notifications = res.data.length;
+
+      if (res.data.length != 0) {
+        _this.notify.icon = "notifications_active";
+        _this.notify.color = "yellow";
+      }
+    });
+    axios.post('api/unread_messages', {
+      clear: 0
+    }).then(function (res) {
+      console.log(res.data.length);
+      _this.messages = res.data.length;
+
+      if (res.data.length != 0) {
+        _this.notify_message.color = 'yellow';
+      }
     });
   }
 });
@@ -2626,6 +2668,10 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -3308,6 +3354,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3590,6 +3640,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3625,8 +3681,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('api/like_blog', {
         id: this.id
-      }).then(function (res) {
-        console.log(res.data);
       });
     },
     comment: function comment() {
@@ -3900,7 +3954,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3926,6 +3979,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id: e
       }).then(function (res) {
         _this.chat = res.data;
+      });
+      axios.post('api/read_messages', {
+        fiend: e
+      }).then(function (res) {
+        console.log(res.data);
       });
     },
     send_message: function send_message() {
@@ -4388,6 +4446,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Fotos',
@@ -4425,6 +4485,7 @@ __webpack_require__.r(__webpack_exports__);
       var src = document.getElementById('upload_input').files[0];
       var photo = new FormData();
       photo.append('img', src);
+      photo.append('photo_description', document.getElementById('photo_description').value);
       axios.post('api/upload_photo', photo, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -4641,7 +4702,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    axios.post('api/notifications').then(function (res) {
+    axios.post('api/notifications', {
+      clear: 1
+    }).then(function (res) {
+      console.log(res.data);
       _this.notifications = res.data;
 
       if (res.data.length == 0) {
@@ -5277,6 +5341,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5284,6 +5351,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       videos: null,
+      video_description: "",
       me: false,
       upload_dialog: false
     };
@@ -5301,6 +5369,7 @@ __webpack_require__.r(__webpack_exports__);
       var src = document.getElementById('input_video').files[0];
       var video = new FormData();
       video.append('video', src);
+      video.append('video_description', document.getElementById('video_description').value);
       axios.post('api/upload_video', video, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -47881,10 +47950,24 @@ var render = function() {
                   attrs: { icon: "", href: "/notifications" }
                 },
                 [
-                  _c("v-icon", {
-                    attrs: { color: _vm.notify.color },
-                    domProps: { textContent: _vm._s(_vm.notify.icon) }
-                  })
+                  _c(
+                    "v-badge",
+                    {
+                      attrs: {
+                        content: _vm.notifications,
+                        value: _vm.notifications,
+                        color: "red",
+                        overlap: ""
+                      }
+                    },
+                    [
+                      _c("v-icon", {
+                        attrs: { color: _vm.notify.color },
+                        domProps: { textContent: _vm._s(_vm.notify.icon) }
+                      })
+                    ],
+                    1
+                  )
                 ],
                 1
               ),
@@ -47893,9 +47976,25 @@ var render = function() {
                 "v-btn",
                 { staticClass: "mr-12", attrs: { icon: "", href: "/chat" } },
                 [
-                  _c("v-icon", { attrs: { color: _vm.notify_message.color } }, [
-                    _vm._v("chat")
-                  ])
+                  _c(
+                    "v-badge",
+                    {
+                      attrs: {
+                        content: _vm.messages,
+                        value: _vm.messages,
+                        color: "red",
+                        overlap: ""
+                      }
+                    },
+                    [
+                      _c(
+                        "v-icon",
+                        { attrs: { color: _vm.notify_message.color } },
+                        [_vm._v("chat")]
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               ),
@@ -48192,7 +48291,7 @@ var render = function() {
                       _c(
                         "v-card",
                         {
-                          staticClass: "justify-center my-1",
+                          staticClass: "justify-center my-1 ml-3 mr-3",
                           attrs: { height: "auto" }
                         },
                         [
@@ -48589,16 +48688,23 @@ var render = function() {
                 { key: i },
                 [
                   _c(
-                    "v-list-item-avatar",
+                    "a",
+                    { attrs: { href: "user?id=" + comment.id } },
                     [
-                      _c("v-img", {
-                        attrs: {
-                          src:
-                            Number(comment.avatar) === 0
-                              ? "storage/avatars/men/sample_1.png"
-                              : "storage/avatars/" + comment.id + ".jpg"
-                        }
-                      })
+                      _c(
+                        "v-list-item-avatar",
+                        [
+                          _c("v-img", {
+                            attrs: {
+                              src:
+                                Number(comment.avatar) === 0
+                                  ? "storage/avatars/men/sample_1.png"
+                                  : "storage/avatars/" + comment.id + ".jpg"
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   ),
@@ -49159,7 +49265,7 @@ var render = function() {
                       _c(
                         "v-card",
                         {
-                          staticClass: "justify-center my-1",
+                          staticClass: "justify-center my-1 ml-3 mr-3",
                           attrs: { height: "auto" }
                         },
                         [
@@ -49168,18 +49274,25 @@ var render = function() {
                             { staticClass: "justify-center" },
                             [
                               _c(
-                                "v-avatar",
+                                "a",
+                                { attrs: { href: "user?id=" + video.user } },
                                 [
-                                  _c("v-img", {
-                                    attrs: {
-                                      src:
-                                        Number(video.get_user.avatar) === 0
-                                          ? "storage/avatars/men/sample_1.png"
-                                          : "storage/avatars/" +
-                                            video.get_user.id +
-                                            ".jpg"
-                                    }
-                                  })
+                                  _c(
+                                    "v-avatar",
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          src:
+                                            Number(video.get_user.avatar) === 0
+                                              ? "storage/avatars/men/sample_1.png"
+                                              : "storage/avatars/" +
+                                                video.get_user.id +
+                                                ".jpg"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               ),
@@ -49187,8 +49300,7 @@ var render = function() {
                               _c("h2", {
                                 staticClass: "ml-6 font-weight-thin font-italic"
                               })
-                            ],
-                            1
+                            ]
                           ),
                           _vm._v(" "),
                           _c("video", {
@@ -49562,16 +49674,23 @@ var render = function() {
                 { key: i },
                 [
                   _c(
-                    "v-list-item-avatar",
+                    "a",
+                    { attrs: { href: "user?id=" + comment.id } },
                     [
-                      _c("v-img", {
-                        attrs: {
-                          src:
-                            Number(comment.avatar) === 0
-                              ? "storage/avatars/men/sample_1.png"
-                              : "storage/avatars/" + comment.id + ".jpg"
-                        }
-                      })
+                      _c(
+                        "v-list-item-avatar",
+                        [
+                          _c("v-img", {
+                            attrs: {
+                              src:
+                                Number(comment.avatar) === 0
+                                  ? "storage/avatars/men/sample_1.png"
+                                  : "storage/avatars/" + comment.id + ".jpg"
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   ),
@@ -49725,16 +49844,23 @@ var render = function() {
               { staticStyle: { "font-size": "12px" } },
               [
                 _c(
-                  "v-avatar",
+                  "a",
+                  { attrs: { href: "user?id=" + _vm.user.id } },
                   [
-                    _c("v-img", {
-                      attrs: {
-                        src:
-                          Number(_vm.user.avatar) === 0
-                            ? "storage/avatars/men/sample_1.png"
-                            : "storage/avatars/" + _vm.user.id + ".jpg"
-                      }
-                    })
+                    _c(
+                      "v-avatar",
+                      [
+                        _c("v-img", {
+                          attrs: {
+                            src:
+                              Number(_vm.user.avatar) === 0
+                                ? "storage/avatars/men/sample_1.png"
+                                : "storage/avatars/" + _vm.user.id + ".jpg"
+                          }
+                        })
+                      ],
+                      1
+                    )
                   ],
                   1
                 ),
@@ -49960,18 +50086,25 @@ var render = function() {
                             { key: i },
                             [
                               _c(
-                                "v-list-item-avatar",
+                                "a",
+                                { attrs: { href: "user?id=" + comment.id } },
                                 [
-                                  _c("v-img", {
-                                    attrs: {
-                                      src:
-                                        Number(comment.avatar) === 0
-                                          ? "storage/avatars/men/sample_1.png"
-                                          : "storage/avatars/" +
-                                            comment.id +
-                                            ".jpg"
-                                    }
-                                  })
+                                  _c(
+                                    "v-list-item-avatar",
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          src:
+                                            Number(comment.avatar) === 0
+                                              ? "storage/avatars/men/sample_1.png"
+                                              : "storage/avatars/" +
+                                                comment.id +
+                                                ".jpg"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               ),
@@ -50827,7 +50960,20 @@ var render = function() {
                             expression: "this"
                           }
                         ],
-                        attrs: { id: "prev_img", src: "", width: "100%" }
+                        attrs: {
+                          id: "prev_img",
+                          src: "",
+                          height: "400",
+                          width: "100%"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          id: "photo_description",
+                          color: "green",
+                          label: "Description"
+                        }
                       }),
                       _vm._v(" "),
                       _c(
@@ -50845,7 +50991,7 @@ var render = function() {
                               }
                             },
                             [
-                              _c("v-icon", { attrs: { size: "50" } }, [
+                              _c("v-icon", { attrs: { size: "80" } }, [
                                 _vm._v("check_circle_outline")
                               ])
                             ],
@@ -51047,7 +51193,10 @@ var render = function() {
               _c("v-list-item-avatar", { attrs: { size: "60" } }, [
                 _c("img", {
                   attrs: {
-                    src: "storage/avatars/" + notification.data.id + ".jpg"
+                    src:
+                      Number(notification.data.avatar) === 0
+                        ? "storage/avatars/men/sample_1.png"
+                        : "storage/avatars/" + notification.data.id + ".jpg"
                   }
                 })
               ]),
@@ -51073,10 +51222,23 @@ var render = function() {
                           }
                         ]
                       }),
-                      _vm._v(" Likes Your photo "),
-                      _c("v-icon", { attrs: { color: "red" } }, [
-                        _vm._v("mdi-heart")
-                      ])
+                      _vm._v(
+                        " " +
+                          _vm._s(notification.data.type) +
+                          " Your " +
+                          _vm._s(notification.data.media) +
+                          " "
+                      ),
+                      _c("v-icon", {
+                        attrs: { color: "red" },
+                        domProps: {
+                          textContent: _vm._s(
+                            notification.data.type === "commented"
+                              ? "comment"
+                              : "mdi-heart"
+                          )
+                        }
+                      })
                     ],
                     1
                   ),
@@ -51759,7 +51921,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { xs12: "", md8: "" } },
+                { staticClass: "ml-11", attrs: { xs12: "", md7: "" } },
                 [
                   _c(
                     "v-card",
@@ -51957,6 +52119,14 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
+                          _c("v-text-field", {
+                            attrs: {
+                              color: "green",
+                              id: "video_description",
+                              label: "Description"
+                            }
+                          }),
+                          _vm._v(" "),
                           _c(
                             "v-card-actions",
                             [
@@ -51978,7 +52148,7 @@ var render = function() {
                                       _c(
                                         "v-icon",
                                         {
-                                          attrs: { color: "green", size: "60" }
+                                          attrs: { color: "green", size: "80" }
                                         },
                                         [_vm._v("check_circle_outline")]
                                       )

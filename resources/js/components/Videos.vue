@@ -8,13 +8,15 @@
 
     <v-flex  v-for="(video, i) of videos" :key='i' xs12 md4>
 
-      <v-card height='auto' class='justify-center my-1'>
+      <v-card height='auto' class='justify-center my-1 ml-3 mr-3'>
 
         <v-card-title class='justify-center'>
 
+          <a :href=' "user?id="+video.user '>
           <v-avatar>
             <v-img :src=" Number(video.get_user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+video.get_user.id+'.jpg'"></v-img>
           </v-avatar>
+          </a>
 
           <h2 class='ml-6 font-weight-thin font-italic'></h2>
 
@@ -108,9 +110,11 @@
 
       <v-list-item v-for='(comment, i) of comments ' :key='i'>
 
+        <a :href=' "user?id="+comment.id '>
         <v-list-item-avatar>
           <v-img  :src="Number(comment.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+comment.id+'.jpg'"></v-img>
         </v-list-item-avatar>
+        </a>
 
         <v-list-item-content>
           <v-list-item-title> {{ comment.name }} </v-list-item-title>
