@@ -149,13 +149,19 @@ class GetController extends Controller
 
     public function get_related(){
 
+        $id = auth()->user()->id;
+
         $x = array();
 
         $num =  count( auth()->user()->myFollowers );
 
         foreach( auth()->user()->myFollowers as $z){ array_push($x, User::findOrFail($z->follower) ); }
 
-        return $x;
+        $unread_list = array();
+
+        foreach($x as $b){ $friend = $b->id; $unread_list[$friend] = count(Chat::where(function ($query) use($id, $friend) { $query->where('to', $id)->where('from', $friend)->where('seen', 0); })->orWhere(function ($query) use($id, $friend) { $query->where('to', $id)->where('seen', 0)->where('from', $friend); })->where('to', $id)->where('from', $friend)->get() ); };
+
+        return array($x, $unread_list);
 
     //    return User::findOrFail( auth()->user()->myFollowers[0]->follower );
 
@@ -164,6 +170,16 @@ class GetController extends Controller
     public function messages(Request $request){
 
         $num = $request->id;
+
+        $id = auth()->user()->id;
+
+
+        $friend = $request->id;
+
+        $collection = Chat::where(function ($query) use($id, $friend) { $query->where('to', $id)->where('from', $friend)->where('seen', 0); })->orWhere(function ($query) use($id, $friend) { $query->where('to', $id)->where('seen', 0)->where('from', $friend); })->where('to', $id)->where('from', $friend)->get();
+
+        foreach($collection as $x){ $x->seen = true; $x->save(); }
+
 
         return Chat::where(function ($query) use ($num) { $query->where('from', auth()->user()->id )->where('to', $num); })->orWhere(function ($query) use ($num) { $query->where('from', $num)->where('to', auth()->user()->id ); })->where('from', $num)->get();
 
@@ -187,7 +203,10 @@ class GetController extends Controller
 
         $id = auth()->user()->id;
 
-        return Chat::where(function ($query) use($id) { $query->where('to', $id)->where('seen', 0); })->orWhere(function ($query) use($id) { $query->where('to', $id)->where('seen', 0); })->where('to', 1)->get();
+        return Chat::where(function ($query) use($id) { $query->where('to', $id)->where('seen', 0); })->orWhere(function ($query) use($id) { $query->where('to', $id)->where('seen', 0); })->where('to', $id)->get();
+
+//        App\Chat::where(function ($query) use($id) { $query->where('to', $id)->where('seen', 0); })->orWhere(function ($query) use($id) { $query->where('to', $id)->where('seen', 0); })->where('to', 1)->get();
+
 
     }
 

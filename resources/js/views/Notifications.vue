@@ -57,7 +57,7 @@ export default {
     },
 
     created(){
-        axios.post('api/notifications', {clear: 1} ).then( res=>{ console.log(res.data);this.notifications = res.data; if(res.data.length == 0){ this.zero = true }  } )
+        axios.post('api/notifications', {clear: 1} ).then( res=>{ this.notifications = res.data; if(res.data.length == 0){ this.zero = true }  } )
     }
 
 }

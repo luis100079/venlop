@@ -38,7 +38,7 @@
                 color="red"
                 overlap
           >
-        <v-icon :color='notify_message.color' >chat</v-icon>
+        <v-icon :color='notify_message.color' >chat_bubble</v-icon>
           </v-badge>
       </v-btn>
 
@@ -100,7 +100,16 @@
 
              <v-list-item href='/chat'>
                 <v-list-item-icon>
-                    <v-icon :color='notify_message.color'>chat</v-icon>
+
+                     <v-badge
+                        :content="messages"
+                        :value="messages"
+                        color="red"
+                        overlap
+                     >
+                    <v-icon :color='notify_message.color'>chat_bubble</v-icon>
+                     </v-badge>
+
                 </v-list-item-icon>
                 <v-list-item-title class='white--text'>Chat</v-list-item-title>
             </v-list-item>
@@ -108,10 +117,17 @@
              <v-list-item href='/notifications'>
 
                 <v-list-item-icon>
-                    <v-icon color='green accent-3' v-text='notify.icon'></v-icon>
+
+                    <v-badge
+                    :content="notifications"
+                    :value="notifications"
+                      color="red"
+                      overlap
+                    >
+                         <v-icon :color='notify.color' v-text='notify.icon'></v-icon>
+                    </v-badge>
+
                 </v-list-item-icon>
-
-
                 <v-list-item-title class='white--text'>Notifications</v-list-item-title>
             </v-list-item>
 
@@ -201,16 +217,23 @@ export default {
                                             Number(res.data.avatar) === 0 ? this.avatar = 'storage/avatars/men/sample_1.png' : this.avatar =  'storage/avatars/'+res.data.id+'.jpg';
                                             this.me = res.data;
                                             window.Echo.private('reaction.'+ res.data.id ).listen('React',  e  => { this.notify.icon = "notifications_active"; this.notify.color = "yellow"; this.notifications ++ ;} );
-                                            window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.messages ++; this.notify_message.color = 'yellow'; } );
+                                            window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { if(this.$route.path !== "/chat" ){ this.messages ++; };  this.notify_message.color = 'yellow'; } );
 
                                             }
 
                                     );
 
-         axios.post('api/notifications', { clear: 0 } ).then( res => { this.notifications = res.data.length; if( res.data.length != 0){  this.notify.icon = "notifications_active"; this.notify.color = "yellow"; } } )
+        if(this.$route.path !== "/notifications" ){
 
-         axios.post('api/unread_messages', { clear: 0 } ).then( res => { console.log(res.data.length); this.messages = res.data.length; if( res.data.length != 0){ this.notify_message.color = 'yellow'; } } )
+          axios.post('api/notifications', { clear: 0 } ).then( res => { this.notifications = res.data.length; if( res.data.length != 0){  this.notify.icon = "notifications_active"; this.notify.color = "yellow"; } } )
 
+         }
+
+        if(this.$route.path !== "/chat" ){
+
+         axios.post('api/unread_messages', { clear: 0 } ).then( res => { this.messages = res.data.length; if( res.data.length != 0){ this.notify_message.color = 'yellow'; } } )
+
+        }
 
     }
 

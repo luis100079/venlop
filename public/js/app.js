@@ -2580,6 +2580,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
@@ -2630,30 +2646,39 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
         _this.notifications++;
       });
       window.Echo["private"]('chat.' + res.data.id).listen('sendMessage', function (e) {
-        _this.messages++;
+        if (_this.$route.path !== "/chat") {
+          _this.messages++;
+        }
+
+        ;
         _this.notify_message.color = 'yellow';
       });
     });
-    axios.post('api/notifications', {
-      clear: 0
-    }).then(function (res) {
-      _this.notifications = res.data.length;
 
-      if (res.data.length != 0) {
-        _this.notify.icon = "notifications_active";
-        _this.notify.color = "yellow";
-      }
-    });
-    axios.post('api/unread_messages', {
-      clear: 0
-    }).then(function (res) {
-      console.log(res.data.length);
-      _this.messages = res.data.length;
+    if (this.$route.path !== "/notifications") {
+      axios.post('api/notifications', {
+        clear: 0
+      }).then(function (res) {
+        _this.notifications = res.data.length;
 
-      if (res.data.length != 0) {
-        _this.notify_message.color = 'yellow';
-      }
-    });
+        if (res.data.length != 0) {
+          _this.notify.icon = "notifications_active";
+          _this.notify.color = "yellow";
+        }
+      });
+    }
+
+    if (this.$route.path !== "/chat") {
+      axios.post('api/unread_messages', {
+        clear: 0
+      }).then(function (res) {
+        _this.messages = res.data.length;
+
+        if (res.data.length != 0) {
+          _this.notify_message.color = 'yellow';
+        }
+      });
+    }
   }
 });
 
@@ -3511,10 +3536,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      unread_messages: 0,
+      notifications: 0,
       notify: {
         icon: 'notifications',
         color: 'green accent-3',
@@ -3535,11 +3568,43 @@ __webpack_require__.r(__webpack_exports__);
       window.Echo["private"]('reaction.' + res.data.id).listen('React', function (e) {
         _this.notify.icon = "notifications_active";
         _this.notify.color = "yellow";
+        _this.notifications++;
       });
       window.Echo["private"]('chat.' + res.data.id).listen('sendMessage', function (e) {
-        _this.message_notify.color = "yellow";
+        if (_this.$route.path !== "/chat") {
+          _this.unread_messages++;
+        }
+
+        ;
+        _this.message_notify.color = 'yellow';
       });
     });
+
+    if (this.$route.path !== "/notifications") {
+      axios.post('api/notifications', {
+        clear: 0
+      }).then(function (res) {
+        _this.notifications = res.data.length;
+
+        if (res.data.length != 0) {
+          _this.notify.icon = "notifications_active";
+          _this.notify.color = "yellow";
+        }
+      });
+    }
+
+    if (this.$route.path !== "/chat") {
+      axios.post('api/unread_messages', {
+        clear: 0
+      }).then(function (res) {
+        console.log(res.data.length);
+        _this.unread_messages = res.data.length;
+
+        if (res.data.length != 0) {
+          _this.message_notify.color = 'yellow';
+        }
+      });
+    }
   }
 });
 
@@ -3954,23 +4019,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   store: _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"],
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       active_chat: null,
       friends: [],
       chat: [],
+      pending: [],
       text_message: null,
-      sub_message: null,
-      pending: {},
-      chat_dialog: false
-    };
+      sub_message: null
+    }, _defineProperty(_ref, "pending", []), _defineProperty(_ref, "chat_dialog", false), _ref;
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['me'])),
   methods: {
+    close_chat: function close_chat() {
+      this.chat_dialog = false;
+      this.chat = [];
+      this.pending[this.active_chat] = 0;
+    },
     get_chat: function get_chat(e) {
       var _this = this;
 
@@ -3979,11 +4057,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id: e
       }).then(function (res) {
         _this.chat = res.data;
-      });
-      axios.post('api/read_messages', {
-        fiend: e
-      }).then(function (res) {
-        console.log(res.data);
       });
     },
     send_message: function send_message() {
@@ -4017,7 +4090,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     });
     axios.post('api/get_related').then(function (res) {
-      _this2.friends = res.data;
+      _this2.friends = res.data[0];
+      _this2.pending = res.data[1];
     });
 
     if (this.$route.query["with"] != undefined) {
@@ -4705,7 +4779,6 @@ __webpack_require__.r(__webpack_exports__);
     axios.post('api/notifications', {
       clear: 1
     }).then(function (res) {
-      console.log(res.data);
       _this.notifications = res.data;
 
       if (res.data.length == 0) {
@@ -47990,7 +48063,7 @@ var render = function() {
                       _c(
                         "v-icon",
                         { attrs: { color: _vm.notify_message.color } },
-                        [_vm._v("chat")]
+                        [_vm._v("chat_bubble")]
                       )
                     ],
                     1
@@ -48146,9 +48219,23 @@ var render = function() {
                         "v-list-item-icon",
                         [
                           _c(
-                            "v-icon",
-                            { attrs: { color: _vm.notify_message.color } },
-                            [_vm._v("chat")]
+                            "v-badge",
+                            {
+                              attrs: {
+                                content: _vm.messages,
+                                value: _vm.messages,
+                                color: "red",
+                                overlap: ""
+                              }
+                            },
+                            [
+                              _c(
+                                "v-icon",
+                                { attrs: { color: _vm.notify_message.color } },
+                                [_vm._v("chat_bubble")]
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
@@ -48168,10 +48255,26 @@ var render = function() {
                       _c(
                         "v-list-item-icon",
                         [
-                          _c("v-icon", {
-                            attrs: { color: "green accent-3" },
-                            domProps: { textContent: _vm._s(_vm.notify.icon) }
-                          })
+                          _c(
+                            "v-badge",
+                            {
+                              attrs: {
+                                content: _vm.notifications,
+                                value: _vm.notifications,
+                                color: "red",
+                                overlap: ""
+                              }
+                            },
+                            [
+                              _c("v-icon", {
+                                attrs: { color: _vm.notify.color },
+                                domProps: {
+                                  textContent: _vm._s(_vm.notify.icon)
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       ),
@@ -49780,10 +49883,24 @@ var render = function() {
             [
               _c("span", { staticClass: "white--text" }, [_vm._v("Chat")]),
               _vm._v(" "),
-              _c("v-icon", {
-                attrs: { color: _vm.message_notify.color },
-                domProps: { textContent: _vm._s(_vm.message_notify.icon) }
-              })
+              _c(
+                "v-badge",
+                {
+                  attrs: {
+                    content: _vm.unread_messages,
+                    value: _vm.unread_messages,
+                    color: "red",
+                    overlap: ""
+                  }
+                },
+                [
+                  _c("v-icon", {
+                    attrs: { color: _vm.message_notify.color },
+                    domProps: { textContent: _vm._s(_vm.message_notify.icon) }
+                  })
+                ],
+                1
+              )
             ],
             1
           ),
@@ -49796,10 +49913,24 @@ var render = function() {
                 _vm._v("Notifications")
               ]),
               _vm._v(" "),
-              _c("v-icon", {
-                attrs: { color: _vm.notify.color },
-                domProps: { textContent: _vm._s(_vm.notify.icon) }
-              })
+              _c(
+                "v-badge",
+                {
+                  attrs: {
+                    content: _vm.notifications,
+                    value: _vm.notifications,
+                    color: "red",
+                    overlap: ""
+                  }
+                },
+                [
+                  _c("v-icon", {
+                    attrs: { color: _vm.notify.color },
+                    domProps: { textContent: _vm._s(_vm.notify.icon) }
+                  })
+                ],
+                1
+              )
             ],
             1
           )
@@ -50368,14 +50499,28 @@ var render = function() {
                                       "v-list-item-icon",
                                       [
                                         _c(
-                                          "v-icon",
+                                          "v-badge",
                                           {
                                             attrs: {
-                                              large: "",
-                                              color: "yellow"
+                                              content: _vm.pending[friend.id],
+                                              value: _vm.pending[friend.id],
+                                              color: "red",
+                                              overlap: ""
                                             }
                                           },
-                                          [_vm._v("chat_bubble")]
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              {
+                                                attrs: {
+                                                  large: "",
+                                                  color: "yellow"
+                                                }
+                                              },
+                                              [_vm._v("chat_bubble")]
+                                            )
+                                          ],
+                                          1
                                         )
                                       ],
                                       1
@@ -50424,8 +50569,7 @@ var render = function() {
                       attrs: { icon: "", dark: "" },
                       on: {
                         click: function($event) {
-                          _vm.chat_dialog = false
-                          _vm.chat = []
+                          return _vm.close_chat()
                         }
                       }
                     },

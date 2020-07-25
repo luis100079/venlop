@@ -112,10 +112,10 @@ export default {
 
     methods: {
 
-        get_chat(e){ this.active_chat = e;  axios.post('messages', { id: e } ).then( res =>{ this.chat = res.data; console.log( res.data ) } ) },
+        get_chat(e){ this.active_chat = e;  axios.post('messages', { id: e } ).then( res =>{ this.chat = res.data; } ) },
 
-        send_message(){ /* console.log( { to: this.active_chat, text: this.text_message } ); */
-            axios.post('sendMessage',  { to: this.active_chat, text: this.text_message }  ).then( res => { console.log(res.data); } );
+        send_message(){
+            axios.post('sendMessage',  { to: this.active_chat, text: this.text_message }  );
         },
 
         add_message(message){ this.chat.push(message.message) }

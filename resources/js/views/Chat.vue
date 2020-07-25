@@ -29,7 +29,14 @@
         </v-list-item-content>
 
         <v-list-item-icon>
-            <v-icon large color='yellow'>chat_bubble</v-icon>
+               <v-badge
+                  :content="pending[friend.id]"
+                  :value="pending[friend.id]"
+                   color="red"
+                  overlap
+                >
+                  <v-icon large color='yellow'>chat_bubble</v-icon>
+               </v-badge>
         </v-list-item-icon>
 
 
@@ -49,7 +56,7 @@
 
           <v-app-bar dark color="black" fixed>
 
-            <v-btn icon dark @click="chat_dialog = false; chat = [] ">
+            <v-btn icon dark @click=" close_chat() ">
               <v-icon>mdi-close</v-icon>
             </v-btn>
 
@@ -79,12 +86,12 @@
 
           </div>
 
-      <v-bottom-navigation dark color='black' fixed>
+        <v-bottom-navigation dark color='black' fixed>
 
           <v-text-field id='message_input' color='green' v-model='text_message' placeholder='Type new message' @keyup.enter='send_message(); $event.target.value="" '></v-text-field>
           <v-btn icon style='cursor:pointer;'> <v-icon color='green' @click='send_message(); ' > fa fa-send </v-icon> </v-btn>
 
-      </v-bottom-navigation>
+        </v-bottom-navigation>
 
         </v-card>
 
@@ -117,11 +124,13 @@ export default {
 
             chat: [],
 
+            pending: [],
+
             text_message: null,
 
             sub_message: null,
 
-            pending: { },
+            pending: [],
 
             chat_dialog: false,
 
@@ -129,19 +138,19 @@ export default {
     },
 
      computed: {
-
          ...mapState( ['me'] ),
-
     },
 
     methods: {
 
-
+        close_chat(){
+            this.chat_dialog = false; this.chat = [];
+            this.pending[this.active_chat] = 0;
+        },
 
         get_chat(e){ this.active_chat = e;
-                     axios.post('api/messages', { id: e } ).then( res =>{ this.chat = res.data; } );
-                     axios.post('api/read_messages', { fiend: e } ).then( res =>{ console.log(res.data); } );
 
+                     axios.post('api/messages', { id: e } ).then( res =>{ this.chat = res.data; } );
                        },
 
         send_message(){
@@ -172,7 +181,7 @@ export default {
 
              axios.post('api/user').then( res => {   window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => { this.add_message(e); } ) } );
 
-             axios.post('api/get_related').then( res => { this.friends = res.data; } );
+             axios.post('api/get_related').then( res => { this.friends = res.data[0]; this.pending = res.data[1]; } );
 
              if( this.$route.query.with != undefined ){
 

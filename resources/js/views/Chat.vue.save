@@ -150,7 +150,7 @@ export default {
 
             this.chat.push(  {message: this.text_message, to:this.active_chat, from:this.me.id } )
 
-            axios.post('api/sendMessage',  { to: this.active_chat, text: this.text_message }  ).then( res => { console.log(res.data); } );
+            axios.post('api/sendMessage',  { to: this.active_chat, text: this.text_message }  ) } );
 
         },
 
@@ -170,7 +170,7 @@ export default {
              store.dispatch('getUser');
              axios.post('api/user').then( res => {   window.Echo.private('chat.'+ res.data.id ).listen('sendMessage',  e  => {  this.add_message(e)  } ) } );
              axios.post('api/get_related').then( res => { this.friends = res.data; } );
-             
+
              (this.$route.query.with != false) ? this.chat_dialog = true; this.active_user = this.$route.query.with : console.log('no gess')
 
     },

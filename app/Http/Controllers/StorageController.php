@@ -223,7 +223,19 @@ class StorageController extends Controller
 
     }
 
-    public function read_messages(Requesr $request){}
+    public function read_messages(Requesr $request){
+
+        $id = auth()->user()->id;
+        $friend = $request->friend;
+
+        $collection = App\Chat::where(function ($query) use($id, $friend) { $query->where('to', $id)->where('from', $friend)->where('seen', 0); })->orWhere(function ($query) use($id, $friend) { $query->where('to', $id)->where('seen', 0)->where('from', $friend); })->where('to', $id)->where('from', $friend)->get();
+
+        foreach($collection as $x){ $x->seen = true; $x->save(); }
+
+        return "aaaaaa";
+
+
+    }
 
 
 
