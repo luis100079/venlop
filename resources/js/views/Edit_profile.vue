@@ -7,7 +7,7 @@
 
         <v-flex xs12 md5>
 
-            <img id='img' :src=" Number(details.avatar) === 0 ? `/storage/avatars/men/sample_1.png`  : `/storage/avatars/${details.id}.jpg`  " width='80%' height='auto'>
+            <img id='img' style='display:block; margin:auto;' :src=" Number(details.avatar) === 0 ? `/storage/avatars/men/sample_1.png`  : `/storage/avatars/${details.id}.jpg`  " width='80%' height='auto'>
 
             <v-file-input id='file_input' accept='image/*' placeholder="Change Photo" prepend-icon="mdi-camera" @change='preview()'></v-file-input>
 

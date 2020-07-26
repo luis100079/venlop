@@ -3,7 +3,7 @@
 
       <NavBar></NavBar>
 
-      <v-container>
+      <v-container style='margin-top: -50px ;'>
 
       <v-list v-for='(user, index) of users' :key='index'>
 

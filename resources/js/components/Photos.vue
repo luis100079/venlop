@@ -8,7 +8,7 @@
 
         <v-flex v-for="(photo, i) of photos" :key='i' xs12 md4>
 
-          <v-card height='auto'  class='justify-center my-1 ml-3 mr-3'>
+          <v-card height='auto'  class='justify-center my-1 ml-1 mr-1'>
 
             <v-card-title class='justify-center'>
 
@@ -97,11 +97,7 @@
 
     </v-app-bar>
 
-<!--
-    <img style='display:block; margin:auto' class='mt-12' max-width='1000px' height='200px' :src='"storage/photos/"+active_img_src'>
-
-    <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center> <v-divider></v-divider>
--->
+    <span class='my-1'>...</span>
 
     <v-textarea class='mt-12' label='leave a comment' rows='3' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
     </v-textarea>

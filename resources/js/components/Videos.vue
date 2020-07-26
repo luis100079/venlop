@@ -8,7 +8,7 @@
 
     <v-flex  v-for="(video, i) of videos" :key='i' xs12 md4>
 
-      <v-card height='auto' class='justify-center my-1 ml-3 mr-3'>
+      <v-card height='auto' class='justify-center my-1 ml-1 mr-1'>
 
         <v-card-title class='justify-center'>
 
@@ -22,7 +22,7 @@
 
         </v-card-title>
 
-        <video style='cursor:pointer' :src='"storage/videos/" + video.name' @click='play($event)' width='100%' height='250px'></video>
+        <video controls style='cursor:pointer' :src='"storage/videos/" + video.name' @click='play($event)' width='100%' height='250px'></video>
 
           <center><v-card-text class='font-italic'><span>{{ video.get_user.name }}</span> <br> <span v-text=' video.description !== null ? `"`+video.description+`"` : "" '></span> </v-card-text></center>
 
@@ -98,11 +98,8 @@
 
     </v-app-bar>
 
+    <span class='my-1'>...</span>
 
-<!--    <video class='mt-12' width='100%' height='200px' :src='"storage/video/"+active_video_src'></video>
-
-    <center><v-card-text class='font-italic'>Hermoso paisaje</v-card-text></center> <v-divider></v-divider>
--->
     <v-textarea  class='mt-12' label='leave a comment' rows='3' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
     </v-textarea>
 

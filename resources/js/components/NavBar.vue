@@ -27,7 +27,8 @@
                       overlap
                     >
         <v-icon :color='notify.color' v-text='notify.icon'></v-icon>
-        </v-badge>
+
+       </v-badge>
       </v-btn>
 
 

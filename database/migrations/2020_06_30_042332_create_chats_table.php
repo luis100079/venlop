@@ -19,6 +19,7 @@ class CreateChatsTable extends Migration
             $table->unsignedBigInteger('from');
             $table->unsignedBigInteger('to');
             $table->longText('message');
+            $table->boolean('seen')->dafault(false);
             $table->timestamps();
 
             $table->foreign('from')

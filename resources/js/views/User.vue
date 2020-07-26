@@ -3,7 +3,7 @@
 
      <NavBar></NavBar>
 
-     <v-container fuid>
+     <v-container fuid style='margin-top:-50px;'>
 
      <v-layout wrap align-center>
 
@@ -190,9 +190,7 @@
         </v-flex>
 
 
-
-
-         <v-flex xs12 md7 class='ml-11'>
+         <v-flex xs12 md7 class='my-1 ml-3 mr-3'>
 
           <v-card v-show='  videos.length != 0  '>
 
@@ -200,7 +198,7 @@
               <v-carousel-item  v-for='(video, i) in videos' :key='i'>
                   <v-sheet height='100%'>
 
-                    <video width='100%' height='90%' :src='"storage/videos/"+video.name'></video>
+                    <video controls width='100%' height='90%' :src='"storage/videos/"+video.name'></video>
 
                   </v-sheet>
 

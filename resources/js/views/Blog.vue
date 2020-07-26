@@ -9,8 +9,8 @@
           <span style='font-size:12px;'>
 
            <a :href=' "user?id="+user.id '>
-           <v-avatar ><v-img :src="Number(user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+user.id+'.jpg'"></v-img></v-avatar>
-           </a> <span>{{ user.name }}</span>
+             <v-avatar ><v-img :src="Number(user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+user.id+'.jpg'"></v-img></v-avatar>
+             </a> <span>{{ user.name }}</span>
            <br>
 
            <v-icon color='green accent-3'>mdi-eye</v-icon> <span> {{ details.seens }} </span>

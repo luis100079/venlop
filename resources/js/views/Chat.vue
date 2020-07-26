@@ -86,16 +86,14 @@
 
           </div>
 
-        <v-bottom-navigation dark color='black' fixed>
+        <v-bottom-navigation  dark color='black' fixed>
 
           <v-text-field id='message_input' color='green' v-model='text_message' placeholder='Type new message' @keyup.enter='send_message(); $event.target.value="" '></v-text-field>
-          <v-btn icon style='cursor:pointer;'> <v-icon color='green' @click='send_message(); ' > fa fa-send </v-icon> </v-btn>
+<!--          <v-btn icon style='cursor:pointer;'> <v-icon color='green' @click='send_message(); ' > fa fa-send </v-icon> </v-btn> -->
 
         </v-bottom-navigation>
 
         </v-card>
-
-
 
 
       </v-dialog>

@@ -86,7 +86,7 @@ class GetController extends Controller
 
           for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
 
-          return Photo::with('myLikes', 'myComments', 'get_user')->find($list);
+          return Photo::with('myLikes', 'myComments', 'get_user')->orderBy('id', 'DESC')->find($list);
 
         }
 
@@ -96,7 +96,7 @@ class GetController extends Controller
 
             for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
 
-            return Photo::with('myLikes', 'myComments',  'get_user')->where('user', auth()->user()->id)->find($list);
+            return Photo::with('myLikes', 'myComments',  'get_user')->where('user', auth()->user()->id)->orderBy('id', 'DESC')->find($list);
 
         }
     }
@@ -109,7 +109,7 @@ class GetController extends Controller
 
           for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
 
-          return Video::with('myLikes', 'myComments', 'get_user')->find($list);
+          return Video::with('myLikes', 'myComments', 'get_user')->orderBy('id', 'DESC')->find($list);
 
         }else{
 
@@ -117,7 +117,7 @@ class GetController extends Controller
 
           for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
 
-          return Video::with('myLikes', 'myComments', 'get_user')->where('user', auth()->user()->id)->find($list);
+          return Video::with('myLikes', 'myComments', 'get_user')->where('user', auth()->user()->id)->orderBy('id', 'DESC')->find($list);
 
         }
 
@@ -131,7 +131,7 @@ class GetController extends Controller
 
           for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
 
-          return Post::with('myLikes', 'myComments', 'user')->find($list);
+          return Post::with('myLikes', 'myComments', 'user')->orderBy('id', 'DESC')->find($list);
 
         }else{
 
@@ -140,7 +140,7 @@ class GetController extends Controller
 
           for( $i = ( $request->num + 1 ); $i <= ($request->num + 10 ); $i ++ ){ array_push($list, $i); }
 
-          return Post::with('myLikes', 'myComments', 'user')->where('user_id', auth()->user()->id)->find($list);
+          return Post::with('myLikes', 'myComments', 'user')->where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->find($list);
 
 
         }

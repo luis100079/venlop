@@ -2596,6 +2596,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
@@ -2693,10 +2694,6 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
 //
 //
 //
@@ -3380,9 +3377,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3920,8 +3914,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
 //
 //
 //
@@ -4962,8 +4954,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_NavBar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/NavBar */ "./resources/js/components/NavBar.vue");
-//
-//
 //
 //
 //
@@ -48394,7 +48384,7 @@ var render = function() {
                       _c(
                         "v-card",
                         {
-                          staticClass: "justify-center my-1 ml-3 mr-3",
+                          staticClass: "justify-center my-1 ml-1 mr-1",
                           attrs: { height: "auto" }
                         },
                         [
@@ -48513,9 +48503,9 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                " +
+                                    "\n              " +
                                       _vm._s(photo.my_likes.length) +
-                                      "\n              "
+                                      "\n            "
                                   )
                                 ]
                               ),
@@ -48568,9 +48558,9 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                " +
+                                    "\n              " +
                                       _vm._s(photo.my_comments.length) +
-                                      "\n              "
+                                      "\n            "
                                   )
                                 ]
                               ),
@@ -48664,7 +48654,7 @@ var render = function() {
                                             1
                                           ),
                                           _vm._v(
-                                            "\n                Delete\n              "
+                                            "\n              Delete\n            "
                                           )
                                         ],
                                         1
@@ -48686,7 +48676,7 @@ var render = function() {
                                             1
                                           ),
                                           _vm._v(
-                                            "\n                Report\n              "
+                                            "\n              Report\n            "
                                           )
                                         ],
                                         1
@@ -48757,6 +48747,8 @@ var render = function() {
             ],
             1
           ),
+          _vm._v(" "),
+          _c("span", { staticClass: "my-1" }, [_vm._v("...")]),
           _vm._v(" "),
           _c("v-textarea", {
             staticClass: "mt-12",
@@ -49368,7 +49360,7 @@ var render = function() {
                       _c(
                         "v-card",
                         {
-                          staticClass: "justify-center my-1 ml-3 mr-3",
+                          staticClass: "justify-center my-1 ml-1 mr-1",
                           attrs: { height: "auto" }
                         },
                         [
@@ -49409,6 +49401,7 @@ var render = function() {
                           _c("video", {
                             staticStyle: { cursor: "pointer" },
                             attrs: {
+                              controls: "",
                               src: "storage/videos/" + video.name,
                               width: "100%",
                               height: "250px"
@@ -49743,6 +49736,8 @@ var render = function() {
             ],
             1
           ),
+          _vm._v(" "),
+          _c("span", { staticClass: "my-1" }, [_vm._v("...")]),
           _vm._v(" "),
           _c("v-textarea", {
             staticClass: "mt-12",
@@ -50668,27 +50663,7 @@ var render = function() {
                       },
                       expression: "text_message"
                     }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { staticStyle: { cursor: "pointer" }, attrs: { icon: "" } },
-                    [
-                      _c(
-                        "v-icon",
-                        {
-                          attrs: { color: "green" },
-                          on: {
-                            click: function($event) {
-                              return _vm.send_message()
-                            }
-                          }
-                        },
-                        [_vm._v(" fa fa-send ")]
-                      )
-                    ],
-                    1
-                  )
+                  })
                 ],
                 1
               )
@@ -50825,6 +50800,7 @@ var render = function() {
             { attrs: { xs12: "", md5: "" } },
             [
               _c("img", {
+                staticStyle: { display: "block", margin: "auto" },
                 attrs: {
                   id: "img",
                   src:
@@ -51533,6 +51509,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-container",
+        { staticStyle: { "margin-top": "-50px" } },
         _vm._l(_vm.users, function(user, index) {
           return _c(
             "v-list",
@@ -51616,7 +51593,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-container",
-        { attrs: { fuid: "" } },
+        { staticStyle: { "margin-top": "-50px" }, attrs: { fuid: "" } },
         [
           _c(
             "v-layout",
@@ -52065,7 +52042,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-flex",
-                { staticClass: "ml-11", attrs: { xs12: "", md7: "" } },
+                { staticClass: "my-1 ml-3 mr-3", attrs: { xs12: "", md7: "" } },
                 [
                   _c(
                     "v-card",
@@ -52090,6 +52067,7 @@ var render = function() {
                               _c("v-sheet", { attrs: { height: "100%" } }, [
                                 _c("video", {
                                   attrs: {
+                                    controls: "",
                                     width: "100%",
                                     height: "90%",
                                     src: "storage/videos/" + video.name
