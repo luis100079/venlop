@@ -51930,6 +51930,7 @@ var render = function() {
                                             _vm._g(
                                               _vm._b(
                                                 {
+                                                  staticClass: "ml-6",
                                                   attrs: {
                                                     href:
                                                       "/chat?with=" +

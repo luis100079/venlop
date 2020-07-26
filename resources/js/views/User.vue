@@ -85,7 +85,7 @@
 
                 <template v-slot:activator="{ on, attrs }">
 
-                  <v-btn :href='"/chat?with="+details.id' v-on='on' v-bind='attrs' icon>
+                  <v-btn class='ml-6' :href='"/chat?with="+details.id' v-on='on' v-bind='attrs' icon>
                     <v-icon size='40' color='green'>chat_bubble</v-icon>
                   </v-btn>
 
