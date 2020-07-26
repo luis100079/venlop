@@ -4916,6 +4916,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -4958,6 +4962,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_NavBar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/NavBar */ "./resources/js/components/NavBar.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -51639,6 +51654,25 @@ var render = function() {
                       })
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-avatar",
+                    [
+                      _c(
+                        "v-btn",
+                        { attrs: { icon: "" } },
+                        [
+                          _c("v-icon", { attrs: { color: "yellow" } }, [
+                            _vm._v("bubble_message")
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -51696,22 +51730,61 @@ var render = function() {
                     "v-card",
                     [
                       _c(
-                        "v-img",
+                        "v-dialog",
                         {
-                          staticClass:
-                            "blue-grey darken-4 white--text align-end",
-                          attrs: {
-                            "aspect-ratio": "1.7",
-                            src:
-                              Number(_vm.details.avatar) === 0
-                                ? "/storage/avatars/men/sample_1.png"
-                                : "/storage/avatars/" + _vm.details.id + ".jpg"
-                          }
+                          attrs: { width: "500" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                return [
+                                  _c(
+                                    "v-img",
+                                    _vm._g(
+                                      {
+                                        staticClass:
+                                          "blue-grey darken-4 white--text align-end",
+                                        attrs: {
+                                          "aspect-ratio": "1.7",
+                                          src:
+                                            Number(_vm.details.avatar) === 0
+                                              ? "/storage/avatars/men/sample_1.png"
+                                              : "/storage/avatars/" +
+                                                _vm.details.id +
+                                                ".jpg"
+                                        }
+                                      },
+                                      on
+                                    ),
+                                    [
+                                      _c("v-card-title", [
+                                        _vm._v(_vm._s(_vm.details.name))
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ]
+                              }
+                            }
+                          ])
                         },
                         [
-                          _c("v-card-title", [_vm._v(_vm._s(_vm.details.name))])
-                        ],
-                        1
+                          _vm._v(" "),
+                          _c("img", {
+                            staticClass:
+                              "blue-grey darken-4 white--text align-end",
+                            attrs: {
+                              "aspect-ratio": "1.7",
+                              src:
+                                Number(_vm.details.avatar) === 0
+                                  ? "/storage/avatars/men/sample_1.png"
+                                  : "/storage/avatars/" +
+                                    _vm.details.id +
+                                    ".jpg"
+                            }
+                          })
+                        ]
                       ),
                       _vm._v(" "),
                       _c(
@@ -51767,76 +51840,6 @@ var render = function() {
                               }
                             },
                             [_vm._v("About me")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: !_vm.me,
-                                  expression: " !me "
-                                }
-                              ]
-                            },
-                            [
-                              _c(
-                                "v-tooltip",
-                                {
-                                  attrs: { top: "" },
-                                  scopedSlots: _vm._u([
-                                    {
-                                      key: "activator",
-                                      fn: function(ref) {
-                                        var on = ref.on
-                                        var attrs = ref.attrs
-                                        return [
-                                          _c(
-                                            "v-btn",
-                                            _vm._g(
-                                              _vm._b(
-                                                {
-                                                  attrs: {
-                                                    href:
-                                                      "/chat?with=" +
-                                                      _vm.details.id,
-                                                    icon: ""
-                                                  }
-                                                },
-                                                "v-btn",
-                                                attrs,
-                                                false
-                                              ),
-                                              on
-                                            ),
-                                            [
-                                              _c(
-                                                "v-icon",
-                                                {
-                                                  attrs: {
-                                                    size: "30",
-                                                    color: "green"
-                                                  }
-                                                },
-                                                [_vm._v("chat")]
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ]
-                                      }
-                                    }
-                                  ])
-                                },
-                                [
-                                  _vm._v(" "),
-                                  _c("span", [_vm._v("Send Message")])
-                                ]
-                              )
-                            ],
-                            1
                           ),
                           _vm._v(" "),
                           _c(
@@ -51896,6 +51899,76 @@ var render = function() {
                                 )
                               ])
                             ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: !_vm.me,
+                                  expression: " !me "
+                                }
+                              ]
+                            },
+                            [
+                              _c(
+                                "v-tooltip",
+                                {
+                                  attrs: { top: "" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        var attrs = ref.attrs
+                                        return [
+                                          _c(
+                                            "v-btn",
+                                            _vm._g(
+                                              _vm._b(
+                                                {
+                                                  attrs: {
+                                                    href:
+                                                      "/chat?with=" +
+                                                      _vm.details.id,
+                                                    icon: ""
+                                                  }
+                                                },
+                                                "v-btn",
+                                                attrs,
+                                                false
+                                              ),
+                                              on
+                                            ),
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    size: "40",
+                                                    color: "green"
+                                                  }
+                                                },
+                                                [_vm._v("chat_bubble")]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Send Message")])
+                                ]
+                              )
+                            ],
+                            1
                           )
                         ],
                         1

@@ -11,12 +11,23 @@
 
           <v-card>
 
-            <v-img class='blue-grey darken-4 white--text align-end'
+            <v-dialog width='500'>
+
+              <template v-slot:activator='{ on }'>
+                <v-img  v-on='on' class='blue-grey darken-4 white--text align-end'
                     aspect-ratio='1.7'
                     :src=" Number(details.avatar) === 0 ? `/storage/avatars/men/sample_1.png`  : `/storage/avatars/${details.id}.jpg`  ">
-              <v-card-title>{{ details.name }}</v-card-title>
+                <v-card-title>{{ details.name }}</v-card-title>
+                </v-img>
+              </template>
 
-            </v-img>
+
+                <img class='blue-grey darken-4 white--text align-end'
+                    aspect-ratio='1.7'
+                    :src=" Number(details.avatar) === 0 ? `/storage/avatars/men/sample_1.png`  : `/storage/avatars/${details.id}.jpg`  ">
+
+
+            </v-dialog>
 
             <v-card-text>
 
@@ -51,25 +62,6 @@
 
 -->
 
-             <div v-show=' !me '>
-
-              <v-tooltip top >
-
-                <template v-slot:activator="{ on, attrs }">
-
-                  <v-btn :href='"/chat?with="+details.id' v-on='on' v-bind='attrs' icon>
-                    <v-icon size='30' color='green'>chat</v-icon>
-                  </v-btn>
-
-                </template>
-
-                <span>Send Message</span>
-
-              </v-tooltip>
-
-             </div>
-
-
                 <v-tooltip top>
 
                   <template v-slot:activator="{ on, attrs }">
@@ -85,6 +77,25 @@
                   </span>
 
                 </v-tooltip>
+
+
+              <div v-show=' !me '>
+
+              <v-tooltip top >
+
+                <template v-slot:activator="{ on, attrs }">
+
+                  <v-btn :href='"/chat?with="+details.id' v-on='on' v-bind='attrs' icon>
+                    <v-icon size='40' color='green'>chat_bubble</v-icon>
+                  </v-btn>
+
+                </template>
+
+                <span>Send Message</span>
+
+              </v-tooltip>
+
+             </div>
 
 
             </v-card-actions>

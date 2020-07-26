@@ -14,8 +14,12 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-breadcrumbs :items="[{text: user.name}, {text: user.profession}]" :divider=' user.profession !== null ? "/" : "" '> </v-breadcrumbs>
-          </v-list-item-content>
+            <v-breadcrumbs :items="[{text: user.name}, {text: user.profession}, ]" :divider=' user.profession !== null ? "/" : "" '> </v-breadcrumbs>
+          </v-list-item-content> <v-divider></v-divider>
+
+          <v-list-item-avatar>
+               <v-btn icon><v-icon color='yellow'>bubble_message</v-icon></v-btn>
+          </v-list-item-avatar>
 
         </v-list-item>
 
