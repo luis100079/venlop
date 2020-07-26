@@ -12,17 +12,25 @@
 
             <v-card-title class='justify-center'>
 
-
               <v-avatar style='cursor:pointer;' @click='visitUser(photo.user)'>
                 <v-img :src=" Number(photo.get_user.avatar) === 0 ? 'storage/avatars/men/sample_1.png' : 'storage/avatars/'+photo.get_user.id+'.jpg'"></v-img>
               </v-avatar>
 
-
             </v-card-title>
 
-            <img width='100%' height='250px' :src='"storage/photos/"+photo.name'>
+            <v-dialog width='500'>
 
-            <center><v-card-text class='font-italic'><span>{{ photo.get_user.name }}</span> <br> <span v-text=' photo.description !== null ? `"`+photo.description+`"` : "" '></span> </v-card-text></center>
+                <template v-slot:activator='{ on }'>
+                    <img  v-on='on' width='100%' height='250px' :src='"storage/photos/"+photo.name'>
+                    <center><v-card-text class='font-italic'><span>{{ photo.get_user.name }}</span> <br> <span v-text=' photo.description !== null ? `"`+photo.description+`"` : "" '></span> </v-card-text></center>
+                </template>
+
+                <v-card>
+                  <img  v-on='on' width='100%' height='250px' :src='"storage/photos/"+photo.name'>
+                  <center><v-card-text class='font-italic'><span>{{ photo.get_user.name }}</span> <br> <span v-text=' photo.description !== null ? `"`+photo.description+`"` : "" '></span> </v-card-text></center>
+                </v-card>
+
+            </v-dialog>
 
             <v-card-actions class='justify-center'>
 

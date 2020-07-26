@@ -9,9 +9,9 @@
 
         <v-card-title>
 
-            <v-btn icon  v-show='me'>
+            <v-btn icon v-show='me'>
               <label for='input_video'>
-                <v-icon color='red' size='50'>theaters</v-icon>
+                <v-icon color='red' style='cursor:pointer;' size='50'>theaters</v-icon>
               </label>
             </v-btn>
 
@@ -23,13 +23,13 @@
               <v-card style='overflow:hidden;'>
                 <video width='100%' id='video_1' v-show_preview='this' controls></video>
 
-                <v-text-field  color='green' id='video_description' label='Description'></v-text-field>
+                <v-textarea rows='2' color='green' id='video_description' label='Description'></v-textarea>
 <!-- v-model="video_description" -->
               <v-card-actions>
 
                 <v-row justify='center'>
                   <v-btn @click='upload_video()' icon>
-                    <v-icon color='green' size='80'>check_circle_outline</v-icon>
+                    <v-icon color='green' size='60'>check_circle_outline</v-icon>
                   </v-btn>
                 </v-row>
 

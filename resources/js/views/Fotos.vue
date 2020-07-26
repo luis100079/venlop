@@ -78,12 +78,12 @@
 
                       <img id='prev_img' src='' height='400' width='100%' v-show_preview='this'>
 
-                         <v-text-field id="photo_description" color='green' label='Description'></v-text-field>
+                         <v-textarea rows="2" id="photo_description" color='green' label='Description'></v-textarea>
 
                       <v-card-actions class='justify-center'>
 
                         <v-btn @click='upload_photo()' color='green' icon>
-                          <v-icon size='80'>check_circle_outline</v-icon>
+                          <v-icon size='60'>check_circle_outline</v-icon>
                         </v-btn>
 
                       </v-card-actions>

@@ -2824,6 +2824,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4110,14 +4118,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
-/* harmony import */ var _store_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/index.js */ "./resources/js/store/index.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -4156,20 +4156,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  store: _store_index_js__WEBPACK_IMPORTED_MODULE_1__["default"],
   data: function data() {
     return {
-      content: null,
-      title: null
+      me: [],
+      content: "",
+      title: ""
     };
   },
   methods: {
@@ -4177,20 +4170,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       var src = document.getElementById('thumbnail_input').files[0];
-      var data = new FormData();
-      data.append('thumbnail', src);
-      data.append('title', this.title);
-      data.append('content', this.content);
-      axios.post('api/create_post', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (res) {
-        window.location.href = '/blogs?id=' + _this.me.id;
-      });
+
+      if (src === undefined || this.title === "" || this.content === "") {
+        alert('Please make sure no field is empty and then try again');
+      } else {
+        var data = new FormData();
+        data.append('thumbnail', src);
+        data.append('title', this.title);
+        data.append('content', this.content);
+        axios.post('api/create_post', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(function (res) {
+          window.location.href = '/blogs?id=' + _this.me.id;
+        });
+      }
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(['me'])),
+  created: function created() {
+    var _this2 = this;
+
+    axios.post('api/user').then(function (res) {
+      _this2.me = res.data;
+    });
+  },
   components: {
     'editor': _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
@@ -48420,37 +48424,121 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c("img", {
-                            attrs: {
-                              width: "100%",
-                              height: "250px",
-                              src: "storage/photos/" + photo.name
-                            }
-                          }),
-                          _vm._v(" "),
                           _c(
-                            "center",
-                            [
-                              _c(
-                                "v-card-text",
-                                { staticClass: "font-italic" },
+                            "v-dialog",
+                            {
+                              attrs: { width: "500" },
+                              scopedSlots: _vm._u(
                                 [
-                                  _c("span", [
-                                    _vm._v(_vm._s(photo.get_user.name))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c("span", {
-                                    domProps: {
-                                      textContent: _vm._s(
-                                        photo.description !== null
-                                          ? '"' + photo.description + '"'
-                                          : ""
-                                      )
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      return [
+                                        _c(
+                                          "img",
+                                          _vm._g(
+                                            {
+                                              attrs: {
+                                                width: "100%",
+                                                height: "250px",
+                                                src:
+                                                  "storage/photos/" + photo.name
+                                              }
+                                            },
+                                            on
+                                          )
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "center",
+                                          [
+                                            _c(
+                                              "v-card-text",
+                                              { staticClass: "font-italic" },
+                                              [
+                                                _c("span", [
+                                                  _vm._v(
+                                                    _vm._s(photo.get_user.name)
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("br"),
+                                                _vm._v(" "),
+                                                _c("span", {
+                                                  domProps: {
+                                                    textContent: _vm._s(
+                                                      photo.description !== null
+                                                        ? '"' +
+                                                            photo.description +
+                                                            '"'
+                                                        : ""
+                                                    )
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ]
                                     }
-                                  })
-                                ]
+                                  }
+                                ],
+                                null,
+                                true
+                              )
+                            },
+                            [
+                              _vm._v(" "),
+                              _c(
+                                "v-card",
+                                [
+                                  _c(
+                                    "img",
+                                    _vm._g(
+                                      {
+                                        attrs: {
+                                          width: "100%",
+                                          height: "250px",
+                                          src: "storage/photos/" + photo.name
+                                        }
+                                      },
+                                      on
+                                    )
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "center",
+                                    [
+                                      _c(
+                                        "v-card-text",
+                                        { staticClass: "font-italic" },
+                                        [
+                                          _c("span", [
+                                            _vm._v(_vm._s(photo.get_user.name))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("br"),
+                                          _vm._v(" "),
+                                          _c("span", {
+                                            domProps: {
+                                              textContent: _vm._s(
+                                                photo.description !== null
+                                                  ? '"' +
+                                                      photo.description +
+                                                      '"'
+                                                  : ""
+                                              )
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
                               )
                             ],
                             1
@@ -51088,8 +51176,9 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _c("v-text-field", {
+                      _c("v-textarea", {
                         attrs: {
+                          rows: "2",
                           id: "photo_description",
                           color: "green",
                           label: "Description"
@@ -51111,7 +51200,7 @@ var render = function() {
                               }
                             },
                             [
-                              _c("v-icon", { attrs: { size: "80" } }, [
+                              _c("v-icon", { attrs: { size: "60" } }, [
                                 _vm._v("check_circle_outline")
                               ])
                             ],
@@ -52170,7 +52259,10 @@ var render = function() {
                         [
                           _c(
                             "v-icon",
-                            { attrs: { color: "red", size: "50" } },
+                            {
+                              staticStyle: { cursor: "pointer" },
+                              attrs: { color: "red", size: "50" }
+                            },
                             [_vm._v("theaters")]
                           )
                         ],
@@ -52241,8 +52333,9 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          _c("v-text-field", {
+                          _c("v-textarea", {
                             attrs: {
+                              rows: "2",
                               color: "green",
                               id: "video_description",
                               label: "Description"
@@ -52270,7 +52363,7 @@ var render = function() {
                                       _c(
                                         "v-icon",
                                         {
-                                          attrs: { color: "green", size: "80" }
+                                          attrs: { color: "green", size: "60" }
                                         },
                                         [_vm._v("check_circle_outline")]
                                       )

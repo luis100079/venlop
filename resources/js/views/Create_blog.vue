@@ -31,11 +31,6 @@
         Create
       </v-btn>
 
-
-
-
-
-
     </v-container>
 
 </template>
@@ -45,20 +40,16 @@
 
 import Editor from '@tinymce/tinymce-vue'
 
-import store from '../store/index.js'
-import  { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
-
-
 export default {
-
-    store: store,
 
     data(){
         return {
 
-             content: null,
+             me: [],
 
-             title : null
+             content: "",
+
+             title : "",
 
         }
     },
@@ -68,20 +59,24 @@ export default {
 
             var src = document.getElementById('thumbnail_input').files[0];
 
-            var data = new FormData();
+            if( src === undefined || this.title === "" || this.content === "" ){ alert('Please make sure no field is empty and then try again'); }
 
-            data.append('thumbnail', src);
-            data.append('title', this.title);
-            data.append('content', this.content);
+            else{
 
-            axios.post('api/create_post', data,  { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => { window.location.href='/blogs?id='+this.me.id } );
+              var data = new FormData();
+
+              data.append('thumbnail', src);
+              data.append('title', this.title);
+              data.append('content', this.content);
+
+              axios.post('api/create_post', data,  { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => { window.location.href='/blogs?id='+this.me.id } );
+
+            }
         }
 
     },
 
-    computed: {
-         ...mapState( ['me'] ),
-    },
+    created(){ axios.post('api/user').then( res => { this.me = res.data; } ); },
 
     components: {
      'editor': Editor
