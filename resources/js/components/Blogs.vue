@@ -90,7 +90,7 @@ export default {
 
         if(this.$route.path === "/blogs"){ this.type = true };
         axios.post('api/user').then( res => { this.me = res.data } )
-        axios.post('api/list_posts', { type: this.type, num: 0 }).then( res => {this.posts = res.data; } );
+        axios.post('api/list_posts', { type: this.type, user: this.$route.query.id, num: 0 }).then( res => {this.posts = res.data; } );
 
     }
 

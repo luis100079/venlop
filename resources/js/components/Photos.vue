@@ -18,19 +18,10 @@
 
             </v-card-title>
 
-            <v-dialog width='500'>
-
-                <template v-slot:activator='{ on }'>
-                    <img  v-on='on' width='100%' height='250px' :src='"storage/photos/"+photo.name'>
-                    <center><v-card-text class='font-italic'><span>{{ photo.get_user.name }}</span> <br> <span v-text=' photo.description !== null ? `"`+photo.description+`"` : "" '></span> </v-card-text></center>
-                </template>
-
-                <v-card>
-                  <img  v-on='on' width='100%' height='250px' :src='"storage/photos/"+photo.name'>
+               
+                  <img width='100%' height='300px' :src='"storage/photos/"+photo.name'>
                   <center><v-card-text class='font-italic'><span>{{ photo.get_user.name }}</span> <br> <span v-text=' photo.description !== null ? `"`+photo.description+`"` : "" '></span> </v-card-text></center>
-                </v-card>
-
-            </v-dialog>
+                
 
             <v-card-actions class='justify-center'>
 
@@ -107,7 +98,7 @@
 
     <span class='my-1'>...</span>
 
-    <v-textarea class='mt-12' label='leave a comment' rows='3' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
+    <v-textarea maxlength="40" class='mt-12' label='leave a comment' rows='3' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
     </v-textarea>
 
     <v-list>
@@ -122,7 +113,8 @@
 
         <v-list-item-content>
           <v-list-item-title> {{ comment.name }} </v-list-item-title>
-          <v-list-item-subtitle> {{ comment.pivot.comment }} </v-list-item-subtitle>
+          <v-list-item-subtitle>{{ comment.pivot.comment }}</v-list-item-subtitle>
+          
         </v-list-item-content>
 
       </v-list-item>
@@ -166,7 +158,7 @@ export default {
     methods: {
 
         scroll(){
-
+/*
             window.onscroll = () =>{
 
               let bottomOfWindow =   document.documentElement.scrollTop + window.innerHeight  ===   document.documentElement.offsetHeight;
@@ -178,6 +170,7 @@ export default {
                 }
 
             }
+*/
 
         },
 
@@ -220,7 +213,7 @@ export default {
 
         if(this.$route.path === "/photos"){ this.type = true };
         axios.post('api/user').then( res => { this.me = res.data } );
-        axios.post('api/list_photos', { type: this.type, num: 0 }).then( res => { this.photos = res.data } );
+        axios.post('api/list_photos', { type: this.type, user: this.$route.query.id, num: 0 }).then( res => { this.photos = res.data } );
 
     }
 

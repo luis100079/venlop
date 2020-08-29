@@ -10,8 +10,6 @@ import Results from './views/Results'
 import Chat from './views/Chat'
 import Notifications from './views/Notifications'
 import User from './views/User'
-import NotFound from './views/NotFound'
-
 import Prueba from './views/Prueba'
 import NavBar from './components/NavBar'
 import Bottom_navbar from './components/bottom_navbar'
@@ -24,9 +22,11 @@ export default{
 
         { path: '/',  component: Home },
 
-        { path: '/venlop', component: NotFound },
+        { path: '*', redirect: '/home' },
 
-        { path: '*', redirect: '/venlop' },
+        { path: '/login',  redirect: '/login' },
+
+        { path: '/register',  redirect: '/register' },
 
         { path: '/prueba', component: Prueba },
 

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 // use Illuminate\Http\File;
 use Illuminate\Support\Facades\File;
 use App\User;
+use App\Events\sendMessage;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,9 @@ use App\User;
 
 Auth::routes();
 
-Route::get('post', function(){
+// Route::get('event', function(){ $chat = App\Chat::find(1); event( new sendMessage( $chat ) ); });
 
-});
+// Route::get('/', function(){ return view('home'); });
 
 Route::get('{any?}', function () {
 

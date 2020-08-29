@@ -83,7 +83,7 @@ export default {
 
         if(this.$route.path !== "/chat" ){
 
-          axios.post('api/unread_messages', { clear: 0 } ).then( res => { console.log(res.data.length); this.unread_messages = res.data.length; if( res.data.length != 0){ this.message_notify.color = 'yellow'; } } )
+          axios.post('api/unread_messages', { clear: 0 } ).then( res => { this.unread_messages = res.data.length; if( res.data.length != 0){ this.message_notify.color = 'yellow'; } } )
 
         }
 

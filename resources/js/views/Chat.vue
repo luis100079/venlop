@@ -161,7 +161,7 @@ export default {
 
             this.chat.push(  {message: this.sub_message, to:this.active_chat, from:this.me.id } );
 
-            axios.post('api/sendMessage',  { to: this.active_chat, text: this.sub_message }  );
+            axios.post('api/sendMessage',  { to: this.active_chat, text: this.sub_message }  ).then( res => { console.log(res.data) } );
 
         },
 

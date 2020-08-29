@@ -151,9 +151,9 @@ class StorageController extends Controller
 
           $photo = Photo::findOrFail( $request->id );
 
-          if( $photo->user !== auth()->user()->id ){
+          Photo::findOrFail( $request->id )->like( auth()->user()->id );
 
-            Photo::findOrFail( $request->id )->like( auth()->user()->id );
+          if( $photo->user !== auth()->user()->id ){
 
             event( new React($user->id) );
 
@@ -171,8 +171,6 @@ class StorageController extends Controller
 
 
     public function like_video(Request $request){
-
-    //    $request->id = 1;
 
         $like = Likable::where('user_id', auth()->user()->id )->where('likable_id', $request->id )->where('likable_type', 'App\Video');
 
@@ -241,7 +239,7 @@ class StorageController extends Controller
 
     public function comment_photo(Request $request){
 
-        Photo::find($request->photo_id)->comment(auth()->user(), $request->comment);
+        Photo::find($request->photo_id)->comment(auth()->user()->id, $request->comment);
 
         $photo = Photo::find($request->photo_id);
 
@@ -258,7 +256,7 @@ class StorageController extends Controller
 
     public function comment_blog(Request $request){
 
-        Post::find($request->blog_id)->comment(auth()->user(), $request->comment);
+        Post::find($request->blog_id)->comment(auth()->user()->id, $request->comment);
 
         $post = Post::find($request->blog_id);
 
@@ -275,7 +273,7 @@ class StorageController extends Controller
 
     public function comment_video(Request $request){
 
-        Video::find($request->video_id)->comment(auth()->user(), $request->comment);
+        Video::find($request->video_id)->comment(auth()->user()->id, $request->comment);
 
     }
 

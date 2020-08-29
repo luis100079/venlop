@@ -7,17 +7,15 @@
 
        <div class='col-md-7'>
          <p style='color:white; font-size:50px; background:black; opacity:0.8;'> 
-           Meet <i class='fas fa-user-friends' style='color:springgreen;'></i> people from all over the world  
+           Meet <i class='fas fa-user-friends' style='color:springgreen;'></i> people from all over the world 
               <i class='fas fa-star' style='font-size:24px; color:yellow;'></i>
               <i class='fas fa-star' style='font-size:24px; color:yellow;'></i>
               <i class='fas fa-star' style='font-size:24px; color:yellow;'></i>
               <i class='fas fa-star' style='font-size:24px; color:yellow;'></i>
               <i class='fas fa-star' style='font-size:24px; color:yellow;'></i>
-           
-<!--
-         <img width='49%' height='auto' src="https://images.pexels.com/photos/697243/pexels-photo-697243.jpeg?cs=srgb&dl=pexels-helena-lopes-697243.jpg&fm=jpg" class="rounded" alt="Cinque Terre">
-         <img width='49%' height='auto' src="https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?cs=srgb&dl=pexels-porapak-apichodilok-346885.jpg&fm=jpg" class="rounded" alt="Cinque Terre">
--->         
+        <img width='300px' height='300px' src="https://images.pexels.com/photos/697244/pexels-photo-697244.jpeg?cs=srgb&dl=pexels-helena-lopes-697244.jpg&fm=jpg" class="rounded-circle" alt="Cinque Terre">
+        <img width='300px' height='300px' src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?cs=srgb&dl=pexels-fauxels-3183150.jpg&fm=jpg" class="rounded-circle" alt="Cinque Terre">
+
          </p>
 
         <p style='color:white; font-size:50px; background:black; opacity:0.8;'>

@@ -199,7 +199,7 @@ export default {
 
         logout(){
 
-            axios.post('/logout').then( window.location.href = '/register' );
+            axios.post('/logout').then( res => {window.location.href = '/login'} );
 
         },
 

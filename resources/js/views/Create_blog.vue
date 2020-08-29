@@ -4,7 +4,7 @@
 
         <v-text-field  prepend-icon="menu_book" label='Blog name' v-model='title'></v-text-field>
 
-        <v-file-input  prepend-icon="insert_photo" id='thumbnail_input' label='Blog thumbnail picture' accept='image/*'> </v-file-input>
+        <v-file-input  prepend-icon="insert_photo" id='thumbnail_input' label='Blog thumbnail picture' accept='image/jpeg'> </v-file-input>
 
     <editor
        output-format="html"

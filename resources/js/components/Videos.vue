@@ -100,7 +100,7 @@
 
     <span class='my-1'>...</span>
 
-    <v-textarea  class='mt-12' label='leave a comment' rows='3' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
+    <v-textarea maxlength="40" class='mt-12' label='leave a comment' rows='3' color='warning' v-model='new_comment' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '>
     </v-textarea>
 
     <v-list>
@@ -172,7 +172,7 @@ export default {
         },
 
         scroll(){
-
+/*
             window.onscroll = () =>{
 
               let bottomOfWindow =   document.documentElement.scrollTop + window.innerHeight  ===   document.documentElement.offsetHeight;
@@ -184,6 +184,7 @@ export default {
                 }
 
             }
+*/
 
         },
 
@@ -217,9 +218,10 @@ export default {
     mounted() { this.scroll( ) },
 
     created(){
+
         if(this.$route.path === "/videos"){ this.type = true };
         axios.post('api/user').then( res => { this.me = res.data } )
-        axios.post('api/list_videos', { type: this.type, num: 0 }).then( res => { this.videos = res.data; } );
+        axios.post('api/list_videos', { type: this.type, user: this.$route.query.id, num: 0 }).then( res => { this.videos = res.data; } );
     }
 
 }

@@ -9,7 +9,7 @@
 
             <img id='img' style='display:block; margin:auto;' :src=" Number(details.avatar) === 0 ? `/storage/avatars/men/sample_1.png`  : `/storage/avatars/${details.id}.jpg`  " width='80%' height='auto'>
 
-            <v-file-input id='file_input' accept='image/*' placeholder="Change Photo" prepend-icon="mdi-camera" @change='preview()'></v-file-input>
+            <v-file-input id='file_input' accept='image/jpeg' placeholder="Change Photo" prepend-icon="mdi-camera" @change='preview()'></v-file-input>
 
             <v-btn v-show=' show ' @click='upload_avatar()' color='success'>Upload Photo</v-btn>
 
@@ -25,7 +25,7 @@
 
         <v-text-field label='Profession' v-model='details.profession'> </v-text-field>
 
-        <v-select :items='[ "Male", "Female" ]' v-model='details.gender' label='Gender'> </v-select>
+<!--        <v-select :items='[ "Male", "Female" ]' v-model='details.gender' label='Gender'> </v-select> -->
 
         <v-text-field label='Phone #' v-model='details.tel'></v-text-field>
 
@@ -101,13 +101,13 @@ export default {
         var data = new FormData();
         var src = document.getElementById('file_input').files[0];
         data.append('avatar', src);
-        axios.post('/api/upload_avatar', data,  { headers: { 'Content-Type' : 'multipart/form-data' }  }).then(  window.location.reload() /* window.location.href = '/user?id='+this.details.id */ );
+        axios.post('/api/upload_avatar', data,  { headers: { 'Content-Type' : 'multipart/form-data' }  }).then( res => { window.location.reload() } /* window.location.href = '/user?id='+this.details.id */ );
 
     },
 
     set_details(e){
         e.preventDefault();
-        axios.post('/api/set_details', this.details).then( window.location.reload() /* window.location.href = '/user?id='+this.details.id */ );
+        axios.post('/api/set_details', this.details).then( res =>{ window.location.reload()  /* window.location.href = '/user?id='+this.details.id */ } );
     }
 
   },

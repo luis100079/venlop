@@ -53,7 +53,7 @@
 
               <span class='my-1'>...</span>
 
-              <v-textarea background-color="grey lighten-5" class='my-12' label='leave a comment' v-model='new_comment' rows='2' color='warning' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '> </v-textarea>
+              <v-textarea maxlength="40"  background-color="grey lighten-5" class='my-12' label='leave a comment' v-model='new_comment' rows='2' color='warning' @keyup.enter='comment(); $event.target.blur(); new_comment = "" '> </v-textarea>
 
 
     <v-list>

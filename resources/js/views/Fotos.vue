@@ -68,7 +68,7 @@
                       </label>
                     </v-btn>
 
-                     <input type='file' style='display:none' accept='image/*' id='upload_input' @change='preview()'>
+                     <input type='file' style='display:none' accept='image/jpeg' id='upload_input' @change='preview()'>
 
                     <v-dialog v-model='dialog2' max-width="500">
 
@@ -233,7 +233,7 @@ export default {
             var photo = new FormData();
             photo.append('img', src);
             photo.append('photo_description', document.getElementById('photo_description').value);
-            axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( window.location.reload() );
+            axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => { window.location.reload() } );
 
         },
 /*
@@ -242,7 +242,7 @@ export default {
             var src = document.getElementById('myCanvas').toDataURL("image/png");
             var photo = new FormData();
             photo.append('img', src);
-            axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => console.log(res.data) );
+            axios.post('api/upload_photo', photo, { headers: { 'Content-Type' : 'multipart/form-data' } } ).then( res => { console.log(res.data) } );
 
         },
 

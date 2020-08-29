@@ -1,8 +1,17 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 style="
-background: url('storage/photos/background.jpg') no-repeat center fixed;
-background-size: cover;">
+
+background:black;
+
+
+
+background: url('/storage/photos/background-2.jpg') no-repeat center fixed;
+background-size: cover;
+
+
+
+">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,47 +24,59 @@ background-size: cover;">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+   
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="storage/photos/icons8-diamante-24.png">
+
+   
 </head>
 <body>
 
 
     <div id="app" style='
-            background: url("storage/photos/background.jpg") no-repeat center fixed; background-size: cover;'>
+// background-color:black;
 
-        <nav  class="navbar navbar-expand-md navbar-light bg-dark shadow-sm" >
+            background: url("/storage/photos/background-2.jpg") no-repeat center fixed; background-size: cover;  
+
+'>
+
+        <nav  class="navbar navbar-expand-md navbar-light hadow-sm" style='background:black; opacity:0.8;'>
 
             <div class="container">
 
-                <a class="navbar-brand text-success " href="{{ url('/') }}">
+                <a class="navbar-brand text-light " href="{{ url('/') }}">
                     {{ config('app.name', 'Venlop') }}
                 </a>
 
-                <button class="navbar-toggler  btn-success" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon text-success"></span>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                     <ul class="navbar-nav ml-auto"> 
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link text-success" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link text-light" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link text-success " href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -82,7 +103,7 @@ background-size: cover;">
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-6">
             @yield('content')
         </main>
     </div>

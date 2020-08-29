@@ -15,7 +15,7 @@
               </label>
             </v-btn>
 
-            <input type='file' accept='video/*' style='display:none' id='input_video' @change='preview()'>
+            <input type='file' accept='video/mp4' style='display:none' id='input_video' @change='preview()'>
             <span v-show='me'>Add new</span>
 
             <v-dialog v-model='upload_dialog' max-width="500">
