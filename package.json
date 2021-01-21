@@ -15,7 +15,7 @@
     "ioredis": "^4.17.3",
     "laravel-echo": "^1.8.0",
     "pusher-js": "^6.0.3",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "vue-router": "^3.3.1",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
